@@ -23,6 +23,51 @@ jobs:
     steps:
       - name: Recupera i file
         uses: actions/checkout@v4
+      - name: Aggiorna la posizione della pagina Prezzi
+        shell: python
+        run: |
+          from pathlib import Path
+
+          root = Path("mgwebmaster")
+          price_url = "/prezzi-siti-web-a-perugia-preventivo-gratuito-mg-webmaster/"
+          price_link = f'<a href="{price_url}">Prezzi</a>'
+
+          for page in root.rglob("*.html"):
+              html = page.read_text(encoding="utf-8")
+              start = html.find('<nav class="nav-links"')
+              end = html.find("</nav>", start)
+              if start != -1 and end != -1:
+                  menu = html[start:end].replace(price_link, "")
+                  html = html[:start] + menu + html[end:]
+              page.write_text(html, encoding="utf-8")
+
+          blog = root / "blog" / "index.html"
+          html = blog.read_text(encoding="utf-8")
+          html = html.replace(
+              'href="/blog/quanto-costa-un-sito-web-a-perugia/"',
+              f'href="{price_url}"'
+          )
+          blog.write_text(html, encoding="utf-8")
+
+          old_article = root / "blog" / "quanto-costa-un-sito-web-a-perugia" / "index.html"
+          old_article.write_text(
+              '<!doctype html><html lang="it"><head><meta charset="utf-8">'
+              f'<meta http-equiv="refresh" content="0;url={price_url}">'
+              f'<link rel="canonical" href="https://www.mgwebmaster.it{price_url}">'
+              '<meta name="robots" content="noindex,follow">'
+              '<title>Prezzi siti web | MG Webmaster</title></head><body>'
+              f'<a href="{price_url}">Consulta prezzi e preventivi</a>'
+              '</body></html>',
+              encoding="utf-8"
+          )
+
+          sitemap = root / "sitemap.xml"
+          xml = sitemap.read_text(encoding="utf-8")
+          xml = xml.replace(
+              '<url><loc>https://www.mgwebmaster.it/blog/quanto-costa-un-sito-web-a-perugia/</loc></url>',
+              ''
+          )
+          sitemap.write_text(xml, encoding="utf-8")
       - name: Configura Pages
         uses: actions/configure-pages@v5
       - name: Prepara il sito
