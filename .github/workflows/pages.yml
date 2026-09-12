@@ -23,6 +23,103 @@ jobs:
     steps:
       - name: Recupera i file
         uses: actions/checkout@v4
+      - name: Prepara navigazione e favicon
+        shell: python
+        run: |
+          from pathlib import Path
+          import base64, json
+
+          root = Path("mgwebmaster")
+          price_url = "/prezzi-siti-web-a-perugia-preventivo-gratuito-mg-webmaster/"
+          price_link = f'<a href="{price_url}">Prezzi</a>'
+          icon_b64 = "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"
+          icon_path = root / "assets" / "favicon-globe.png"
+          icon_path.write_bytes(base64.b64decode(icon_b64))
+          (root / "site.webmanifest").write_text(json.dumps({
+              "name": "MG Webmaster",
+              "short_name": "MG Webmaster",
+              "icons": [{"src": "/assets/favicon-globe.png", "sizes": "128x128", "type": "image/png"}],
+              "theme_color": "#073763",
+              "background_color": "#ffffff",
+              "display": "standalone",
+              "start_url": "/"
+          }), encoding="utf-8")
+          icons = ('<link rel="icon" type="image/png" href="/assets/favicon-globe.png">'
+                   '<link rel="apple-touch-icon" href="/assets/favicon-globe.png">'
+                   '<link rel="manifest" href="/site.webmanifest">'
+                   '<meta name="theme-color" content="#073763">')
+
+          for page in root.rglob("*.html"):
+              html = page.read_text(encoding="utf-8")
+              start = html.find('<nav class="nav-links"')
+              end = html.find("</nav>", start)
+              if start != -1 and end != -1:
+                  menu = html[start:end].replace(price_link, "")
+                  html = html[:start] + menu + html[end:]
+              if 'href="/assets/favicon-globe.png"' not in html:
+                  old_apple = '<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">'
+                  html = html.replace(old_apple, icons) if old_apple in html else html.replace("</head>", icons + "</head>")
+              page.write_text(html, encoding="utf-8")
+
+          blog = root / "blog" / "index.html"
+          html = blog.read_text(encoding="utf-8").replace(
+              'href="/blog/quanto-costa-un-sito-web-a-perugia/"',
+              f'href="{price_url}"'
+          )
+          blog.write_text(html, encoding="utf-8")
+
+          old_article = root / "blog" / "quanto-costa-un-sito-web-a-perugia" / "index.html"
+          old_article.write_text(
+              '<!doctype html><html lang="it"><head><meta charset="utf-8">'
+              f'<meta http-equiv="refresh" content="0;url={price_url}">'
+              f'<link rel="canonical" href="https://www.mgwebmaster.it{price_url}">'
+              '<meta name="robots" content="noindex,follow">'
+              '<title>Prezzi siti web | MG Webmaster</title></head><body>'
+              f'<a href="{price_url}">Consulta prezzi e preventivi</a>'
+              '</body></html>',
+              encoding="utf-8"
+          )
+
+          sitemap = root / "sitemap.xml"
+          xml = sitemap.read_text(encoding="utf-8").replace(
+              '<url><loc>https://www.mgwebmaster.it/blog/quanto-costa-un-sito-web-a-perugia/</loc></url>',
+              ''
+          )
+          sitemap.write_text(xml, encoding="utf-8")
+      - name: Configura Pages
+        uses: actions/configure-pages@v5
+      - name: Prepara il sito
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./mgwebmaster
+      - name: Pubblica il sito
+        id: deployment
+        uses: actions/deploy-pages@v4
+name: Pubblica MG Webmaster su GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recupera i file
+        uses: actions/checkout@v4
       - name: Aggiorna la posizione della pagina Prezzi
         shell: python
         run: |
