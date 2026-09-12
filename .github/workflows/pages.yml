@@ -32,6 +32,8 @@ jobs:
           root = Path("mgwebmaster")
           price_url = "/prezzi-siti-web-a-perugia-preventivo-gratuito-mg-webmaster/"
           price_link = f'<a href="{price_url}">Prezzi</a>'
+          contact_url = "/contatti-mg-webmaster-siti-web-a-perugia/"
+          contact_link = f'<a href="{contact_url}">Contatti</a>'
           icon_url = "/assets/globo-mg.png"
           icons = (f'<link rel="icon" type="image/png" href="{icon_url}">'
                    f'<link rel="apple-touch-icon" href="{icon_url}">'
@@ -54,6 +56,8 @@ jobs:
               end = html.find("</nav>", start)
               if start != -1 and end != -1:
                   menu = html[start:end].replace(price_link, "")
+                  if contact_link not in menu:
+                      menu = menu.replace('<a class="button"', contact_link + '<a class="button"')
                   html = html[:start] + menu + html[end:]
               if 'rel="icon"' not in html:
                   old_apple = '<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">'
