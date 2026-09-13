@@ -89,6 +89,80 @@ jobs:
               ''
           )
           sitemap.write_text(xml, encoding="utf-8")
+
+      - name: Attiva ingrandimento infografiche
+        shell: python
+        run: |
+          from pathlib import Path
+
+          root = Path("mgwebmaster")
+          script_file = root / "script.js"
+          style_file = root / "styles.css"
+          marker = "MGW_INFOGRAPHIC_LIGHTBOX"
+
+          lightbox_js = r'''
+// MGW_INFOGRAPHIC_LIGHTBOX
+(()=>{
+  const infographics=[...document.querySelectorAll('img.infographic')];
+  if(!infographics.length)return;
+  const lightbox=document.createElement('div');
+  lightbox.className='image-lightbox';
+  lightbox.hidden=true;
+  lightbox.setAttribute('role','dialog');
+  lightbox.setAttribute('aria-modal','true');
+  lightbox.setAttribute('aria-label','Infografica ingrandita');
+  lightbox.innerHTML='<div class="image-lightbox-panel"><button class="image-lightbox-close" type="button" aria-label="Chiudi immagine ingrandita">&times;</button><img class="image-lightbox-image" alt=""><p class="image-lightbox-caption"></p></div>';
+  document.body.appendChild(lightbox);
+  const enlargedImage=lightbox.querySelector('.image-lightbox-image');
+  const caption=lightbox.querySelector('.image-lightbox-caption');
+  const closeButton=lightbox.querySelector('.image-lightbox-close');
+  let returnFocus=null;
+  const openLightbox=image=>{
+    returnFocus=image;
+    enlargedImage.src=image.currentSrc||image.src;
+    enlargedImage.alt=image.alt||'Infografica ingrandita';
+    const figureCaption=image.closest('figure')?.querySelector('figcaption');
+    caption.textContent=figureCaption?.textContent.trim()||image.alt||'';
+    caption.hidden=!caption.textContent;
+    lightbox.hidden=false;
+    document.body.classList.add('lightbox-open');
+    requestAnimationFrame(()=>lightbox.classList.add('is-open'));
+    closeButton.focus();
+  };
+  const closeLightbox=()=>{
+    if(lightbox.hidden)return;
+    lightbox.classList.remove('is-open');
+    document.body.classList.remove('lightbox-open');
+    lightbox.hidden=true;
+    enlargedImage.removeAttribute('src');
+    returnFocus?.focus();
+  };
+  infographics.forEach(image=>{
+    image.tabIndex=0;
+    image.setAttribute('role','button');
+    image.setAttribute('aria-label','Ingrandisci infografica: '+(image.alt||'apri immagine'));
+    image.addEventListener('click',()=>openLightbox(image));
+    image.addEventListener('keydown',event=>{
+      if(event.key==='Enter'||event.key===' '){event.preventDefault();openLightbox(image)}
+    });
+  });
+  closeButton.addEventListener('click',closeLightbox);
+  lightbox.addEventListener('click',event=>{if(event.target===lightbox)closeLightbox()});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')closeLightbox()});
+})();
+'''
+
+          lightbox_css = r'''
+/* MGW_INFOGRAPHIC_LIGHTBOX */
+img.infographic{cursor:zoom-in}img.infographic:focus-visible{outline:4px solid var(--cyan);outline-offset:5px}.image-lightbox[hidden]{display:none}.image-lightbox{position:fixed;inset:0;z-index:11000;display:grid;place-items:center;padding:clamp(1rem,3vw,2.5rem);background:rgba(2,16,39,.92);backdrop-filter:blur(8px);opacity:0;transition:opacity .2s ease}.image-lightbox.is-open{opacity:1}.image-lightbox-panel{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:min(96vw,1700px);max-height:94vh}.image-lightbox-image{display:block;width:auto;max-width:100%;height:auto;max-height:84vh;object-fit:contain;border-radius:16px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.45)}.image-lightbox-caption{max-width:1000px;margin:.75rem auto 0;color:#fff;text-align:center;font-size:clamp(.9rem,1.5vw,1.05rem);line-height:1.45}.image-lightbox-close{position:absolute;z-index:1;top:.65rem;right:.65rem;width:48px;height:48px;border:2px solid rgba(255,255,255,.75);border-radius:50%;background:rgba(4,22,48,.86);color:#fff;font:700 2rem/1 sans-serif;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.3)}.image-lightbox-close:hover,.image-lightbox-close:focus-visible{background:#fff;color:var(--navy);outline:3px solid var(--cyan);outline-offset:3px}body.lightbox-open{overflow:hidden}@media(max-width:620px){.image-lightbox{padding:.6rem}.image-lightbox-image{max-height:82vh;border-radius:10px}.image-lightbox-close{top:.4rem;right:.4rem;width:44px;height:44px}.image-lightbox-caption{margin-top:.55rem;padding:0 .4rem}}@media(prefers-reduced-motion:reduce){.image-lightbox{transition:none}}
+'''
+
+          script = script_file.read_text(encoding="utf-8")
+          if marker not in script:
+              script_file.write_text(script + lightbox_js, encoding="utf-8")
+          styles = style_file.read_text(encoding="utf-8")
+          if marker not in styles:
+              style_file.write_text(styles + lightbox_css, encoding="utf-8")
       - name: Configura Pages
         uses: actions/configure-pages@v5
       - name: Prepara il sito
