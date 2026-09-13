@@ -34,7 +34,7 @@ jobs:
           price_link = f'<a href="{price_url}">Prezzi</a>'
           contact_url = "/contatti-mg-webmaster-siti-web-a-perugia/"
           contact_link = f'<a href="{contact_url}">Contatti</a>'
-          icon_url = "/assets/globo-mg.png"
+          icon_url = "/assets/favicon-mg-webmaster.png"
           icons = (f'<link rel="icon" type="image/png" href="{icon_url}">'
                    f'<link rel="apple-touch-icon" href="{icon_url}">'
                    '<link rel="manifest" href="/site.webmanifest">'
