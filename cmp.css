@@ -1,0 +1,4 @@
+.cookie-modal-open{overflow:hidden}
+.cookie-registry-note{padding:.75rem 1rem;border-radius:12px;background:#eef8ff;color:#40536c;font-size:.9rem}
+.cookie-always{flex:0 0 auto;padding:.35rem .65rem;border-radius:999px;background:#e7f5ec;color:#17653a;font-size:.82rem;font-weight:800}
+@media(max-width:520px){.cookie-option{align-items:flex-start}.cookie-always{margin-top:.15rem}}
