@@ -1,0 +1,20 @@
+.service-detail-figure {
+  width: min(100%, 960px);
+  margin: 38px auto 52px;
+}
+
+.service-detail-figure img {
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+.service-detail-figure.square {
+  width: min(100%, 760px);
+}
+
+@media (max-width: 620px) {
+  .service-detail-figure {
+    margin: 28px auto 42px;
+  }
+}
