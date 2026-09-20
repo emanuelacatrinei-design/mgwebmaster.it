@@ -139,6 +139,101 @@
   background: linear-gradient(90deg, var(--aqua), var(--electric));
 }
 
+/* Pagine Chi sono / Despre mine: immagini distribuite lungo il racconto. */
+.page-about .about-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+  gap: clamp(34px, 5vw, 68px);
+  align-items: center;
+}
+
+.page-about .about-hero-photo,
+.page-about .about-feature-photo,
+.page-about .about-final-portrait {
+  margin: 0;
+}
+
+.page-about .about-hero-photo {
+  width: min(100%, 420px);
+  justify-self: end;
+}
+
+.page-about .about-hero-photo img,
+.page-about .about-feature-photo img,
+.page-about .about-final-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(7,55,99,.12);
+  box-shadow: 0 18px 44px rgba(5,42,91,.13);
+}
+
+.page-about .about-hero-photo img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 28px;
+}
+
+.page-about .about-feature {
+  display: grid;
+  grid-template-columns: minmax(0, .78fr) minmax(420px, 1.22fr);
+  gap: clamp(36px, 6vw, 76px);
+  align-items: center;
+}
+
+.page-about .about-feature-copy {
+  max-width: 650px;
+}
+
+.page-about .about-feature-copy h2,
+.page-about .about-final-copy h2 {
+  margin-top: 0;
+}
+
+.page-about .about-feature-photo img {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 26px;
+}
+
+.page-about .about-final {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+
+.page-about .about-final-copy {
+  max-width: 820px;
+}
+
+.page-about .about-final-portrait {
+  width: min(100%, 250px);
+  justify-self: end;
+}
+
+.page-about .about-final-portrait img {
+  border-radius: 22px;
+}
+
+@media (max-width: 820px) {
+  .page-about .about-hero-grid,
+  .page-about .about-feature,
+  .page-about .about-final {
+    grid-template-columns: 1fr;
+  }
+
+  .page-about .about-hero-photo {
+    width: min(100%, 560px);
+    justify-self: start;
+  }
+
+  .page-about .about-final-portrait {
+    width: min(58vw, 220px);
+    justify-self: start;
+  }
+}
+
 .site-unified .card,
 .site-unified .price-table-wrap,
 .site-unified .contact-panel,
