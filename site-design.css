@@ -216,10 +216,59 @@
   border-radius: 22px;
 }
 
+/* Pagine Prezzi / Prețuri: titolo e promozione nello hero. */
+.page-pricing .pricing-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
+  gap: clamp(38px, 6vw, 82px);
+  align-items: center;
+}
+
+.page-pricing .pricing-hero-copy {
+  max-width: 800px;
+}
+
+.page-pricing .pricing-promo {
+  width: min(100%, 390px);
+  margin: 0;
+  justify-self: end;
+}
+
+.page-pricing .pricing-promo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 28px;
+  border: 1px solid rgba(7,55,99,.16);
+  box-shadow: 0 24px 56px rgba(5,42,91,.22);
+}
+
+.page-pricing .pricing-intro {
+  padding-top: clamp(42px, 6vw, 76px);
+  padding-bottom: clamp(42px, 6vw, 76px);
+}
+
+.page-pricing .pricing-intro-inner {
+  max-width: 900px;
+}
+
+.page-pricing .pricing-intro p {
+  max-width: 780px;
+  margin: 0;
+  color: #40536c;
+  font-size: 1.14rem;
+  line-height: 1.75;
+}
+
+.page-pricing .pricing-intro .actions {
+  margin-top: 26px;
+}
+
 @media (max-width: 820px) {
   .page-about .about-hero-grid,
   .page-about .about-feature,
-  .page-about .about-final {
+  .page-about .about-final,
+  .page-pricing .pricing-hero-grid {
     grid-template-columns: 1fr;
   }
 
@@ -231,6 +280,11 @@
   .page-about .about-final-portrait {
     width: min(58vw, 220px);
     justify-self: start;
+  }
+
+  .page-pricing .pricing-promo {
+    width: min(100%, 520px);
+    justify-self: center;
   }
 }
 
