@@ -1,0 +1,347 @@
+/*
+ * MG Webmaster — sistema grafico condiviso
+ * Estende il linguaggio visivo della Home italiana a tutte le pagine,
+ * senza duplicarne l'immagine HERO e senza alterare i contenuti.
+ */
+
+.site-unified {
+  --ivory: #fbf6eb;
+  --ivory-deep: #f4ead8;
+  --sky: #e8f8ff;
+  --sky-strong: #cfefff;
+  --petrol: #073763;
+  --petrol-deep: #061f4b;
+  --electric: #075bd8;
+  --aqua: #05bfee;
+  background: linear-gradient(180deg, #fff 0, #fff 72%, #fbf8f1 100%);
+}
+
+.site-unified main {
+  overflow: hidden;
+}
+
+.site-unified .page-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(76px, 9vw, 118px) 0 clamp(70px, 8vw, 104px);
+  background:
+    radial-gradient(circle at 84% 20%, rgba(5,191,238,.25), transparent 29%),
+    radial-gradient(circle at 68% 78%, rgba(7,91,216,.10), transparent 34%),
+    linear-gradient(128deg, var(--ivory) 0%, #f9fbfa 42%, var(--sky) 100%);
+}
+
+.site-unified .page-hero::before,
+.site-unified .page-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.site-unified .page-hero::before {
+  width: clamp(180px, 25vw, 390px);
+  aspect-ratio: 1;
+  right: -7%;
+  top: -32%;
+  border: 1px solid rgba(7,91,216,.16);
+  box-shadow: 0 0 0 34px rgba(255,255,255,.22), 0 0 0 70px rgba(5,191,238,.05);
+}
+
+.site-unified .page-hero::after {
+  width: 58%;
+  height: 1px;
+  right: -8%;
+  bottom: 17%;
+  background: linear-gradient(90deg, transparent, rgba(7,55,99,.26), transparent);
+  transform: rotate(-8deg);
+}
+
+.site-unified .page-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.site-unified .page-hero h1 {
+  max-width: 980px;
+  text-wrap: balance;
+}
+
+.site-unified .page-hero p {
+  max-width: 760px !important;
+  font-size: clamp(1.05rem, 1.7vw, 1.2rem) !important;
+  line-height: 1.72;
+}
+
+.site-unified .breadcrumbs {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 5px 12px;
+  border: 1px solid rgba(7,55,99,.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,.62);
+  backdrop-filter: blur(8px);
+}
+
+.site-unified main > .section {
+  position: relative;
+}
+
+.site-unified main > .section:nth-of-type(odd):not(.share-section):not(.related-pages) {
+  background: linear-gradient(145deg, rgba(251,246,235,.72), rgba(255,255,255,.98) 58%);
+}
+
+.site-unified main > .section:nth-of-type(even):not(.share-section):not(.related-pages) {
+  background: linear-gradient(145deg, rgba(238,248,255,.72), rgba(255,255,255,.98) 62%);
+}
+
+.site-unified .section-intro,
+.site-unified .content-flow-intro {
+  max-width: 820px;
+}
+
+.site-unified .content-flow-intro {
+  margin-bottom: clamp(32px, 5vw, 58px);
+  padding-left: clamp(20px, 3vw, 34px);
+  border-left: 4px solid var(--aqua);
+}
+
+.site-unified .content-flow-intro h2 {
+  margin-top: 0;
+}
+
+.site-unified .prose {
+  max-width: 920px;
+}
+
+.site-unified .prose > h2 {
+  text-wrap: balance;
+}
+
+.site-unified .prose > h2::after,
+.site-unified .content-flow-intro h2::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 3px;
+  margin-top: 14px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--aqua), var(--electric));
+}
+
+.site-unified .card,
+.site-unified .price-table-wrap,
+.site-unified .contact-panel,
+.site-unified .faq details {
+  border-color: rgba(7,55,99,.13);
+  box-shadow: 0 16px 42px rgba(5,42,91,.08);
+}
+
+.site-unified .card {
+  background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(251,246,235,.74));
+}
+
+.site-unified .button {
+  box-shadow: 0 12px 30px rgba(7,91,216,.21);
+}
+
+.site-unified .button.outline {
+  background: rgba(255,255,255,.7);
+  backdrop-filter: blur(8px);
+}
+
+.site-unified .related-pages {
+  background: linear-gradient(135deg, var(--ivory), #fff 48%, var(--sky));
+}
+
+.site-unified .related-links a {
+  min-height: 92px;
+  align-items: center;
+  background: rgba(255,255,255,.78);
+  backdrop-filter: blur(10px);
+}
+
+.site-unified .share-section {
+  background: #f8fbfd;
+}
+
+/* Griglie editoriali asimmetriche: Servizi, Progetti e Blog */
+.asymmetric-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 32px);
+  align-items: stretch;
+}
+
+.editorial-card {
+  position: relative;
+  grid-column: span 4;
+  overflow: hidden;
+  min-width: 0;
+  padding: clamp(25px, 3vw, 38px);
+  border: 1px solid rgba(7,55,99,.13);
+  border-radius: clamp(22px, 3vw, 32px);
+  background:
+    radial-gradient(circle at 100% 0, rgba(5,191,238,.12), transparent 31%),
+    linear-gradient(145deg, rgba(255,255,255,.98), rgba(251,246,235,.88));
+  box-shadow: 0 18px 48px rgba(5,42,91,.09);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.editorial-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--aqua), var(--electric), transparent 92%);
+}
+
+.editorial-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(7,91,216,.27);
+  box-shadow: 0 24px 58px rgba(5,42,91,.13);
+}
+
+.editorial-card:nth-child(6n + 1),
+.editorial-card:nth-child(6n + 6) {
+  grid-column: span 7;
+}
+
+.editorial-card:nth-child(6n + 2),
+.editorial-card:nth-child(6n + 5) {
+  grid-column: span 5;
+}
+
+.editorial-card h2,
+.editorial-card h3 {
+  margin-top: 0;
+}
+
+.editorial-card h2 {
+  font-size: clamp(1.55rem, 2.5vw, 2.25rem);
+}
+
+.editorial-card .actions,
+.editorial-card .content-cta {
+  margin-top: 24px;
+}
+
+.editorial-card .button {
+  max-width: 100%;
+  text-align: center;
+}
+
+.editorial-card--wide {
+  grid-column: 1 / -1 !important;
+  background:
+    radial-gradient(circle at 90% 20%, rgba(5,191,238,.18), transparent 25%),
+    linear-gradient(125deg, var(--petrol-deep), #073679);
+  color: #e9f6ff;
+}
+
+.editorial-card--wide h2,
+.editorial-card--wide h3,
+.editorial-card--wide p,
+.editorial-card--wide li {
+  color: #fff;
+}
+
+/* Servizi IT e RO: stesse proporzioni e stesso ritmo visivo */
+.page-services-asymmetric .services-visual-grid {
+  gap: clamp(20px, 2.6vw, 32px);
+}
+
+.page-services-asymmetric .service-visual-card {
+  position: relative;
+  border-radius: clamp(22px, 3vw, 32px);
+  background:
+    radial-gradient(circle at 100% 0, rgba(5,191,238,.11), transparent 28%),
+    linear-gradient(145deg, #fff, var(--ivory));
+  box-shadow: 0 18px 48px rgba(5,42,91,.09);
+}
+
+.page-services-asymmetric .service-visual-card:nth-child(3),
+.page-services-asymmetric .service-visual-card:nth-child(4),
+.page-services-asymmetric .service-visual-card:nth-child(5) {
+  transform: translateY(clamp(0px, 1.4vw, 18px));
+}
+
+.page-services-asymmetric .service-card-image {
+  border-radius: 0;
+}
+
+/* Progetti: schede più ampie per raccontare obiettivo e intervento */
+.page-projects-asymmetric .editorial-card {
+  grid-column: span 6;
+}
+
+.page-projects-asymmetric .editorial-card:nth-child(3n + 1) {
+  grid-column: span 7;
+}
+
+.page-projects-asymmetric .editorial-card:nth-child(3n + 2) {
+  grid-column: span 5;
+}
+
+.page-projects-asymmetric .project-method-card {
+  grid-column: 2 / span 10;
+}
+
+/* Blog: ritmo tipo magazine, con alternanza 7/5 e tre colonne */
+.page-blog-asymmetric .editorial-card:nth-child(3),
+.page-blog-asymmetric .editorial-card:nth-child(4),
+.page-blog-asymmetric .editorial-card:nth-child(5) {
+  grid-column: span 4;
+}
+
+.page-blog-asymmetric .editorial-card .button {
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .asymmetric-editorial-grid .editorial-card,
+  .asymmetric-editorial-grid .editorial-card:nth-child(n),
+  .page-projects-asymmetric .project-method-card,
+  .page-blog-asymmetric .editorial-card:nth-child(n) {
+    grid-column: span 6;
+    transform: none;
+  }
+
+  .asymmetric-editorial-grid .editorial-card--wide {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 620px) {
+  .site-unified .page-hero {
+    padding: 64px 0 62px;
+  }
+
+  .site-unified .page-hero::before {
+    opacity: .55;
+  }
+
+  .site-unified .page-hero h1 {
+    font-size: clamp(2.35rem, 12vw, 3.2rem);
+  }
+
+  .asymmetric-editorial-grid {
+    display: block;
+  }
+
+  .asymmetric-editorial-grid .editorial-card {
+    margin-bottom: 20px;
+  }
+
+  .page-services-asymmetric .service-visual-card:nth-child(n) {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-card {
+    transition: none;
+  }
+}
