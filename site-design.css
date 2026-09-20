@@ -272,6 +272,32 @@
   border-radius: 0;
 }
 
+.project-card-media {
+  margin: 0 0 26px;
+}
+
+.project-card-media a {
+  display: block;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--ivory);
+}
+
+.project-card-media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.project-card-media a:hover img,
+.project-card-media a:focus-visible img {
+  transform: scale(1.025);
+  filter: brightness(1.03);
+}
+
 /* Progetti: schede più ampie per raccontare obiettivo e intervento */
 .page-projects-asymmetric .editorial-card {
   grid-column: span 6;
