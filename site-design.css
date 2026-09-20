@@ -264,6 +264,26 @@
   margin-top: 26px;
 }
 
+/* Pagine dell'offerta: locandina subito dopo lo hero. */
+.page-offer .offer-promo-section {
+  padding-top: clamp(46px, 7vw, 88px);
+  padding-bottom: clamp(46px, 7vw, 88px);
+}
+
+.page-offer .offer-promo-media {
+  width: min(100%, 560px);
+  margin: 0 auto;
+}
+
+.page-offer .offer-promo-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
+  border: 1px solid rgba(7,55,99,.16);
+  box-shadow: 0 26px 60px rgba(5,42,91,.2);
+}
+
 @media (max-width: 820px) {
   .page-about .about-hero-grid,
   .page-about .about-feature,
@@ -285,6 +305,10 @@
   .page-pricing .pricing-promo {
     width: min(100%, 520px);
     justify-self: center;
+  }
+
+  .page-offer .offer-promo-media {
+    width: min(100%, 520px);
   }
 }
 
