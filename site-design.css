@@ -298,6 +298,28 @@
   filter: brightness(1.03);
 }
 
+/* Miniature del Blog: piccole, stabili e apribili a schermo intero */
+.page-blog-asymmetric .blog-card-media {
+  max-width: 360px;
+  margin: 0 0 24px;
+}
+
+.page-blog-asymmetric .editorial-card:nth-child(even) .blog-card-media {
+  margin-left: auto;
+}
+
+.page-blog-asymmetric .blog-card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  border: 1px solid rgba(7,55,99,.12);
+  border-radius: 18px;
+  background: var(--ivory);
+  box-shadow: 0 12px 28px rgba(5,42,91,.09);
+}
+
 /* Progetti: schede più ampie per raccontare obiettivo e intervento */
 .page-projects-asymmetric .editorial-card {
   grid-column: span 6;

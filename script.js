@@ -57,7 +57,7 @@ if(zoomableImages.length){
   const close=()=>{lightbox.hidden=true;document.body.classList.remove('lightbox-open');enlarged.removeAttribute('src');opener?.focus()};
   zoomableImages.forEach(img=>{
     img.classList.add('is-zoomable');img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label',`${img.alt||'Infografica'}: apri a schermo intero`);
-    const open=()=>{opener=img;enlarged.src=img.currentSrc||img.src;enlarged.alt=img.alt;lightbox.hidden=false;document.body.classList.add('lightbox-open');closeButton.focus()};
+    const open=()=>{opener=img;enlarged.src=img.dataset.fullSrc||img.currentSrc||img.src;enlarged.alt=img.alt;lightbox.hidden=false;document.body.classList.add('lightbox-open');closeButton.focus()};
     img.addEventListener('click',open);img.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});
   });
   closeButton.addEventListener('click',close);
