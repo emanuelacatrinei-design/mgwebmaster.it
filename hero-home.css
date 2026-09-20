@@ -1,0 +1,43 @@
+/* Homepage hero artwork */
+.home-modern .hero-grid {
+  grid-template-columns: 1.02fr .98fr;
+  gap: 28px;
+}
+
+.hero-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+  border-radius: 34px;
+  background: #fbf6eb;
+  box-shadow: 0 20px 55px rgba(5, 42, 91, .1);
+}
+
+.home-hero-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+}
+
+@media (max-width: 900px) {
+  .hero-visual {
+    min-height: 0;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 26px;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-visual {
+    aspect-ratio: 4 / 3;
+    border-radius: 22px;
+  }
+
+  .home-hero-art {
+    object-position: 76% center;
+  }
+}
