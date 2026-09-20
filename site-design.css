@@ -101,7 +101,7 @@
 .site-unified main > .section.dark {
   background:
     radial-gradient(circle at 86% 20%, rgba(35,169,204,.22), transparent 34%),
-    linear-gradient(135deg, var(--petrol-deep), var(--petrol));
+    linear-gradient(135deg, var(--petrol-deep), var(--petrol)) !important;
   color: #e9f6ff;
 }
 
