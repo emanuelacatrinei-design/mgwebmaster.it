@@ -22,6 +22,29 @@
   object-position: right center;
 }
 
+.home-visual-seo {
+  margin: 0;
+}
+
+.home-visual-seo picture,
+.romanian-local-band picture {
+  display: block;
+  min-width: 0;
+}
+
+.home-visual-seo figcaption {
+  margin-top: 14px;
+  color: #56657a;
+  font-size: .92rem;
+  text-align: center;
+}
+
+@media (min-width: 901px) {
+  .romanian-local-band {
+    grid-template-columns: .72fr 1.28fr;
+  }
+}
+
 @media (max-width: 900px) {
   .hero-visual {
     min-height: 0;
