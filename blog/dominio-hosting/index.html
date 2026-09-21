@@ -14,20 +14,48 @@
 @media(max-width:900px){.hosting-guide .hg-nav{grid-template-columns:repeat(3,1fr)}.hosting-guide .hg-flow{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.hosting-guide .hg-hero{padding-top:3rem}.hosting-guide .hg-hero:before{inset:0 0 48% 55%;opacity:.55}.hosting-guide .hg-hero:after{background:linear-gradient(90deg,var(--ivory-light),rgba(255,250,240,.88))}.hosting-guide .hg-flow,.hosting-guide .hg-grid,.hosting-guide .hg-mail,.hosting-guide .hg-check,.hosting-guide .hg-offer{grid-template-columns:1fr}.hosting-guide .hg-nav{grid-template-columns:repeat(2,1fr)}.hosting-guide .hg-offer:after{min-height:105px}}
 @media(prefers-reduced-motion:reduce){.hosting-guide *{scroll-behavior:auto!important}}
-</style>
-<article class="hosting-guide">
+</style><style>
+.hosting-guide .hg-hero{min-height:620px;display:flex;align-items:center;padding:4.2rem 0 2rem;background:#fffaf0}
+.hosting-guide .hg-hero .container{width:100%}
+.hosting-guide .hg-hero:before,.hosting-guide .hg-hero:after{display:none}
+.hosting-guide .hg-hero-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr);align-items:center;gap:2rem}
+.hosting-guide .hg-hero-copy{position:relative;z-index:2}
+.hosting-guide .hg-hero-copy h1{font-size:clamp(2.5rem,4.7vw,4.8rem);max-width:780px}
+.hosting-guide .hg-hero-copy p{max-width:700px}
+.hosting-guide .hg-visual{position:relative;min-height:430px;border-radius:28px;overflow:hidden;background:linear-gradient(145deg,#eaf9fb 0%,#bfeaf3 48%,#f6f0e3 100%);box-shadow:inset 0 0 0 1px rgba(7,87,102,.08)}
+.hosting-guide .hg-visual:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 45% 38%,rgba(255,255,255,.9),transparent 32%),repeating-radial-gradient(ellipse at 48% 48%,transparent 0 28px,rgba(37,174,205,.18) 29px 31px,transparent 32px 52px);transform:rotate(-13deg) scale(1.15)}
+.hosting-guide .hg-globe{position:absolute;width:260px;height:260px;border-radius:50%;left:9%;top:12%;background:radial-gradient(circle at 35% 28%,#b9f0f7 0 8%,#49bdd3 28%,#08768d 66%,#044654 100%);border:2px solid rgba(255,255,255,.75);box-shadow:0 20px 45px rgba(3,59,70,.22),inset -28px -20px 55px rgba(2,46,57,.25)}
+.hosting-guide .hg-globe:before,.hosting-guide .hg-globe:after{content:"";position:absolute;inset:12%;border:1px solid rgba(255,255,255,.55);border-radius:50%}
+.hosting-guide .hg-globe:after{inset:5% 28%;border-width:0 1px}
+.hosting-guide .hg-server{position:absolute;right:7%;bottom:11%;width:58%;display:grid;gap:10px;transform:perspective(700px) rotateY(-8deg)}
+.hosting-guide .hg-server span{height:76px;border-radius:10px;background:linear-gradient(180deg,#0b6477,#033b46);border:1px solid #4dc4da;box-shadow:0 14px 25px rgba(2,48,58,.22);position:relative}
+.hosting-guide .hg-server span:before{content:"";position:absolute;left:18px;right:18px;top:18px;height:8px;background:repeating-linear-gradient(90deg,#49d4ef 0 5px,transparent 5px 11px);opacity:.85}
+.hosting-guide .hg-server span:after{content:"";position:absolute;right:18px;bottom:15px;width:12px;height:12px;border-radius:50%;background:#77edff;box-shadow:-22px 0 #1d9db7}
+.hosting-guide .hg-swoosh{position:absolute;border:2px solid rgba(40,187,218,.55);border-radius:50%;transform:rotate(-14deg)}
+.hosting-guide .hg-swoosh.one{width:120%;height:36%;left:-12%;top:42%}.hosting-guide .hg-swoosh.two{width:105%;height:28%;left:-2%;top:49%}
+.hosting-guide .hg-promise{display:flex;flex-wrap:wrap;gap:1rem 1.6rem;margin:1.2rem 0;color:#075766;font-weight:700}.hosting-guide .hg-promise span:before{content:"✓";margin-right:.45rem;color:#18a7c2}
+.hosting-guide .hg-nav{margin-top:1.8rem}
+.hosting-guide .hg-hosting-types{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.3rem}
+.hosting-guide .hg-type{background:linear-gradient(145deg,#07596a,#033b46);border:1px solid #0b7184;border-radius:14px;padding:1.35rem;color:#fff;box-shadow:0 12px 26px rgba(3,59,70,.12)}
+.hosting-guide .hg-type h3{color:#fff;margin:.35rem 0 .7rem}.hosting-guide .hg-type p,.hosting-guide .hg-type li{color:#f4fbfc}.hosting-guide .hg-type ul{padding-left:1.1rem}
+.hosting-guide .hg-type-icon{font-size:1.55rem;color:#72dcef}
+.hosting-guide .hg-duo{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.hosting-guide .hg-panel{background:#fffdf8;border:1px solid #ddd6c7;border-radius:16px;padding:1.5rem;box-shadow:0 10px 26px rgba(3,59,70,.07)}
+.hosting-guide .hg-panel.support{background:linear-gradient(135deg,#eef7f5,#dfeceb)}
+.hosting-guide .hg-panel h2{font-size:1.35rem}.hosting-guide .hg-panel.hostinger h2{color:#5031b8}
+.hosting-guide .hg-mini{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;margin-top:1rem;font-size:.88rem;color:#42616a}
+@media(max-width:900px){.hosting-guide .hg-hero-layout{grid-template-columns:1fr}.hosting-guide .hg-visual{min-height:360px}.hosting-guide .hg-hosting-types{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.hosting-guide .hg-hero{min-height:auto}.hosting-guide .hg-visual{min-height:300px}.hosting-guide .hg-globe{width:190px;height:190px}.hosting-guide .hg-server{width:62%}.hosting-guide .hg-server span{height:58px}.hosting-guide .hg-hosting-types,.hosting-guide .hg-duo{grid-template-columns:1fr}}
+</style><article class="hosting-guide">
 <section class="hg-hero"><div class="container">
+<div class="hg-hero-layout"><div class="hg-hero-copy">
 <nav class="breadcrumbs" aria-label="Percorso"><a href="/">Home</a> · <a href="/blog/">Blog</a> · Dominio e hosting</nav>
-<span class="eyebrow">Guida pratica · Dominio, hosting e DNS</span>
-<h1>Dominio e hosting: cosa sono, come funzionano e come scegliere quelli giusti</h1>
-<p>Prima del design e dei contenuti serve una base tecnica solida. Qui trovi una spiegazione chiara di dominio, hosting, DNS, sicurezza, email e rinnovi, con criteri pratici per scegliere senza pagare risorse inutili.</p>
-<div class="actions"><a class="button" href="#dominio">Leggi la guida</a><a class="button outline" href="/servizi/dominio-hosting/">I miei servizi</a></div><div class="hg-flow" aria-label="Come funziona un sito web">
-<div class="hg-card"><span class="hg-num">1</span><h3>Dominio</h3><p>Il nome con cui le persone trovano il sito.</p></div>
-<div class="hg-card"><span class="hg-num">2</span><h3>DNS</h3><p>Collega il nome ai servizi corretti.</p></div>
-<div class="hg-card"><span class="hg-num">3</span><h3>Hosting</h3><p>Ospita e distribuisce file e dati.</p></div>
-<div class="hg-card"><span class="hg-num">4</span><h3>Sito online</h3><p>Il browser riceve e mostra la pagina.</p></div>
-</div>
-<nav class="hg-nav" aria-label="Indice della guida"><a href="#dominio">Dominio</a><a href="#hosting">Hosting</a><a href="#scegliere">Come scegliere</a><a href="#email">Email e DNS</a><a href="#costi">Costi</a><a href="#faq-hosting">FAQ</a></nav>
+<span class="eyebrow">Guida completa</span><h1>Dominio e Hosting:<br>cosa sono, come funzionano<br>e come scegliere quelli giusti</h1>
+<p>Una guida chiara e pratica per capire la differenza tra dominio e hosting, le tipologie disponibili, i costi, la sicurezza e tutti gli elementi da valutare per un sito web veloce, sicuro e professionale.</p>
+<div class="actions"><a class="button" href="#dominio">Leggi la guida ↓</a><a class="button outline" href="/servizi/dominio-hosting/">I miei servizi →</a></div>
+<div class="hg-promise"><span>Spiegazioni semplici</span><span>Esempi pratici</span><span>Consigli professionali</span></div>
+</div><div class="hg-visual" aria-hidden="true"><div class="hg-globe"></div><div class="hg-swoosh one"></div><div class="hg-swoosh two"></div><div class="hg-server"><span></span><span></span><span></span></div></div></div>
+<nav class="hg-nav" aria-label="Indice della guida"><a href="#dominio">Dominio</a><a href="#hosting">Hosting</a><a href="#tipuri">Tipologie</a><a href="#scegliere">Come scegliere</a><a href="#email">Sicurezza email</a><a href="#faq-hosting">FAQ</a></nav>
 </div></section>
 
 <section class="hg-section" id="dominio"><div class="container prose">
@@ -50,7 +78,12 @@
 </div>
 </div></section>
 
-<section class="hg-section" id="scegliere"><div class="container prose">
+<section class="hg-section soft" id="tipuri"><div class="container prose"><h2>Le principali tipologie di hosting</h2><p>Ogni progetto ha esigenze diverse. Ecco le soluzioni più comuni e quando possono essere adatte.</p><div class="hg-hosting-types">
+<div class="hg-type"><div class="hg-type-icon">♧</div><h3>Hosting condiviso</h3><p>Economico e adatto a siti di piccole dimensioni o appena avviati.</p><ul><li>Costo contenuto</li><li>Facile da gestire</li><li>Ideale per progetti semplici</li></ul></div>
+<div class="hg-type"><div class="hg-type-icon">◇</div><h3>VPS</h3><p>Risorse virtuali dedicate e maggiore controllo tecnico.</p><ul><li>Risorse più prevedibili</li><li>Più flessibilità</li><li>Adatto a progetti in crescita</li></ul></div>
+<div class="hg-type"><div class="hg-type-icon">☁</div><h3>Cloud hosting</h3><p>Scalabilità e distribuzione delle risorse su infrastruttura cloud.</p><ul><li>Soluzione scalabile</li><li>Gestisce traffico variabile</li><li>Elevata flessibilità</li></ul></div>
+<div class="hg-type"><div class="hg-type-icon">▣</div><h3>Server dedicato</h3><p>Le risorse della macchina sono riservate a un singolo progetto.</p><ul><li>Controllo avanzato</li><li>Risorse dedicate</li><li>Per esigenze elevate</li></ul></div>
+</div></div></section><section class="hg-section" id="scegliere"><div class="container prose">
 <h2>Come scegliere un hosting: 8 controlli utili</h2>
 <ul class="hg-check"><li><strong>Prestazioni:</strong> risorse, caching e qualità dell'infrastruttura.</li><li><strong>Affidabilità:</strong> continuità del servizio e gestione dei problemi.</li><li><strong>HTTPS/SSL:</strong> disponibilità e corretta gestione del certificato.</li><li><strong>Backup:</strong> frequenza, conservazione e modalità di ripristino.</li><li><strong>Sicurezza:</strong> protezioni, aggiornamenti e isolamento degli account.</li><li><strong>Assistenza:</strong> canali, lingua e tempi di supporto.</li><li><strong>Scalabilità:</strong> possibilità di aumentare le risorse quando serve.</li><li><strong>Rinnovo:</strong> controlla il prezzo ordinario, non soltanto la promozione iniziale.</li></ul>
 <h3>L'hosting influenza la SEO?</h3>
@@ -75,15 +108,10 @@
 <p>Sì. Possono essere forniti da aziende differenti e collegati tramite DNS. Anche un sito esistente può normalmente essere migrato: occorre pianificare file, database, DNS, SSL, email e tempi di propagazione, mantenendo gli accessi necessari.</p>
 </div></section>
 
-<section class="hg-section soft"><div class="container prose">
-<div class="hg-offer">
-<span class="eyebrow">Opzione da valutare</span>
-<h2>Stai cercando un hosting per il tuo progetto?</h2>
-<p>Per alcuni progetti una delle soluzioni che valuto è Hostinger. Se stai considerando questo provider, tramite il link referral MG Webmaster puoi verificare l'eventuale <strong>sconto aggiuntivo del 20%</strong> applicabile all'offerta.</p>
-<div class="actions"><a class="button" href="https://hostinger.it?REFERRALCODE=UBJMANU22T3F" target="_blank" rel="sponsored noopener noreferrer">Verifica l'offerta Hostinger</a><a class="button outline" href="/servizi/dominio-hosting/">Scopri il servizio Dominio e Hosting</a></div>
-<p class="hg-disclosure"><strong>Trasparenza:</strong> questo è un link referral. Se effettui un acquisto attraverso il link, MG Webmaster può ricevere un beneficio o una commissione. Verifica sempre prezzo finale, durata, rinnovo e servizi inclusi nelle condizioni mostrate da Hostinger al momento dell'acquisto.</p>
-</div>
-</div></section>
+<section class="hg-section soft"><div class="container prose"><div class="hg-duo">
+<div class="hg-panel hostinger"><h2>Hostinger: performance, semplicità e convenienza</h2><p>Per alcuni progetti utilizzo o valuto Hostinger. Attraverso il mio link referral puoi verificare l'eventuale <strong>sconto aggiuntivo del 20%</strong> applicabile alla tua offerta.</p><div class="actions"><a class="button" href="https://hostinger.it?REFERRALCODE=UBJMANU22T3F" target="_blank" rel="sponsored noopener noreferrer">Verifica lo sconto Hostinger →</a></div><p class="hg-disclosure">Link di affiliazione: se acquisti tramite questo link, MG Webmaster può ricevere un beneficio o una commissione. Verifica sempre prezzo finale e condizioni mostrate da Hostinger.</p></div>
+<div class="hg-panel support"><h2>Preferisci un supporto personalizzato?</h2><p>Ti aiuto a scegliere e configurare dominio, hosting, DNS, SSL, email e tutti gli aspetti tecnici del tuo progetto.</p><div class="actions"><a class="button" href="/servizi/dominio-hosting/">Scopri i miei servizi →</a></div><div class="hg-mini"><span>Consulenza su misura</span><span>Configurazione completa</span><span>Supporto continuo</span></div></div>
+</div></div></section>
 
 <section class="hg-section faq" id="faq-hosting"><div class="container prose">
 <h2>Domande frequenti su dominio e hosting</h2>
