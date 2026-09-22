@@ -1,3 +1,17 @@
+// MG Webmaster: voce Contatti/Contact nel menu principale
+document.querySelectorAll('.nav-links').forEach(nav=>{
+  const isRo=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
+  const href=isRo?'/ro/contact/':'/contatti/';
+  if(nav.querySelector(`a[href="${href}"]`))return;
+  const link=document.createElement('a');
+  link.href=href;
+  link.textContent=isRo?'Contact':'Contatti';
+  const current=location.pathname.replace(/\/+$/,'/')===href;
+  if(current)link.setAttribute('aria-current','page');
+  const before=nav.querySelector('.language-switcher, .language-menu, a.button[href^="https://wa.me/"]');
+  nav.insertBefore(link,before||null);
+});
+
 const button=document.querySelector('.menu-button');const menu=document.querySelector('.nav-links');if(button&&menu){button.addEventListener('click',()=>{const open=menu.classList.toggle('open');button.setAttribute('aria-expanded',String(open))})}
 
 document.querySelectorAll('.scrolling-content').forEach(track=>{
