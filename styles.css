@@ -5,37 +5,6 @@
 .cookie-banner{position:fixed;z-index:10000;left:1rem;right:1rem;bottom:1rem;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem;align-items:end;max-width:1120px;margin:auto;padding:1.25rem 1.35rem;background:rgba(255,255,255,.98);color:#16283b;border:1px solid rgba(7,55,99,.18);border-radius:20px;box-shadow:0 20px 55px rgba(0,27,54,.24);backdrop-filter:blur(12px)}.cookie-banner[hidden],.cookie-preferences[hidden],.cookie-manage[hidden]{display:none}.cookie-banner h2,.cookie-preferences h2{margin:0 0 .45rem;color:#073763;font-size:1.25rem}.cookie-banner p{max-width:760px;margin:0 0 .4rem;line-height:1.55}.cookie-banner a,.cookie-preferences a{color:#075d89;font-weight:700}.cookie-actions{display:flex;flex-wrap:wrap;gap:.6rem}.cookie-actions button,.cookie-save{min-height:44px;padding:.7rem 1rem;border:2px solid #073763;border-radius:999px;background:#073763;color:#fff;font:inherit;font-weight:700;cursor:pointer}.cookie-actions button:nth-child(3){background:#fff;color:#073763}.cookie-preferences{position:fixed;z-index:10001;inset:0;display:grid;place-items:center;padding:1rem;background:rgba(0,20,38,.58)}.cookie-panel{position:relative;width:min(620px,100%);max-height:90vh;overflow:auto;padding:1.5rem;background:#fff;border-radius:22px;box-shadow:0 24px 70px rgba(0,18,35,.35)}.cookie-close{position:absolute;top:.7rem;right:.8rem;border:0;background:transparent;color:#073763;font-size:1.8rem;cursor:pointer}.cookie-option{display:flex;justify-content:space-between;align-items:center;gap:1.25rem;padding:1rem 0;border-top:1px solid #dbe5e8}.cookie-option p{margin:.25rem 0 0}.cookie-option input{width:1.4rem;height:1.4rem;accent-color:#073763}.cookie-manage{position:fixed;z-index:9998;left:1rem;bottom:1rem;padding:.55rem .8rem;border:1px solid rgba(7,55,99,.25);border-radius:999px;background:#fff;color:#073763;font:inherit;font-size:.85rem;font-weight:700;box-shadow:0 8px 24px rgba(0,27,54,.14);cursor:pointer}.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}@media(max-width:760px){.cookie-banner{grid-template-columns:1fr;gap:1rem;max-height:88vh;overflow:auto}.cookie-actions{display:grid;grid-template-columns:1fr 1fr}.cookie-actions button:last-child{grid-column:1/-1}.cookie-actions button{width:100%}.cookie-manage{left:.6rem;bottom:.6rem}}
 .is-zoomable{cursor:zoom-in}.is-zoomable:focus-visible{outline:3px solid #0c4a8a;outline-offset:4px}.lightbox-open{overflow:hidden}.image-lightbox{position:fixed;inset:0;z-index:10000;background:rgba(5,18,32,.94);padding:3.5rem 1rem 1rem;display:grid;place-items:center}.image-lightbox[hidden]{display:none}.image-lightbox img{max-width:min(96vw,1500px);max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:.5rem;box-shadow:0 20px 70px rgba(0,0,0,.45)}.image-lightbox-close{position:fixed;top:.75rem;right:1rem;width:2.75rem;height:2.75rem;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:#fff;color:#0b2747;font-size:2rem;line-height:1;cursor:pointer}.image-lightbox-close:focus-visible{outline:3px solid #ffd166;outline-offset:3px}
 
-
-/* WhatsApp CTA: colore ufficiale richiesto */
-.floating-wa,
-.nav-links a.button[href^="https://wa.me/"]{
-  background:#075E54;
-  color:#fff;
-  box-shadow:0 10px 26px rgba(37,211,102,.28);
-}
-.floating-wa:hover,
-.nav-links a.button[href^="https://wa.me/"]:hover{
-  background:#075E54;
-  color:#fff;
-  box-shadow:0 14px 34px rgba(37,211,102,.36);
-}
-
-
-/* WhatsApp exact green v2 */
-.floating-wa,
-.nav-links a.button[href^="https://wa.me/"]{
-  background:#075E54 !important;
-  background-image:none !important;
-  color:#fff !important;
-}
-.floating-wa:hover,
-.nav-links a.button[href^="https://wa.me/"]:hover{
-  background:#075E54 !important;
-  background-image:none !important;
-  color:#fff !important;
-}
-
-
 /* Header Home/Acasa - nuovo logo MG Webmaster */
 .brand-mark.brand-mark-white{
   background:#fff !important;
@@ -51,45 +20,3 @@
   border-radius:11px;
 }
 .brand-copy{display:block;line-height:1.05}
-
-/* WhatsApp - verde richiesto #075E54 */
-a[href^="https://wa.me/"],
-.share-button.whatsapp{
-  background:#075E54 !important;
-  background-image:none !important;
-  color:#fff !important;
-  border-color:#075E54 !important;
-}
-a[href^="https://wa.me/"]:hover,
-.share-button.whatsapp:hover{
-  background:#075E54 !important;
-  background-image:none !important;
-  color:#fff !important;
-}
-
-
-/* WHATSAPP GLOBAL FINAL #075E54 */
-a[href*="wa.me"],
-a[href*="api.whatsapp.com"],
-a[href*="whatsapp.com"],
-.floating-wa,
-.share-button.whatsapp,
-.whatsapp,
-[class*="whatsapp"]{
-  background-color:#075E54 !important;
-  background-image:none !important;
-  color:#FFFFFF !important;
-  border-color:#075E54 !important;
-}
-a[href*="wa.me"]:hover,
-a[href*="api.whatsapp.com"]:hover,
-a[href*="whatsapp.com"]:hover,
-.floating-wa:hover,
-.share-button.whatsapp:hover,
-.whatsapp:hover,
-[class*="whatsapp"]:hover{
-  background-color:#075E54 !important;
-  background-image:none !important;
-  color:#FFFFFF !important;
-  border-color:#075E54 !important;
-}
