@@ -590,3 +590,30 @@
   background-image:none !important;
   color:#fff !important;
 }
+
+
+/* WHATSAPP GLOBAL FINAL #075E54 */
+.site-unified a[href*="wa.me"],
+.site-unified a[href*="api.whatsapp.com"],
+.site-unified a[href*="whatsapp.com"],
+.site-unified .floating-wa,
+.site-unified .share-button.whatsapp,
+.site-unified .whatsapp,
+.site-unified [class*="whatsapp"]{
+  background-color:#075E54 !important;
+  background-image:none !important;
+  color:#FFFFFF !important;
+  border-color:#075E54 !important;
+}
+.site-unified a[href*="wa.me"]:hover,
+.site-unified a[href*="api.whatsapp.com"]:hover,
+.site-unified a[href*="whatsapp.com"]:hover,
+.site-unified .floating-wa:hover,
+.site-unified .share-button.whatsapp:hover,
+.site-unified .whatsapp:hover,
+.site-unified [class*="whatsapp"]:hover{
+  background-color:#075E54 !important;
+  background-image:none !important;
+  color:#FFFFFF !important;
+  border-color:#075E54 !important;
+}
