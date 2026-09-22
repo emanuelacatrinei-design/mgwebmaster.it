@@ -19,3 +19,18 @@
   color:#fff;
   box-shadow:0 14px 34px rgba(37,211,102,.36);
 }
+
+
+/* WhatsApp exact green v2 */
+.floating-wa,
+.nav-links a.button[href^="https://wa.me/"]{
+  background:#25D366 !important;
+  background-image:none !important;
+  color:#fff !important;
+}
+.floating-wa:hover,
+.nav-links a.button[href^="https://wa.me/"]:hover{
+  background:#25D366 !important;
+  background-image:none !important;
+  color:#fff !important;
+}
