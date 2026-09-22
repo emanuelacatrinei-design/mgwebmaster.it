@@ -20,3 +20,24 @@
   border-radius:11px;
 }
 .brand-copy{display:block;line-height:1.05}
+
+
+/* HEADER WHATSAPP UNIFORMATO #075E54 */
+.nav-links a.button[href*="wa.me"],
+.nav-links a.button[href*="api.whatsapp.com"],
+.nav-links a.button[href*="whatsapp.com"]{
+  background:#075E54 !important;
+  background-image:none !important;
+  color:#fff !important;
+  border-color:#075E54 !important;
+  box-shadow:0 10px 26px rgba(7,94,84,.28) !important;
+}
+.nav-links a.button[href*="wa.me"]:hover,
+.nav-links a.button[href*="api.whatsapp.com"]:hover,
+.nav-links a.button[href*="whatsapp.com"]:hover{
+  background:#075E54 !important;
+  background-image:none !important;
+  color:#fff !important;
+  border-color:#075E54 !important;
+  box-shadow:0 14px 34px rgba(7,94,84,.36) !important;
+}
