@@ -27,8 +27,8 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Uniforma la versione CSS su tutte le pagine
         run: |
-          find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/styles\.css(\?v=[^"]*)?"#href="/styles.css?v=20260922-12"#g'
-          find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/site-design\.css(\?v=[^"]*)?"#href="/site-design.css?v=20260922-12"#g'
+          find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/styles\.css(\?v=[^"]*)?"#href="/styles.css?v=20260926-blog-infographics"#g'
+          find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/site-design\.css(\?v=[^"]*)?"#href="/site-design.css?v=20260926-blog-infographics"#g'
       - name: Prepara il sito
         uses: actions/upload-pages-artifact@v3
         with:

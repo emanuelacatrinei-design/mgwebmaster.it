@@ -64,6 +64,8 @@ if(zoomableImages.length){
   const lightbox=document.createElement('div');
   lightbox.className='image-lightbox';
   lightbox.hidden=true;
+  lightbox.setAttribute('role','dialog');
+  lightbox.setAttribute('aria-modal','true');
   lightbox.innerHTML=`<button type="button" class="image-lightbox-close" aria-label="${isRomanianPage?'Închide imaginea mărită':'Chiudi immagine ingrandita'}">×</button><img alt="">`;
   document.body.appendChild(lightbox);
   const enlarged=lightbox.querySelector('img');
@@ -72,10 +74,14 @@ if(zoomableImages.length){
   const close=()=>{lightbox.hidden=true;document.body.classList.remove('lightbox-open');enlarged.removeAttribute('src');opener?.focus()};
   zoomableImages.forEach(img=>{
     img.classList.add('is-zoomable');img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label',`${img.alt||(isRomanianPage?'Infografic':'Infografica')}: ${isRomanianPage?'deschide pe tot ecranul':'apri a schermo intero'}`);
-    const open=()=>{opener=img;enlarged.src=img.dataset.fullSrc||img.currentSrc||img.src;enlarged.alt=img.alt;lightbox.hidden=false;document.body.classList.add('lightbox-open');closeButton.focus()};
+    const open=()=>{opener=img;enlarged.src=img.dataset.fullSrc||img.currentSrc||img.src;enlarged.alt=img.alt;lightbox.setAttribute('aria-label',img.alt||(isRomanianPage?'Infografic':'Infografica'));lightbox.hidden=false;document.body.classList.add('lightbox-open');closeButton.focus()};
     img.addEventListener('click',open);img.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});
   });
   closeButton.addEventListener('click',close);
   lightbox.addEventListener('click',event=>{if(event.target===lightbox)close()});
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!lightbox.hidden)close()});
+  document.addEventListener('keydown',event=>{
+    if(lightbox.hidden)return;
+    if(event.key==='Escape'){event.preventDefault();close()}
+    if(event.key==='Tab'){event.preventDefault();closeButton.focus()}
+  });
 }

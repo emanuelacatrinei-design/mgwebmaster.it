@@ -576,6 +576,27 @@
 }
 
 
+/* Infografiche complete, prima delle sezioni dell'articolo. */
+.page-blog-article .article-infographic {
+  margin: 0 0 clamp(28px, 4vw, 48px);
+}
+
+.page-blog-article .article-infographic img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: contain;
+  cursor: zoom-in;
+}
+
+.page-blog-article .article-infographic figcaption {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: .94rem;
+  line-height: 1.6;
+}
+
 /* Articoli Blog: ritmo editoriale più visivo senza spostare immagini o cambiare contenuti */
 .page-blog-article .content-images + .section {
   padding-top: clamp(34px, 5vw, 64px);
