@@ -1,0 +1,141 @@
+/* Home IT only: responsive overrides without changing other pages. */
+@media (max-width: 1180px) {
+  .home-modern .site-header .nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: 12px;
+    min-height: 76px;
+    padding-block: 8px;
+  }
+
+  .home-modern .site-header .brand,
+  .home-modern .site-header .brand-copy {
+    min-width: 0;
+  }
+
+  .home-modern .site-header .brand {
+    gap: 10px;
+    justify-self: start;
+  }
+
+  .home-modern .site-header .brand-mark {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .home-modern .site-header .brand strong {
+    font-size: clamp(1rem, 3vw, 1.18rem);
+    line-height: 1.15;
+  }
+
+  .home-modern .site-header .brand small {
+    font-size: clamp(.6rem, 2.2vw, .69rem);
+    letter-spacing: .1em;
+    line-height: 1.4;
+  }
+
+  .home-modern .site-header .menu-button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .home-modern .site-header .nav-links {
+    display: none;
+    position: absolute;
+    inset: 100% 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    max-height: calc(100vh - 144px);
+    max-height: calc(100dvh - 144px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 12px 20px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 24px rgba(5, 42, 91, .1);
+  }
+
+  .home-modern .site-header .nav-links.open {
+    display: flex;
+  }
+
+  .home-modern .site-header .nav-links > a {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    min-height: 44px;
+    width: 100%;
+    padding: 10px 12px;
+    overflow-wrap: anywhere;
+  }
+
+  .home-modern .site-header .language-menu {
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  .home-modern .site-header .language-menu summary {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .home-modern .site-header .language-menu > div {
+    position: static;
+    width: 100%;
+    margin-top: .45rem;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Match the specificity of hero-home.css so the mobile rule actually wins. */
+  .home-modern .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding-block: 40px;
+    gap: 28px;
+  }
+
+  .home-modern .hero-grid > * {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .home-modern .hero h1 {
+    font-size: clamp(2rem, 8.8vw, 2.75rem);
+    line-height: 1.12;
+    overflow-wrap: break-word;
+  }
+
+  .home-modern .hero p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .home-modern .hero .actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .home-modern .hero .actions .button {
+    min-width: 0;
+    width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  .home-modern .hero .trust {
+    gap: 10px 16px;
+    margin-top: 24px;
+  }
+}
