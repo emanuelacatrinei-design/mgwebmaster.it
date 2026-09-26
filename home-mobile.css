@@ -1,4 +1,4 @@
-/* Home IT only: responsive overrides without changing other pages. */
+/* Shared Home IT / Acasă RO responsive overrides; other pages are unchanged. */
 @media (max-width: 1180px) {
   .home-modern .site-header .nav {
     display: grid;
