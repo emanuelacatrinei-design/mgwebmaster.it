@@ -25,6 +25,27 @@ jobs:
         uses: actions/checkout@v4
       - name: Configura Pages
         uses: actions/configure-pages@v5
+      - name: Genera immagini hero leggere per le pagine Prezzi
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          targets = [
+              Path("assets/offerta-sito-web-7-giorni-prezzi-perugia.webp"),
+              Path("assets/oferta-website-7-zile-preturi-romania.webp"),
+          ]
+
+          for src in targets:
+              with Image.open(src) as im:
+                  im = im.convert("RGB")
+                  for width in (480, 720):
+                      height = round(im.height * width / im.width)
+                      resized = im.resize((width, height), Image.Resampling.LANCZOS)
+                      out = src.with_name(f"{src.stem}-{width}.webp")
+                      resized.save(out, "WEBP", quality=80, method=6)
+          PY
       - name: Uniforma la versione CSS su tutte le pagine
         run: |
           find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/styles\.css(\?v=[^"]*)?"#href="/styles.css?v=20260926-blog-infographics"#g'
