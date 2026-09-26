@@ -1,4 +1,5 @@
 // MG Webmaster: voce Contatti/Contact nel menu principale
+const isRomanianPage=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
 document.querySelectorAll('.nav-links').forEach(nav=>{
   const isRo=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
   const href=isRo?'/ro/contact/':'/contatti/';
@@ -54,8 +55,8 @@ document.querySelectorAll('[data-native-share]').forEach(button=>button.addEvent
   try{
     if(navigator.share){await navigator.share(data);return}
     await navigator.clipboard.writeText(location.href);
-    if(feedback)feedback.textContent='Link copiato: ora puoi incollarlo nell’app che preferisci.';
-  }catch(error){if(error?.name!=='AbortError'&&feedback)feedback.textContent='Non è stato possibile aprire la condivisione. Copia il link dalla barra del browser.'}
+    if(feedback)feedback.textContent=isRomanianPage?'Link copiat: îl poți lipi în aplicația dorită.':'Link copiato: ora puoi incollarlo nell’app che preferisci.';
+  }catch(error){if(error?.name!=='AbortError'&&feedback)feedback.textContent=isRomanianPage?'Nu s-a putut deschide meniul de distribuire. Copiază linkul din bara de adrese a browserului.':'Non è stato possibile aprire la condivisione. Copia il link dalla barra del browser.'}
 }));
 
 const zoomableImages=[...document.querySelectorAll('main img.infographic')];
@@ -63,14 +64,14 @@ if(zoomableImages.length){
   const lightbox=document.createElement('div');
   lightbox.className='image-lightbox';
   lightbox.hidden=true;
-  lightbox.innerHTML='<button type="button" class="image-lightbox-close" aria-label="Chiudi immagine ingrandita">×</button><img alt="">';
+  lightbox.innerHTML=`<button type="button" class="image-lightbox-close" aria-label="${isRomanianPage?'Închide imaginea mărită':'Chiudi immagine ingrandita'}">×</button><img alt="">`;
   document.body.appendChild(lightbox);
   const enlarged=lightbox.querySelector('img');
   const closeButton=lightbox.querySelector('button');
   let opener=null;
   const close=()=>{lightbox.hidden=true;document.body.classList.remove('lightbox-open');enlarged.removeAttribute('src');opener?.focus()};
   zoomableImages.forEach(img=>{
-    img.classList.add('is-zoomable');img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label',`${img.alt||'Infografica'}: apri a schermo intero`);
+    img.classList.add('is-zoomable');img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label',`${img.alt||(isRomanianPage?'Infografic':'Infografica')}: ${isRomanianPage?'deschide pe tot ecranul':'apri a schermo intero'}`);
     const open=()=>{opener=img;enlarged.src=img.dataset.fullSrc||img.currentSrc||img.src;enlarged.alt=img.alt;lightbox.hidden=false;document.body.classList.add('lightbox-open');closeButton.focus()};
     img.addEventListener('click',open);img.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});
   });
