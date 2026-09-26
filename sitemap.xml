@@ -276,4 +276,16 @@
     <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/blog/seo-local-romania/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/blog/seo-locale-perugia-umbria/"/>
   </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/blog/restyling-sito-web-senza-perdere-posizionamento/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/blog/restyling-sito-web-senza-perdere-posizionamento/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/blog/modernizare-site-fara-pierderea-pozitionarii/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/blog/restyling-sito-web-senza-perdere-posizionamento/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/ro/blog/modernizare-site-fara-pierderea-pozitionarii/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/blog/restyling-sito-web-senza-perdere-posizionamento/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/blog/modernizare-site-fara-pierderea-pozitionarii/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/blog/restyling-sito-web-senza-perdere-posizionamento/"/>
+  </url>
 </urlset>
