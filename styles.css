@@ -41,3 +41,26 @@
   border-color:#075E54 !important;
   box-shadow:0 14px 34px rgba(7,94,84,.36) !important;
 }
+
+
+/* NAV TABLET SAFETY 2026-09-28
+   La voce Template aumenta la larghezza del menu desktop.
+   Su tablet e piccoli laptop passiamo prima al menu compatto per evitare sovrapposizioni. */
+@media (max-width: 1100px){
+  .site-header .menu-button{display:block}
+  .site-header .nav-links{
+    display:none;
+    position:absolute;
+    left:0;
+    right:0;
+    top:78px;
+    background:#fff;
+    padding:22px;
+    flex-direction:column;
+    align-items:flex-start;
+    border-bottom:1px solid var(--line);
+    box-shadow:0 18px 35px rgba(5,42,91,.12);
+  }
+  .site-header .nav-links.open{display:flex}
+  .site-header .nav-links .button{width:100%}
+}
