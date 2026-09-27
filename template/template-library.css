@@ -8,3 +8,13 @@
 .template-detail-hero .template-breadcrumb span[aria-current="page"]{color:#445a6f}
 
 .template-seo-note{margin:-10px 0 24px;color:#52677b;font-size:.82rem;font-weight:750;letter-spacing:.015em}
+
+.template-faq{background:#fff}
+.template-faq .section-intro{max-width:860px}
+.template-faq-list{display:grid;gap:14px;max-width:980px}
+.template-faq-list details{border:1px solid #dce7ef;border-radius:18px;background:#f9fbfd;overflow:hidden;box-shadow:0 8px 24px rgba(5,42,91,.04)}
+.template-faq-list summary{cursor:pointer;list-style:none;padding:20px 24px;font-weight:800;color:#0f172a;position:relative}
+.template-faq-list summary::-webkit-details-marker{display:none}
+.template-faq-list summary:after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:1.35rem;color:#0b78d0}
+.template-faq-list details[open] summary:after{content:"–"}
+.template-faq-list details p{margin:0;padding:0 24px 22px;color:#4f6276;line-height:1.75}
