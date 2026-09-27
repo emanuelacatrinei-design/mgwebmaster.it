@@ -18,3 +18,112 @@
 .template-faq-list summary:after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:1.35rem;color:#0b78d0}
 .template-faq-list details[open] summary:after{content:"–"}
 .template-faq-list details p{margin:0;padding:0 24px 22px;color:#4f6276;line-height:1.75}
+
+
+/* FAQ CARDS PREMIUM 2026-09-28 */
+.template-faq{
+  background:linear-gradient(180deg,#ffffff 0%,#f6faff 100%);
+  border-top:1px solid #e4edf5;
+  border-bottom:1px solid #e4edf5;
+}
+.template-faq .section-intro{
+  max-width:900px;
+  margin-bottom:38px;
+}
+.template-faq-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+  align-items:start;
+  max-width:1120px;
+}
+.faq-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid #d9e5ef;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 12px 30px rgba(5,42,91,.06);
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.faq-card:before{
+  content:"";
+  display:block;
+  height:4px;
+  width:100%;
+  background:linear-gradient(90deg,#11b7f3 0%,#075bd8 100%);
+}
+.faq-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 44px rgba(5,42,91,.11);
+  border-color:#bed8e9;
+}
+.faq-card[open]{
+  border-color:#92cef2;
+  box-shadow:0 22px 48px rgba(5,42,91,.13);
+}
+.faq-card summary{
+  position:relative;
+  cursor:pointer;
+  list-style:none;
+  padding:24px 74px 22px 24px;
+  color:#0f172a;
+  font-size:1.06rem;
+  font-weight:850;
+  line-height:1.45;
+  background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);
+}
+.faq-card summary::-webkit-details-marker{display:none}
+.faq-card summary:after{
+  content:"+";
+  position:absolute;
+  right:20px;
+  top:20px;
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  color:#075bd8;
+  background:#edf7ff;
+  border:1px solid #cce7f8;
+  font-size:1.42rem;
+  font-weight:800;
+  box-shadow:0 5px 12px rgba(7,91,216,.09);
+  transition:transform .2s ease,background .2s ease,color .2s ease;
+}
+.faq-card[open] summary:after{
+  content:"–";
+  color:#fff;
+  background:linear-gradient(135deg,#11b7f3,#075bd8);
+  border-color:transparent;
+  transform:rotate(180deg);
+}
+.faq-card p{
+  margin:0;
+  padding:0 24px 26px;
+  color:#4d6176;
+  font-size:1rem;
+  line-height:1.78;
+}
+@media(max-width:900px){
+  .template-faq-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .template-faq-grid{gap:14px}
+  .faq-card summary{
+    padding:20px 64px 18px 20px;
+    font-size:1rem;
+  }
+  .faq-card summary:after{
+    right:15px;
+    top:16px;
+    width:36px;
+    height:36px;
+    font-size:1.25rem;
+  }
+  .faq-card p{
+    padding:0 20px 22px;
+    font-size:.97rem;
+  }
+}
