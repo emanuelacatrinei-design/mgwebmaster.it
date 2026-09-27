@@ -332,4 +332,69 @@
     <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/blog/cum-sa-apari-in-google-ai-overview/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/blog/come-apparire-su-google-ai-overview/"/>
   </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/torque-garage/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/torque-garage/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/torque-garage/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/vintage-restore-garage/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/vintage-restore-garage/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/vintage-restore-garage/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/edilprime/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/edilprime/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/edilprime/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/studio-aedilis/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/studio-aedilis/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/studio-aedilis/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/aurora-architecture/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/aurora-architecture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/aurora-architecture/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/atelier-legno/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/atelier-legno/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/atelier-legno/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/nexus-advisory/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/nexus-advisory/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/nexus-advisory/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/studio-armonia/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/studio-armonia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/studio-armonia/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/cleanora/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/cleanora/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/cleanora/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/techcare-lab/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/techcare-lab/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/techcare-lab/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/antica-pasticceria-del-corso/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/antica-pasticceria-del-corso/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/antica-pasticceria-del-corso/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/template/queen-moon/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/queen-moon/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/queen-moon/"/>
+  </url>
 </urlset>
