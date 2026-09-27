@@ -127,3 +127,32 @@
     font-size:.97rem;
   }
 }
+
+
+/* WARM CREAM BACKGROUND 2026-09-28 */
+.template-library-page,
+.template-detail-page{
+  background:#fbf8f2;
+}
+.template-catalog,
+.template-faq,
+.template-detail-hero,
+.template-detail-page .section{
+  background-color:#fbf8f2;
+}
+.template-catalog{
+  background:linear-gradient(180deg,#fbf8f2 0%,#f5f1e9 100%);
+}
+.template-faq{
+  background:linear-gradient(180deg,#fbf8f2 0%,#f7f2ea 100%);
+}
+.template-detail-hero{
+  background:linear-gradient(135deg,#f8f1e5 0%,#fbf8f2 48%,#edf7fb 100%);
+}
+.template-card,
+.faq-card,
+.detail-specs,
+.detail-feature-grid article,
+.detail-browser{
+  background:#fffdf9;
+}
