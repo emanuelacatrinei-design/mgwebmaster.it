@@ -1,0 +1,733 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "slug": "torque-garage",
+      "name": "Torque Garage",
+      "source": "Torque-Garage-MG-Webmaster-FINAL(1).zip",
+      "source_sha256": "cfe247ebab555ea893b5eba11fb9dbdde4ecfd5579407446450fe6a412ab9865",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/torque-garage/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/torque-garage/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/torque-garage/demo/site/galleria.html",
+            "label": "Galleria"
+          },
+          {
+            "path": "/template/torque-garage/demo/site/gomme-manutenzione.html",
+            "label": "Gomme"
+          },
+          {
+            "path": "/template/torque-garage/demo/site/officina.html",
+            "label": "Officina"
+          },
+          {
+            "path": "/template/torque-garage/demo/site/servizi.html",
+            "label": "Servizi"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/torque-garage/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/torque-garage/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/torque-garage/demo/site/galerie.html",
+            "label": "Galerie"
+          },
+          {
+            "path": "/ro/template/torque-garage/demo/site/anvelope-intretinere.html",
+            "label": "Anvelope"
+          },
+          {
+            "path": "/ro/template/torque-garage/demo/site/atelier-auto.html",
+            "label": "Atelier auto"
+          },
+          {
+            "path": "/ro/template/torque-garage/demo/site/servicii.html",
+            "label": "Servicii"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "vintage-restore-garage",
+      "name": "Vintage Restore Garage",
+      "source": "Vintage-Restore-Garage-MG-Webmaster(1).zip",
+      "source_sha256": "49f104945d57d3963b02211a815d0c29575f224cdcde03a9bd503326febb5ac9",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/vintage-restore-garage/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/vintage-restore-garage/demo/site/carrozzeria.html",
+            "label": "Carrozzeria"
+          },
+          {
+            "path": "/template/vintage-restore-garage/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/vintage-restore-garage/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/vintage-restore-garage/demo/site/progetti.html",
+            "label": "Progetti"
+          },
+          {
+            "path": "/template/vintage-restore-garage/demo/site/progetto-911.html",
+            "label": "1968 Porsche 911"
+          },
+          {
+            "path": "/template/vintage-restore-garage/demo/site/restauro.html",
+            "label": "Restauro"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/vintage-restore-garage/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/vintage-restore-garage/demo/site/tinichigerie.html",
+            "label": "Tinichigerie"
+          },
+          {
+            "path": "/ro/template/vintage-restore-garage/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/vintage-restore-garage/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/vintage-restore-garage/demo/site/proiecte.html",
+            "label": "Proiecte"
+          },
+          {
+            "path": "/ro/template/vintage-restore-garage/demo/site/proiect-911.html",
+            "label": "1968 Porsche 911"
+          },
+          {
+            "path": "/ro/template/vintage-restore-garage/demo/site/restaurare.html",
+            "label": "Restaurare"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "edilprime",
+      "name": "Edilprime",
+      "source": "EDILPRIME-MG-Webmaster(1).zip",
+      "source_sha256": "b687274988885c112ab6d8409a93010d07138a97c27a57f3c7ec7ef10301f18d",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/edilprime/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/edilprime/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/edilprime/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/edilprime/demo/site/progetti.html",
+            "label": "Progetti"
+          },
+          {
+            "path": "/template/edilprime/demo/site/progetto-villa.html",
+            "label": "Villa moderna sul lago"
+          },
+          {
+            "path": "/template/edilprime/demo/site/servizi.html",
+            "label": "Servizi"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/edilprime/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/edilprime/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/edilprime/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/edilprime/demo/site/proiecte.html",
+            "label": "Proiecte"
+          },
+          {
+            "path": "/ro/template/edilprime/demo/site/proiect-vila.html",
+            "label": "Vilă modernă pe malul lacului"
+          },
+          {
+            "path": "/ro/template/edilprime/demo/site/servicii.html",
+            "label": "Servicii"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "studio-aedilis",
+      "name": "Studio Aedilis",
+      "source": "Template_Studio_Aedilis_MG.zip",
+      "source_sha256": "fecd32efb773afa32cf4f8a23c14ad606cc4329f7e229e5c3862a9914c30b6e8",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/studio-aedilis/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/studio-aedilis/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/studio-aedilis/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/studio-aedilis/demo/site/servizi.html",
+            "label": "Servizi"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/studio-aedilis/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/studio-aedilis/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/studio-aedilis/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/studio-aedilis/demo/site/servicii.html",
+            "label": "Servicii"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "aurora-architecture",
+      "name": "Aurora Architecture",
+      "source": "MG_AURORA_ARCHITECTURE_TEMPLATE_FIXED(1).zip",
+      "source_sha256": "68abe223b3774b9751daa04661bc5212b4223aae85c0748f0dd833378c781f7a",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/aurora-architecture/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/404.html",
+            "label": "Pagina non trovata."
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/studio.html",
+            "label": "LO STUDIO"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/contatti.html",
+            "label": "CONTATTI"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/portfolio.html",
+            "label": "PROGETTI"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/progetto-ponte.html",
+            "label": "Ponte del futuro"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/progetto-corte.html",
+            "label": "Corte circolare"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/progetto-museo.html",
+            "label": "Nuovo museo"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/progetto-corte-rosa.html",
+            "label": "Parete di luce"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/progetto-piazza.html",
+            "label": "Piazza urbana"
+          },
+          {
+            "path": "/template/aurora-architecture/demo/site/progetto-villa.html",
+            "label": "Casa sulla collina"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/404.html",
+            "label": "Pagina nu a fost găsită."
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/despre-noi.html",
+            "label": "DESPRE NOI"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/contact.html",
+            "label": "CONTACT"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/portofoliu.html",
+            "label": "PROIECTE"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/proiect-pod.html",
+            "label": "Podul viitorului"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/proiect-curte.html",
+            "label": "Curte circulară"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/proiect-muzeu.html",
+            "label": "Muzeul nou"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/proiect-curte-roz.html",
+            "label": "Perete de lumină"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/proiect-piata.html",
+            "label": "Piață urbană"
+          },
+          {
+            "path": "/ro/template/aurora-architecture/demo/site/proiect-vila.html",
+            "label": "Casa de pe deal"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "atelier-legno",
+      "name": "Atelier Legno",
+      "source": "Atelier-Legno-MG-Webmaster(1).zip",
+      "source_sha256": "530d42fba95270c1fdd15c6a81a7fc5ba6340f3a36a49b0c86687ed47b6cd4f3",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/atelier-legno/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/atelier-legno/demo/site/atelier.html",
+            "label": "Atelier"
+          },
+          {
+            "path": "/template/atelier-legno/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/atelier-legno/demo/site/lavorazioni.html",
+            "label": "Lavorazioni"
+          },
+          {
+            "path": "/template/atelier-legno/demo/site/materiali.html",
+            "label": "Materiali"
+          },
+          {
+            "path": "/template/atelier-legno/demo/site/progetti.html",
+            "label": "Progetti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/atelier-legno/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/atelier-legno/demo/site/atelier.html",
+            "label": "Atelier"
+          },
+          {
+            "path": "/ro/template/atelier-legno/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/atelier-legno/demo/site/lucrari.html",
+            "label": "Lucrări"
+          },
+          {
+            "path": "/ro/template/atelier-legno/demo/site/materiale.html",
+            "label": "Materiale"
+          },
+          {
+            "path": "/ro/template/atelier-legno/demo/site/proiecte.html",
+            "label": "Proiecte"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "nexus-advisory",
+      "name": "Nexus Advisory",
+      "source": "Nexus-Advisory-MG-Webmaster(1).zip",
+      "source_sha256": "7a2a10785c689f5e9642ed80d95a3cc0cc3a7d5c51b6a155fb21c6fd6da20573",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/nexus-advisory/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/nexus-advisory/demo/site/studio.html",
+            "label": "Lo studio"
+          },
+          {
+            "path": "/template/nexus-advisory/demo/site/caso-studio.html",
+            "label": "Caso studio"
+          },
+          {
+            "path": "/template/nexus-advisory/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/nexus-advisory/demo/site/competenze.html",
+            "label": "Competenze"
+          },
+          {
+            "path": "/template/nexus-advisory/demo/site/approfondimenti.html",
+            "label": "Approfondimenti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/nexus-advisory/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/nexus-advisory/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/nexus-advisory/demo/site/studiu-de-caz.html",
+            "label": "Studiu de caz"
+          },
+          {
+            "path": "/ro/template/nexus-advisory/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/nexus-advisory/demo/site/competente.html",
+            "label": "Competențe"
+          },
+          {
+            "path": "/ro/template/nexus-advisory/demo/site/perspective.html",
+            "label": "Perspective"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "studio-armonia",
+      "name": "Studio Armonia",
+      "source": "Studio-Armonia-MG-Webmaster(1).zip",
+      "source_sha256": "3cc2a30930e240701df9ec9605046017d98ac4951abca44dc36c7bc28f480cf5",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/studio-armonia/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/studio-armonia/demo/site/aree.html",
+            "label": "Aree di intervento"
+          },
+          {
+            "path": "/template/studio-armonia/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/studio-armonia/demo/site/professionista.html",
+            "label": "Il professionista"
+          },
+          {
+            "path": "/template/studio-armonia/demo/site/psicoterapia.html",
+            "label": "Psicoterapia"
+          },
+          {
+            "path": "/template/studio-armonia/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/template/studio-armonia/demo/site/tariffe.html",
+            "label": "Tariffe"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/studio-armonia/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/studio-armonia/demo/site/domenii.html",
+            "label": "Domenii de intervenție"
+          },
+          {
+            "path": "/ro/template/studio-armonia/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/studio-armonia/demo/site/specialist.html",
+            "label": "Specialistul"
+          },
+          {
+            "path": "/ro/template/studio-armonia/demo/site/psihoterapie.html",
+            "label": "Psihoterapie"
+          },
+          {
+            "path": "/ro/template/studio-armonia/demo/site/cabinet.html",
+            "label": "Cabinet"
+          },
+          {
+            "path": "/ro/template/studio-armonia/demo/site/tarife.html",
+            "label": "Tarife"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "cleanora",
+      "name": "Cleanora",
+      "source": "Cleanora-MG-Webmaster(1).zip",
+      "source_sha256": "d52a8d088e3b2fb0121095c3e33d989973a66fe634b781285095172288467e65",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/cleanora/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/cleanora/demo/site/ambienti.html",
+            "label": "Ambienti"
+          },
+          {
+            "path": "/template/cleanora/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/cleanora/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/cleanora/demo/site/prezzi.html",
+            "label": "Prezzi"
+          },
+          {
+            "path": "/template/cleanora/demo/site/servizi.html",
+            "label": "Servizi"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/cleanora/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/cleanora/demo/site/spatii.html",
+            "label": "Spații"
+          },
+          {
+            "path": "/ro/template/cleanora/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/cleanora/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/cleanora/demo/site/preturi.html",
+            "label": "Prețuri"
+          },
+          {
+            "path": "/ro/template/cleanora/demo/site/servicii.html",
+            "label": "Servicii"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "techcare-lab",
+      "name": "TechCare Lab",
+      "source": "TechCare-Lab-MG-Webmaster(1).zip",
+      "source_sha256": "a6264d40c121d8bf90f40667e84a028cffee1fefb72744c82269c6becb2aa47b",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/techcare-lab/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/techcare-lab/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/techcare-lab/demo/site/dispositivi.html",
+            "label": "Dispositivi"
+          },
+          {
+            "path": "/template/techcare-lab/demo/site/domande.html",
+            "label": "FAQ"
+          },
+          {
+            "path": "/template/techcare-lab/demo/site/laboratorio.html",
+            "label": "Laboratorio"
+          },
+          {
+            "path": "/template/techcare-lab/demo/site/servizi.html",
+            "label": "Servizi"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/techcare-lab/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/techcare-lab/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/techcare-lab/demo/site/dispozitive.html",
+            "label": "Dispozitive"
+          },
+          {
+            "path": "/ro/template/techcare-lab/demo/site/intrebari.html",
+            "label": "Întrebări"
+          },
+          {
+            "path": "/ro/template/techcare-lab/demo/site/laborator.html",
+            "label": "Laborator"
+          },
+          {
+            "path": "/ro/template/techcare-lab/demo/site/servicii.html",
+            "label": "Servicii"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "antica-pasticceria-del-corso",
+      "name": "Antica Pasticceria del Corso",
+      "source": "Template_Antica_Pasticceria_del_Corso_MG.zip",
+      "source_sha256": "a31d35382303fe028bd566b4c2ae7d8062d0a0eb59f2b4942a37495d40680539",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/antica-pasticceria-del-corso/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/antica-pasticceria-del-corso/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/antica-pasticceria-del-corso/demo/site/storia.html",
+            "label": "Storia"
+          },
+          {
+            "path": "/template/antica-pasticceria-del-corso/demo/site/pane-e-dolci.html",
+            "label": "Pane e dolci"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/antica-pasticceria-del-corso/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/antica-pasticceria-del-corso/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/antica-pasticceria-del-corso/demo/site/povestea-noastra.html",
+            "label": "Povestea noastră"
+          },
+          {
+            "path": "/ro/template/antica-pasticceria-del-corso/demo/site/paine-si-dulciuri.html",
+            "label": "Pâine și dulciuri"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "queen-moon",
+      "name": "Queen Moon",
+      "source": "Template_Barbershop_Queen_Moon_Latin_MG(1).zip",
+      "source_sha256": "894784a7d231eb38e016579dad3b05732abc6a2b5dcaea34d03707c184524519",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/queen-moon/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/queen-moon/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/queen-moon/demo/site/galleria.html",
+            "label": "Galleria"
+          },
+          {
+            "path": "/template/queen-moon/demo/site/servizi.html",
+            "label": "Servizi"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/queen-moon/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/queen-moon/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/queen-moon/demo/site/galerie.html",
+            "label": "Galerie"
+          },
+          {
+            "path": "/ro/template/queen-moon/demo/site/servicii.html",
+            "label": "Servicii"
+          }
+        ]
+      }
+    }
+  ]
+}
