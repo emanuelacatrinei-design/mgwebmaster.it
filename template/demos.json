@@ -728,6 +728,802 @@
           }
         ]
       }
+    },
+    {
+      "slug": "business-growth-advisor",
+      "name": "Consilium Strategicum",
+      "source": "BUSINESS-GROWTH-ADVISOR.zip",
+      "source_sha256": "12019681bc8394a9bce3f7f4f77aa619a6b2a7fecbeefbbe3e20a23e587638e4",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/business-growth-advisor/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/business-growth-advisor/demo/site/servizi.html",
+            "label": "Servizi"
+          },
+          {
+            "path": "/template/business-growth-advisor/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/business-growth-advisor/demo/site/blog.html",
+            "label": "Blog"
+          },
+          {
+            "path": "/template/business-growth-advisor/demo/site/articolo.html",
+            "label": "Articolo"
+          },
+          {
+            "path": "/template/business-growth-advisor/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/business-growth-advisor/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/business-growth-advisor/demo/site/servicii.html",
+            "label": "Servicii"
+          },
+          {
+            "path": "/ro/template/business-growth-advisor/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/business-growth-advisor/demo/site/blog.html",
+            "label": "Blog"
+          },
+          {
+            "path": "/ro/template/business-growth-advisor/demo/site/articol.html",
+            "label": "Articol"
+          },
+          {
+            "path": "/ro/template/business-growth-advisor/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "aerovis-drone-intelligence",
+      "name": "AEROVIS Drone Intelligence",
+      "source": "Drone tech inteligente.zip",
+      "source_sha256": "e6e53d0ddc23fc885c929ce81c2db3c837b0a20f74a16ee7d69cc4df0c9c8831",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/aerovis-drone-intelligence/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/aerovis-drone-intelligence/demo/site/soluzioni.html",
+            "label": "Soluzioni"
+          },
+          {
+            "path": "/template/aerovis-drone-intelligence/demo/site/tecnologia.html",
+            "label": "Tecnologia"
+          },
+          {
+            "path": "/template/aerovis-drone-intelligence/demo/site/territorio.html",
+            "label": "Territorio"
+          },
+          {
+            "path": "/template/aerovis-drone-intelligence/demo/site/progetti.html",
+            "label": "Progetti"
+          },
+          {
+            "path": "/template/aerovis-drone-intelligence/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/aerovis-drone-intelligence/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/aerovis-drone-intelligence/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/aerovis-drone-intelligence/demo/site/solutii.html",
+            "label": "Soluții"
+          },
+          {
+            "path": "/ro/template/aerovis-drone-intelligence/demo/site/tehnologie.html",
+            "label": "Tehnologie"
+          },
+          {
+            "path": "/ro/template/aerovis-drone-intelligence/demo/site/teritoriu.html",
+            "label": "Teritoriu"
+          },
+          {
+            "path": "/ro/template/aerovis-drone-intelligence/demo/site/proiecte.html",
+            "label": "Proiecte"
+          },
+          {
+            "path": "/ro/template/aerovis-drone-intelligence/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/aerovis-drone-intelligence/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "elan-dance-studio",
+      "name": "ÉLAN Dance Studio",
+      "source": "ELAN-Dance-Studio.zip",
+      "source_sha256": "d901a1c48af1ae205c29f0817c8f1a248885ab67cb95fea9d6ce41b5a8bf0f49",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/elan-dance-studio/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/elan-dance-studio/demo/site/corsi.html",
+            "label": "Corsi"
+          },
+          {
+            "path": "/template/elan-dance-studio/demo/site/orari.html",
+            "label": "Orari"
+          },
+          {
+            "path": "/template/elan-dance-studio/demo/site/tariffe.html",
+            "label": "Tariffe"
+          },
+          {
+            "path": "/template/elan-dance-studio/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/template/elan-dance-studio/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/elan-dance-studio/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/elan-dance-studio/demo/site/cursuri.html",
+            "label": "Cursuri"
+          },
+          {
+            "path": "/ro/template/elan-dance-studio/demo/site/orar.html",
+            "label": "Orar"
+          },
+          {
+            "path": "/ro/template/elan-dance-studio/demo/site/tarife.html",
+            "label": "Tarife"
+          },
+          {
+            "path": "/ro/template/elan-dance-studio/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/ro/template/elan-dance-studio/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "forum-identitatis",
+      "name": "Forum Identitatis",
+      "source": "FORUM-IDENTITATIS-Design-Conference.zip",
+      "source_sha256": "259b29e7336c5554bd3e0cf150fcee98928835e38b95135515b2e7fef78d1650",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/forum-identitatis/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/forum-identitatis/demo/site/convegno.html",
+            "label": "Convegno"
+          },
+          {
+            "path": "/template/forum-identitatis/demo/site/relatori.html",
+            "label": "Relatori"
+          },
+          {
+            "path": "/template/forum-identitatis/demo/site/programma.html",
+            "label": "Programma"
+          },
+          {
+            "path": "/template/forum-identitatis/demo/site/sede.html",
+            "label": "Sede"
+          },
+          {
+            "path": "/template/forum-identitatis/demo/site/iscrizione.html",
+            "label": "Iscrizione"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/forum-identitatis/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/forum-identitatis/demo/site/conferinta.html",
+            "label": "Conferință"
+          },
+          {
+            "path": "/ro/template/forum-identitatis/demo/site/vorbitori.html",
+            "label": "Vorbitori"
+          },
+          {
+            "path": "/ro/template/forum-identitatis/demo/site/program.html",
+            "label": "Program"
+          },
+          {
+            "path": "/ro/template/forum-identitatis/demo/site/locatie.html",
+            "label": "Locație"
+          },
+          {
+            "path": "/ro/template/forum-identitatis/demo/site/inscriere.html",
+            "label": "Înscriere"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "lumiere-photography",
+      "name": "LUMIÈRE Photography",
+      "source": "LUMIERE-Photography-Template.zip",
+      "source_sha256": "167dd3aac1fa82f4032f59d9726d982d056f321d550a2838dfc369ac7d39abe1",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/lumiere-photography/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/lumiere-photography/demo/site/portfolio.html",
+            "label": "Portfolio"
+          },
+          {
+            "path": "/template/lumiere-photography/demo/site/storie.html",
+            "label": "Storie"
+          },
+          {
+            "path": "/template/lumiere-photography/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/lumiere-photography/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/lumiere-photography/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/lumiere-photography/demo/site/portofoliu.html",
+            "label": "Portofoliu"
+          },
+          {
+            "path": "/ro/template/lumiere-photography/demo/site/povesti.html",
+            "label": "Povești"
+          },
+          {
+            "path": "/ro/template/lumiere-photography/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/lumiere-photography/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "atelier-27-digital-school",
+      "name": "Atelier 27 Digital School",
+      "source": "mg_digital_school.zip",
+      "source_sha256": "5546aceba7679acd0bfb43471b9c23b22de810be9fee8073d5ec3320783bb492",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/atelier-27-digital-school/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/atelier-27-digital-school/demo/site/corsi.html",
+            "label": "Corsi"
+          },
+          {
+            "path": "/template/atelier-27-digital-school/demo/site/corso.html",
+            "label": "Corso"
+          },
+          {
+            "path": "/template/atelier-27-digital-school/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/atelier-27-digital-school/demo/site/blog.html",
+            "label": "Blog"
+          },
+          {
+            "path": "/template/atelier-27-digital-school/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/atelier-27-digital-school/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/atelier-27-digital-school/demo/site/cursuri.html",
+            "label": "Cursuri"
+          },
+          {
+            "path": "/ro/template/atelier-27-digital-school/demo/site/curs.html",
+            "label": "Curs"
+          },
+          {
+            "path": "/ro/template/atelier-27-digital-school/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/atelier-27-digital-school/demo/site/blog.html",
+            "label": "Blog"
+          },
+          {
+            "path": "/ro/template/atelier-27-digital-school/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "nova-shift-marketing",
+      "name": "NOVA/SHIFT Marketing",
+      "source": "mg_marketing_agency.zip",
+      "source_sha256": "16c9c343efd13c60a583e7d1b477fdb259648ba32033acd9caedc345b5e116a3",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/nova-shift-marketing/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/nova-shift-marketing/demo/site/servizi.html",
+            "label": "Servizi"
+          },
+          {
+            "path": "/template/nova-shift-marketing/demo/site/progetti.html",
+            "label": "Progetti"
+          },
+          {
+            "path": "/template/nova-shift-marketing/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/template/nova-shift-marketing/demo/site/approfondimenti.html",
+            "label": "Approfondimenti"
+          },
+          {
+            "path": "/template/nova-shift-marketing/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/nova-shift-marketing/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/nova-shift-marketing/demo/site/servicii.html",
+            "label": "Servicii"
+          },
+          {
+            "path": "/ro/template/nova-shift-marketing/demo/site/proiecte.html",
+            "label": "Proiecte"
+          },
+          {
+            "path": "/ro/template/nova-shift-marketing/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/ro/template/nova-shift-marketing/demo/site/perspective.html",
+            "label": "Perspective"
+          },
+          {
+            "path": "/ro/template/nova-shift-marketing/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "nexa-digital-studio",
+      "name": "NEXA Digital Studio",
+      "source": "Nexa_Digital Marketing Studio.zip",
+      "source_sha256": "3ad928bba3fe6f2f7ea899b1844165c11d6dbf57ed1d74e80b8f2d8a309482fa",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/nexa-digital-studio/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/nexa-digital-studio/demo/site/servizi.html",
+            "label": "Servizi"
+          },
+          {
+            "path": "/template/nexa-digital-studio/demo/site/progetti.html",
+            "label": "Progetti"
+          },
+          {
+            "path": "/template/nexa-digital-studio/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/template/nexa-digital-studio/demo/site/approfondimenti.html",
+            "label": "Approfondimenti"
+          },
+          {
+            "path": "/template/nexa-digital-studio/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/nexa-digital-studio/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/nexa-digital-studio/demo/site/servicii.html",
+            "label": "Servicii"
+          },
+          {
+            "path": "/ro/template/nexa-digital-studio/demo/site/proiecte.html",
+            "label": "Proiecte"
+          },
+          {
+            "path": "/ro/template/nexa-digital-studio/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/ro/template/nexa-digital-studio/demo/site/perspective.html",
+            "label": "Perspective"
+          },
+          {
+            "path": "/ro/template/nexa-digital-studio/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "noctis-atelier",
+      "name": "NOCTIS Atelier",
+      "source": "NOCTIS-Atelier-Design-Portfolio-MG-Webmaster(1).zip",
+      "source_sha256": "16516a6b1bc1bc460e48e48b608abc33797e304ed554601a7d5f244a5ce3c89e",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/noctis-atelier/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/noctis-atelier/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/template/noctis-atelier/demo/site/opere.html",
+            "label": "Opere"
+          },
+          {
+            "path": "/template/noctis-atelier/demo/site/progetto.html",
+            "label": "Progetto"
+          },
+          {
+            "path": "/template/noctis-atelier/demo/site/journal.html",
+            "label": "Journal"
+          },
+          {
+            "path": "/template/noctis-atelier/demo/site/articolo.html",
+            "label": "Articolo"
+          },
+          {
+            "path": "/template/noctis-atelier/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/noctis-atelier/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/noctis-atelier/demo/site/studio.html",
+            "label": "Studio"
+          },
+          {
+            "path": "/ro/template/noctis-atelier/demo/site/lucrari.html",
+            "label": "Lucrări"
+          },
+          {
+            "path": "/ro/template/noctis-atelier/demo/site/proiect.html",
+            "label": "Proiect"
+          },
+          {
+            "path": "/ro/template/noctis-atelier/demo/site/jurnal.html",
+            "label": "Jurnal"
+          },
+          {
+            "path": "/ro/template/noctis-atelier/demo/site/articol.html",
+            "label": "Articol"
+          },
+          {
+            "path": "/ro/template/noctis-atelier/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "purewear-cleaner",
+      "name": "PureWear Cleaner",
+      "source": "PureWear Cleaner.zip",
+      "source_sha256": "68c338519e1d7437a51fdc79bbf19f1f5634bbc1345a44be90df56066cd3bcbf",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/purewear-cleaner/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/purewear-cleaner/demo/site/servizi.html",
+            "label": "Servizi"
+          },
+          {
+            "path": "/template/purewear-cleaner/demo/site/prezzi.html",
+            "label": "Prezzi"
+          },
+          {
+            "path": "/template/purewear-cleaner/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/purewear-cleaner/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/purewear-cleaner/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/purewear-cleaner/demo/site/servicii.html",
+            "label": "Servicii"
+          },
+          {
+            "path": "/ro/template/purewear-cleaner/demo/site/preturi.html",
+            "label": "Prețuri"
+          },
+          {
+            "path": "/ro/template/purewear-cleaner/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/purewear-cleaner/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "verdant-eco-shop",
+      "name": "VERDANT Eco Shop",
+      "source": "Verdant Eco Shop.zip",
+      "source_sha256": "402e448aa57e334488cf85b56b2f988c5bc3d090131d599f0ca95606db188f70",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/verdant-eco-shop/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/verdant-eco-shop/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/verdant-eco-shop/demo/site/carrello.html",
+            "label": "Carrello"
+          },
+          {
+            "path": "/template/verdant-eco-shop/demo/site/checkout.html",
+            "label": "Checkout"
+          },
+          {
+            "path": "/template/verdant-eco-shop/demo/site/assistenza.html",
+            "label": "Assistenza"
+          },
+          {
+            "path": "/template/verdant-eco-shop/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/verdant-eco-shop/demo/site/note-legali.html",
+            "label": "Note legali"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/verdant-eco-shop/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/verdant-eco-shop/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/verdant-eco-shop/demo/site/cos.html",
+            "label": "Coș"
+          },
+          {
+            "path": "/ro/template/verdant-eco-shop/demo/site/finalizare.html",
+            "label": "Finalizare"
+          },
+          {
+            "path": "/ro/template/verdant-eco-shop/demo/site/suport.html",
+            "label": "Suport"
+          },
+          {
+            "path": "/ro/template/verdant-eco-shop/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/verdant-eco-shop/demo/site/legal.html",
+            "label": "Legal"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "viridis-dentalis",
+      "name": "Viridis Dentalis",
+      "source": "VIRIDIS-Dental-Clinic.zip",
+      "source_sha256": "f49949ab19f1b49904c94ca08d27ce01dd1679505fcd1624995400ed97c580dd",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/viridis-dentalis/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/viridis-dentalis/demo/site/trattamenti.html",
+            "label": "Trattamenti"
+          },
+          {
+            "path": "/template/viridis-dentalis/demo/site/clinica.html",
+            "label": "Clinica"
+          },
+          {
+            "path": "/template/viridis-dentalis/demo/site/galleria.html",
+            "label": "Galleria"
+          },
+          {
+            "path": "/template/viridis-dentalis/demo/site/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/viridis-dentalis/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/viridis-dentalis/demo/site/tratamente.html",
+            "label": "Tratamente"
+          },
+          {
+            "path": "/ro/template/viridis-dentalis/demo/site/clinica.html",
+            "label": "Clinică"
+          },
+          {
+            "path": "/ro/template/viridis-dentalis/demo/site/galerie.html",
+            "label": "Galerie"
+          },
+          {
+            "path": "/ro/template/viridis-dentalis/demo/site/contact.html",
+            "label": "Contact"
+          }
+        ]
+      }
+    },
+    {
+      "slug": "aurelia-eco-store",
+      "name": "AURELIA Eco Store",
+      "source": "Aurelia Eco Store.zip",
+      "source_sha256": "da49a946ec13cecda02b70bf456d03ab20baee605012b06b3436486cf9f8a3db",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/aurelia-eco-store/demo/site/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/aurelia-eco-store/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/aurelia-eco-store/demo/site/offerte.html",
+            "label": "Offerte"
+          },
+          {
+            "path": "/template/aurelia-eco-store/demo/site/carrello.html",
+            "label": "Carrello"
+          },
+          {
+            "path": "/template/aurelia-eco-store/demo/site/checkout.html",
+            "label": "Checkout"
+          },
+          {
+            "path": "/template/aurelia-eco-store/demo/site/assistenza.html",
+            "label": "Assistenza"
+          },
+          {
+            "path": "/template/aurelia-eco-store/demo/site/contatti.html",
+            "label": "Contatti"
+          },
+          {
+            "path": "/template/aurelia-eco-store/demo/site/privacy.html",
+            "label": "Privacy"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/despre-noi.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/oferte.html",
+            "label": "Oferte"
+          },
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/cos.html",
+            "label": "Coș"
+          },
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/finalizare.html",
+            "label": "Finalizare"
+          },
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/suport.html",
+            "label": "Suport"
+          },
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/contact.html",
+            "label": "Contact"
+          },
+          {
+            "path": "/ro/template/aurelia-eco-store/demo/site/confidentialitate.html",
+            "label": "Confidențialitate"
+          }
+        ]
+      }
     }
   ]
 }
