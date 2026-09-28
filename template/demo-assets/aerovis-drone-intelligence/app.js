@@ -1,0 +1,3 @@
+document.documentElement.classList.add('js');
+const t=document.querySelector('.menu-toggle'),m=document.querySelector('.mobile-nav');if(t&&m){t.addEventListener('click',()=>{const o=m.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false')})}
+const items=document.querySelectorAll('.reveal');if('IntersectionObserver' in window){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}}),{threshold:.08});items.forEach(i=>o.observe(i));setTimeout(()=>items.forEach(i=>i.classList.add('visible')),1600)}else{items.forEach(i=>i.classList.add('visible'))}
