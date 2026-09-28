@@ -159,3 +159,5 @@
 
 /* Real, navigable previews: the photographs in the hero remain unchanged. */
 .detail-demo-frame{display:block;width:100%;height:650px;border:0;background:#fff}.demo-launch{margin-top:12px}.template-actions .demo-launch{margin-top:0}.detail-specs a{color:#075bd8;text-decoration:underline;text-underline-offset:3px}.detail-specs a:hover{color:#032c64}@media(max-width:640px){.detail-demo-frame{height:590px}.detail-preview-layout{gap:20px}}
+
+/* preview cache refresh 2026-09-29 clear hero previews */
