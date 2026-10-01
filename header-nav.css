@@ -1,0 +1,61 @@
+/* Shared Italian / Romanian navigation: two centered link rows, actions on the right. */
+.site-header.menu-header .nav {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  min-height: 86px;
+  padding-block: 8px;
+}
+.site-header.menu-header .brand { gap: 11px; min-width: 0; justify-self: start; }
+.site-header.menu-header .brand-mark { width: 52px; height: 52px; flex: 0 0 52px; border-radius: 16px; }
+.site-header.menu-header .brand-mark img { width: 52px; height: 52px; object-fit: cover; }
+.site-header.menu-header .brand strong { font-size: 1.18rem; line-height: 1.65; white-space: nowrap; }
+.site-header.menu-header .brand small { font-size: .69rem; line-height: 1.65; letter-spacing: .18em; white-space: nowrap; }
+.site-header.menu-header .nav-links {
+  display: flex;
+  position: static;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  max-height: none;
+  overflow: visible;
+}
+.site-header.menu-header .nav-row { display: flex; justify-content: center; align-items: center; gap: 20px; }
+.site-header.menu-header .nav-row a { padding: 4px 0; white-space: nowrap; font-size: .92rem; line-height: 1.65; text-decoration: none; font-weight: 700; }
+.site-header.menu-header .menu-button { display: none; }
+.site-header.menu-header .nav-actions { display: flex; justify-content: flex-end; align-items: center; gap: 24px; }
+.site-header.menu-header .language-menu { position: relative; width: auto; flex: 0 0 auto; }
+.site-header.menu-header .language-menu summary { display: block; width: auto; min-height: 0; list-style: none; cursor: pointer; border: 1px solid rgba(23,49,79,.24); border-radius: 999px; padding: .5rem .75rem; line-height: 1; white-space: nowrap; font-weight: 800; color: #17314f; }
+.site-header.menu-header .language-menu summary::-webkit-details-marker { display: none; }
+.site-header.menu-header .language-menu > div { position: absolute; right: 0; top: calc(100% + .55rem); width: 145px; min-width: 145px; margin: 0; padding: .45rem; background: #fff; border: 1px solid #dce9f5; border-radius: 14px; box-shadow: 0 14px 35px rgba(5,42,91,.16); z-index: 80; }
+.site-header.menu-header .language-menu > div a, .site-header.menu-header .language-menu > div span { display: block; padding: .55rem .65rem; border-radius: 9px; text-decoration: none; font-weight: 700; }
+.site-header.menu-header .language-menu > div a:hover { background: #eef8ff; color: #075bd8; }
+.site-header.menu-header .language-menu > div span { background: #f5f8fb; color: #56657a; }
+.site-header.menu-header .nav-actions > .button { width: auto; flex: 0 0 auto; background: #075E54; color: #fff; font-size: .92rem; font-weight: 700; white-space: nowrap; box-shadow: 0 10px 26px rgba(7,94,84,.22); }
+.site-header.menu-header .nav-actions > .button:hover { background: #064c44; color: #fff; }
+.site-header.menu-header a:focus-visible, .site-header.menu-header summary:focus-visible, .site-header.menu-header button:focus-visible { outline: 3px solid #075bd8; outline-offset: 4px; }
+@media (max-width: 1000px) {
+  .site-header.menu-header .nav { grid-template-columns: minmax(0, 1fr) auto 44px; gap: 16px; min-height: 78px; }
+  .site-header.menu-header .menu-button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; cursor: pointer; }
+  .site-header.menu-header .nav-actions { grid-column: 2; grid-row: 1; gap: 14px; }
+  .site-header.menu-header .nav-links { display: none; position: absolute; inset: 100% 0 auto; padding: 16px 20px; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 12px 24px rgba(5,42,91,.1); max-height: calc(100dvh - 150px); overflow-y: auto; gap: 8px; }
+  .site-header.menu-header .nav-links.open { display: flex; }
+  .site-header.menu-header .nav-row { flex-wrap: wrap; gap: 8px 20px; }
+  .site-header.menu-header .nav-row a { min-height: 44px; display: inline-flex; align-items: center; }
+}
+@media (max-width: 620px) {
+  .site-header.menu-header .nav { grid-template-columns: minmax(0, 1fr) 44px; gap: 8px 12px; padding-block: 10px; }
+  .site-header.menu-header .menu-button { grid-column: 2; grid-row: 1; }
+  .site-header.menu-header .nav-actions { grid-column: 1 / -1; grid-row: 2; justify-self: end; }
+  .site-header.menu-header .brand strong { font-size: 1.05rem; line-height: 1.3; }
+  .site-header.menu-header .brand small { font-size: .62rem; letter-spacing: .1em; line-height: 1.4; }
+  .site-header.menu-header .nav-actions > .button { padding: 10px 18px; }
+  .site-header.menu-header .nav-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; }
+  .site-header.menu-header .nav-row a { justify-content: center; }
+}

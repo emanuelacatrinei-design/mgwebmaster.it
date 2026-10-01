@@ -31,7 +31,9 @@
 <script defer src="/cookie-consent.js">
 </script>
 <link rel="stylesheet" href="/cmp.css">
-<link rel="stylesheet" href="/site-design.css"></head>
+<link rel="stylesheet" href="/site-design.css"><link rel="stylesheet" href="/header-nav.css?v=20261002-menu-2rows">
+<script defer src="/header-nav.js?v=20261002-menu-2rows"></script>
+</head>
 <body class="site-unified">
 <a class="skip" href="#contenuto">Vai al contenuto</a>
 <div class="topbar">
@@ -40,34 +42,15 @@
 <span>Consulenza iniziale senza impegno</span>
 </div>
 </div>
-<header class="site-header">
+<header class="site-header menu-header">
 <div class="container nav">
-<a class="brand" href="/" aria-label="MG Webmaster Home">
-<span class="brand-mark">
-<img src="/assets/globo-mg.png" width="52" height="52" alt="">
-</span>
-<span>
-<strong>MG WEBMASTER</strong>
-<small>SITI WEB PERUGIA</small>
-</span>
-</a>
-<button class="menu-button" aria-label="Apri menu" aria-expanded="false">☰</button>
-<nav class="nav-links" aria-label="Menu principale">
-<a href="/">Home</a>
-<a href="/servizi/">Servizi</a>
-<a href="/prezzi/">Prezzi</a>
-<a href="/progetti/">Progetti</a>
-<a href="/blog/">Blog</a>
-<a href="/chi-sono/">Chi sono</a>
-<details class="language-menu">
-<summary>🌐 Lingua</summary>
-<div>
-<span aria-current="page">Italiano</span>
-<a href="/ro/servicii/mentenanta-site-web/" lang="ro">Română</a>
-</div>
-</details>
-<a class="button" href="https://wa.me/393453223023?text=Buongiorno%20Emanuel%2C%20vorrei%20informazioni%20sui%20servizi%20MG%20Webmaster.">WhatsApp</a>
+<a class="brand" href="/" aria-label="MG Webmaster Home"><span class="brand-mark"><img src="/assets/globo-mg.png" width="52" height="52" alt=""></span><span><strong>MG WEBMASTER</strong><small>SITI WEB PERUGIA</small></span></a>
+<button class="menu-button" type="button" aria-label="Apri menu" aria-expanded="false" aria-controls="site-page-menu">☰</button>
+<nav class="nav-links" id="site-page-menu" aria-label="Menu principale">
+<div class="nav-row"><a href="/">Home</a><a href="/servizi/" aria-current="page">Servizi</a><a href="/prezzi/">Prezzi</a><a href="/progetti/">Progetti</a><a href="/template/">Template</a></div>
+<div class="nav-row"><a href="/blog/">Blog</a><a href="/chi-sono/">Chi sono</a><a href="/strumenti/analisi-sito/">Analisi</a><a href="/contatti/">Contatti</a></div>
 </nav>
+<div class="nav-actions"><details class="language-menu"><summary>🌐 Lingua</summary><div><span aria-current="page">Italiano</span><a href="/ro/servicii/mentenanta-site-web/" lang="ro">Română</a></div></details><a class="button" href="https://wa.me/393453223023?text=Buongiorno%20Emanuel%2C%20vorrei%20informazioni%20sui%20servizi%20MG%20Webmaster.">WhatsApp</a></div>
 </div>
 </header>
 <main id="contenuto"><section class="page-hero">
