@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import hashlib
 import ipaddress
 import json
 import os
 import re
 import socket
+import threading
 import time
 from urllib.parse import urljoin, urlparse, urlunparse
 
@@ -15,12 +17,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Literal
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 MAX_PAGES = 5
 MAX_REDIRECTS = 5
 MAX_HTML_BYTES = 2_000_000
 TIMEOUT = (5, 12)
 UA = "MGWebmaster-SiteCheck/0.1 (+https://www.mgwebmaster.it/)"
+RATE_LIMIT = 5
+RATE_WINDOW_SECONDS = 600
+_RATE_LOCK = threading.Lock()
+_RATE_BUCKETS = {}
+_RATE_SALT = os.urandom(16)
 
 SECURITY_HEADERS = {
     "strict-transport-security": ("HSTS", "high"),
@@ -107,7 +114,7 @@ def schema_types(soup: BeautifulSoup) -> list[str]:
         elif isinstance(x, list):
             for v in x:
                 walk(v)
-    for node in soup.find_all("script", attrs={"type": re.compile("ld\+json", re.I)}):
+    for node in soup.find_all("script", attrs={"type": re.compile(r"ld\+json", re.I)}):
         raw = node.string or node.get_text("", strip=True)
         if not raw:
             continue
@@ -235,10 +242,13 @@ class Engine:
         if styles > 10:
             add("styles","Prestazioni","low","Molti fogli di stile","La pagina usa numerosi fogli di stile.")
 
+        csp_value = (r.headers.get("content-security-policy") or "").lower()
         for header, (label, sev) in SECURITY_HEADERS.items():
             present = bool((r.headers.get(header) or "").strip())
             if header == "strict-transport-security" and urlparse(final).scheme != "https":
                 present = False
+            if header == "x-frame-options" and "frame-ancestors" in csp_value:
+                present = True
             if not present:
                 add("sec_"+header,"Sicurezza",sev,f"{label} non rilevato","Manca una protezione HTTP consigliata; serve una verifica della configurazione.")
 
@@ -324,16 +334,21 @@ class Engine:
         active=[(scores[k],w) for k,w in weights.items() if scores[k] is not None]
         overall=round(sum(v*w for v,w in active)/sum(w for _,w in active)) if active else 0
 
-        unique=[]
-        seen_issue=set()
+        grouped={}
         for i in issues:
-            key=(i["code"],i["page"])
-            if key not in seen_issue:
-                seen_issue.add(key); unique.append(i)
+            key=i["code"]
+            if key not in grouped:
+                grouped[key]={**i,"occurrences":1}
+            else:
+                grouped[key]["occurrences"]+=1
+        unique=list(grouped.values())
+        for i in unique:
+            if i["occurrences"]>1:
+                i["message"] += f" Rilevato in {i['occurrences']} pagine controllate."
         order={"high":0,"medium":1,"low":2}
         unique.sort(key=lambda i:order.get(i["severity"],3))
-        counts={s:sum(i["severity"]==s for i in issues) for s in ("high","medium","low")}
-        counts["total"]=len(issues)
+        counts={s:sum(i["severity"]==s for i in unique) for s in ("high","medium","low")}
+        counts["total"]=len(unique)
         return {
             "requested_url":requested,"final_url":first["url"],"scanned_at_epoch":int(time.time()),
             "duration_ms":int((time.perf_counter()-started)*1000),"pages_checked":len(pages),
@@ -365,6 +380,31 @@ app.add_middleware(
 engine=Engine()
 
 
+def _client_key(request: Request) -> str:
+    raw = (
+        request.headers.get("cf-connecting-ip")
+        or (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
+        or (request.client.host if request.client else "unknown")
+    )
+    return hashlib.sha256(_RATE_SALT + raw.encode("utf-8", errors="ignore")).hexdigest()
+
+
+def _rate_limit(request: Request):
+    now = time.time()
+    key = _client_key(request)
+    with _RATE_LOCK:
+        hits = [t for t in _RATE_BUCKETS.get(key, []) if now - t < RATE_WINDOW_SECONDS]
+        if len(hits) >= RATE_LIMIT:
+            _RATE_BUCKETS[key] = hits
+            raise HTTPException(status_code=429, detail="Limite temporaneo raggiunto. Riprova tra qualche minuto.")
+        hits.append(now)
+        _RATE_BUCKETS[key] = hits
+        if len(_RATE_BUCKETS) > 5000:
+            stale = [k for k,v in _RATE_BUCKETS.items() if not v or now - v[-1] >= RATE_WINDOW_SECONDS]
+            for k in stale[:1000]:
+                _RATE_BUCKETS.pop(k, None)
+
+
 @app.get("/health")
 def health():
     return {"ok":True,"service":"mg-site-check","version":VERSION}
@@ -373,6 +413,7 @@ def health():
 @app.post("/v1/scan")
 async def scan(request: Request):
     try:
+        _rate_limit(request)
         raw = await request.body()
         try:
             data = json.loads(raw.decode("utf-8"))
