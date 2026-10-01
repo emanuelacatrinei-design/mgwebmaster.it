@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Literal
 
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 MAX_PAGES = 5
 MAX_REDIRECTS = 5
 MAX_HTML_BYTES = 2_000_000
@@ -359,17 +359,22 @@ class Engine:
         counts={s:sum(i["severity"]==s for i in unique) for s in ("high","medium","low")}
         counts["total"]=len(unique)
 
-        # Il riepilogo pubblico non deve mascherare criticità importanti con una media alta.
+        # Le aree critiche limitano il riepilogo generale.
         if sec is not None and sec < 50:
-            overall=min(overall,72)
-        if counts["high"] >= 3:
-            overall=min(overall,75)
-        elif counts["high"] >= 1:
-            overall=min(overall,85)
+            overall=min(overall,60)
+        elif sec is not None and sec < 65:
+            overall=min(overall,70)
 
-        if (sec is not None and sec < 50) or counts["high"] >= 2:
+        if counts["high"] >= 4:
+            overall=min(overall,55)
+        elif counts["high"] >= 2:
+            overall=min(overall,65)
+        elif counts["high"] == 1:
+            overall=min(overall,75)
+
+        if (sec is not None and sec < 50) or counts["high"] >= 3:
             criticality="high"
-        elif counts["high"] == 1 or counts["medium"] >= 3:
+        elif (sec is not None and sec < 70) or counts["high"] >= 1 or counts["medium"] >= 3:
             criticality="medium"
         else:
             criticality="low"
