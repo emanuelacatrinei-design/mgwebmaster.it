@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: mg-site-check
+    runtime: python
+    plan: free
+    region: frankfurt
+    rootDir: site-check-api
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT --no-access-log
+    healthCheckPath: /health
+    envVars:
+      - key: MG_SITE_ORIGIN
+        value: https://www.mgwebmaster.it
