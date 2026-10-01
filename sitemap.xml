@@ -789,15 +789,15 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/via-alta-trekking/"/>
   </url>
   <url>
-    <loc>https://www.mgwebmaster.it/strumenti/analisi-sito/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/strumenti/analisi-sito/"/>
-    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/instrumente/analiza-site/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/strumenti/analisi-sito/"/>
+    <loc>https://www.mgwebmaster.it/analisi-sito/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/analisi-sito/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/analiza-site/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/analisi-sito/"/>
   </url>
   <url>
-    <loc>https://www.mgwebmaster.it/ro/instrumente/analiza-site/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/strumenti/analisi-sito/"/>
-    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/instrumente/analiza-site/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/strumenti/analisi-sito/"/>
+    <loc>https://www.mgwebmaster.it/ro/analiza-site/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/analisi-sito/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/analiza-site/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/analisi-sito/"/>
   </url>
 </urlset>

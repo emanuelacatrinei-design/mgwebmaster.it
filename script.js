@@ -90,7 +90,7 @@ if(zoomableImages.length){
 (function(){
   function addSiteCheckLinks(){
     var ro=document.documentElement.lang&&document.documentElement.lang.toLowerCase().startsWith("ro");
-    var href=ro?"/ro/instrumente/analiza-site/":"/strumenti/analisi-sito/";
+    var href=ro?"/ro/analiza-site/":"/analisi-sito/";
     var label=ro?"Analizează site-ul":"Analizza sito";
     document.querySelectorAll(".nav-links").forEach(function(nav){
       if(nav.querySelector('a[href="'+href+'"]')) return;
