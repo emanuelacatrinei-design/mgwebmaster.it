@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Literal
 
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 MAX_PAGES = 5
 MAX_REDIRECTS = 5
 MAX_HTML_BYTES = 2_000_000
@@ -279,12 +279,19 @@ class Engine:
     @staticmethod
     def score(area, pages):
         penalties={"high":14,"medium":7,"low":3}
+        code_penalties={
+            "http_error":22,
+            "noindex":22,
+            "https":20,
+            "sec_strict-transport-security":16,
+            "sec_content-security-policy":16,
+        }
         vals=[]
         for p in pages:
             value=100
             for i in p["issues"]:
                 if i["area"]==area:
-                    value-=penalties.get(i["severity"],0)
+                    value-=code_penalties.get(i["code"],penalties.get(i["severity"],0))
             vals.append(max(0,min(100,value)))
         return round(sum(vals)/len(vals)) if vals else None
 
@@ -330,7 +337,7 @@ class Engine:
             "address":any(p["address"] for p in localdata),
             "maps":any(p["maps"] for p in localdata),
         }
-        local=None if not any(signals.values()) else min(100,35+(20 if signals["schema"] else 0)+(20 if signals["phone"] else 0)+(15 if signals["address"] else 0)+(10 if signals["maps"] else 0))
+        local=None if not any(signals.values()) else min(90,30+(20 if signals["schema"] else 0)+(20 if signals["phone"] else 0)+(10 if signals["address"] else 0)+(10 if signals["maps"] else 0))
         scores={"seo":seo,"performance":perf,"security":sec,"content":content,"local":local}
         weights={"seo":.30,"performance":.20,"security":.20,"content":.20,"local":.10}
         active=[(scores[k],w) for k,w in weights.items() if scores[k] is not None]
@@ -351,12 +358,28 @@ class Engine:
         unique.sort(key=lambda i:order.get(i["severity"],3))
         counts={s:sum(i["severity"]==s for i in unique) for s in ("high","medium","low")}
         counts["total"]=len(unique)
+
+        # Il riepilogo pubblico non deve mascherare criticità importanti con una media alta.
+        if sec is not None and sec < 50:
+            overall=min(overall,72)
+        if counts["high"] >= 3:
+            overall=min(overall,75)
+        elif counts["high"] >= 1:
+            overall=min(overall,85)
+
+        if (sec is not None and sec < 50) or counts["high"] >= 2:
+            criticality="high"
+        elif counts["high"] == 1 or counts["medium"] >= 3:
+            criticality="medium"
+        else:
+            criticality="low"
+
         return {
             "requested_url":requested,"final_url":first["url"],"scanned_at_epoch":int(time.time()),
             "duration_ms":int((time.perf_counter()-started)*1000),"pages_checked":len(pages),
-            "overall_score":overall,"scores":scores,"counts":counts,
+            "overall_score":overall,"scores":scores,"counts":counts,"criticality":criticality,
             "issues":[{"area":i["area"],"severity":i["severity"],"title":i["title"],"message":i["message"],"page":i["page"]} for i in unique[:8]],
-            "disclaimer":"Scansione automatica sintetica. Non sostituisce un audit tecnico professionale e non dimostra, da sola, la presenza di malware o intrusioni."
+            "disclaimer":"Scansione automatica sintetica. Il punteggio Prestazioni è un controllo tecnico leggero e non equivale a Lighthouse/Core Web Vitals. Il punteggio SEO locale usa segnali di base e non sostituisce un audit Local SEO. La scansione non dimostra, da sola, la presenza o l'assenza di malware o intrusioni."
         }
 
 

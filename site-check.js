@@ -12,24 +12,24 @@ run:"Analiza este în curs. Nu închide pagina.",
 err:"Analiza nu a putut fi finalizată.",
 offline:"Motorul de analiză nu este încă disponibil. Pagina este pregătită, dar API-ul trebuie publicat.",
 na:"N/A",
-labels:{seo:"SEO tehnic",performance:"Performanță",security:"Securitate",content:"Conținut",local:"SEO local"},
+labels:{seo:"SEO tehnic",performance:"Performanță tehnică",security:"Securitate",content:"Conținut",local:"SEO local"},
 sev:{high:"ridicată",medium:"medie",low:"redusă"},
 issues:"Probleme principale detectate",
 pages:"pagini verificate",
 seconds:"secunde",
-download:"Raport MG Webmaster"
+download:"Raport MG Webmaster",critical:"Criticitate"
 }:{
 steps:["Connessione","Pagine","SEO","Sicurezza","Report"],
 run:"Analisi in corso. Non chiudere la pagina.",
 err:"Non è stato possibile completare l’analisi.",
 offline:"Il motore di analisi non è ancora raggiungibile. La pagina è pronta, ma l’API deve essere pubblicata.",
 na:"N/D",
-labels:{seo:"SEO tecnica",performance:"Prestazioni",security:"Sicurezza",content:"Contenuti",local:"SEO locale"},
+labels:{seo:"SEO tecnica",performance:"Prestazioni tecniche",security:"Sicurezza",content:"Contenuti",local:"SEO locale"},
 sev:{high:"alta",medium:"media",low:"bassa"},
 issues:"Problemi principali rilevati",
 pages:"pagine controllate",
 seconds:"secondi",
-download:"Report MG Webmaster"
+download:"Report MG Webmaster",critical:"Criticità"
 };
 const input=form.querySelector("input[name=url]");
 const auth=form.querySelector("input[name=authorized]");
@@ -52,7 +52,7 @@ results.querySelector("[data-url]").textContent=data.final_url||data.requested_u
 results.querySelector("[data-meta]").textContent=`${data.pages_checked||0} ${t.pages} · ${((data.duration_ms||0)/1000).toFixed(1)} ${t.seconds}`;
 const grid=results.querySelector("[data-score-grid]");grid.innerHTML="";
 ["seo","performance","security","content","local"].forEach(k=>{const v=data.scores?.[k];const el=document.createElement("div");el.className="site-check-score-card";el.innerHTML=`<strong class="${v==null?"site-check-na":""}">${escapeHtml(scoreValue(v))}</strong><span>${escapeHtml(t.labels[k])}</span>`;grid.appendChild(el)});
-const c=data.counts||{};results.querySelector("[data-counts]").innerHTML=`<span class="site-check-chip high">${c.high||0} ${t.sev.high}</span><span class="site-check-chip medium">${c.medium||0} ${t.sev.medium}</span><span class="site-check-chip low">${c.low||0} ${t.sev.low}</span><span class="site-check-chip">${c.total||0} totali</span>`;
+const c=data.counts||{};const crit=data.criticality||"low";results.querySelector("[data-counts]").innerHTML=`<span class="site-check-chip high">${c.high||0} ${t.sev.high}</span><span class="site-check-chip medium">${c.medium||0} ${t.sev.medium}</span><span class="site-check-chip low">${c.low||0} ${t.sev.low}</span><span class="site-check-chip">${c.total||0} totali</span><span class="site-check-chip ${crit==="high"?"high":crit==="medium"?"medium":"low"}">${t.critical}: ${t.sev[crit]||crit}</span>`;
 const list=results.querySelector("[data-issues]");list.innerHTML="";
 (data.issues||[]).forEach(issue=>{const el=document.createElement("article");el.className="site-check-issue "+(issue.severity||"low");el.innerHTML=`<div class="site-check-issue-head"><div><h3>${escapeHtml(issue.title)}</h3><p>${escapeHtml(issue.message)}</p></div><span class="site-check-badge">${escapeHtml(t.sev[issue.severity]||issue.severity)}</span></div>${issue.page?`<small>${escapeHtml(issue.page)}</small>`:""}`;list.appendChild(el)});
 results.scrollIntoView({behavior:"smooth",block:"start"});
