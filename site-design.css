@@ -680,13 +680,3 @@
     padding: 22px 20px;
   }
 }
-
-/* MG Site Check: richiamo in Home e voce menu */
-.site-check-home-promo{position:relative;padding:clamp(24px,4vw,42px) 0;background:linear-gradient(120deg,#061f4b,#075bd8 68%,#05bfee);color:#fff}
-.site-check-home-promo-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,4vw,56px);align-items:center}
-.site-check-home-promo .eyebrow,.site-check-home-promo h2,.site-check-home-promo p{color:#fff}
-.site-check-home-promo h2{margin:.35rem 0 .55rem;font-size:clamp(1.65rem,3vw,2.45rem)}
-.site-check-home-promo p{max-width:780px;margin:0;line-height:1.65}
-.site-check-home-button{white-space:nowrap;background:#fff!important;color:#073763!important;box-shadow:0 16px 38px rgba(0,0,0,.2)!important}
-.nav-links .mg-site-check-global-link{font-weight:850;color:#075bd8}
-@media(max-width:760px){.site-check-home-promo-inner{grid-template-columns:1fr}.site-check-home-button{width:100%;text-align:center;white-space:normal}}

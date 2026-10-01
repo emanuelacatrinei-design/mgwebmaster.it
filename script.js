@@ -1,34 +1,16 @@
-// MG Webmaster: menu principale uniforme su tutte le pagine
+// MG Webmaster: voce Contatti/Contact nel menu principale
 const isRomanianPage=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
 document.querySelectorAll('.nav-links').forEach(nav=>{
-  const ro=isRomanianPage;
-  const items=ro?[
-    ['/ro/','Acasă'],['/ro/servicii/','Servicii'],['/ro/preturi/','Prețuri'],
-    ['/ro/proiecte/','Proiecte'],['/ro/template/','Template'],['/ro/blog/','Blog'],
-    ['/ro/despre-mine/','Despre mine'],['/ro/analiza-site/','Analizează site-ul'],['/ro/contact/','Contact']
-  ]:[
-    ['/','Home'],['/servizi/','Servizi'],['/prezzi/','Prezzi'],
-    ['/progetti/','Progetti'],['/template/','Template'],['/blog/','Blog'],
-    ['/chi-sono/','Chi sono'],['/analisi-sito/','Analizza sito'],['/contatti/','Contatti']
-  ];
-  const oldLang=nav.querySelector('.language-menu')?.cloneNode(true);
-  const oldWa=nav.querySelector('a.button[href*="wa.me"]')?.cloneNode(true);
-  const current=(location.pathname.replace(/\/+$/,'')||'/');
-  nav.innerHTML='';
-  const row1=document.createElement('div'); row1.className='nav-row nav-row-primary';
-  const row2=document.createElement('div'); row2.className='nav-row nav-row-secondary';
-  const secondLinks=document.createElement('div'); secondLinks.className='nav-secondary-links';
-  const actions=document.createElement('div'); actions.className='nav-actions';
-  items.forEach(([href,label],index)=>{
-    const a=document.createElement('a'); a.href=href; a.textContent=label;
-    const normalized=(href.replace(/\/+$/,'')||'/');
-    if(current===normalized || (normalized!=='/' && current.startsWith(normalized))) a.setAttribute('aria-current','page');
-    if(index<6) row1.appendChild(a); else secondLinks.appendChild(a);
-  });
-  if(oldLang) actions.appendChild(oldLang);
-  if(oldWa) actions.appendChild(oldWa);
-  row2.append(secondLinks,actions);
-  nav.append(row1,row2);
+  const isRo=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
+  const href=isRo?'/ro/contact/':'/contatti/';
+  if(nav.querySelector(`a[href="${href}"]`))return;
+  const link=document.createElement('a');
+  link.href=href;
+  link.textContent=isRo?'Contact':'Contatti';
+  const current=location.pathname.replace(/\/+$/,'/')===href;
+  if(current)link.setAttribute('aria-current','page');
+  const before=nav.querySelector('.language-switcher, .language-menu, a.button[href^="https://wa.me/"]');
+  nav.insertBefore(link,before||null);
 });
 
 const button=document.querySelector('.menu-button');const menu=document.querySelector('.nav-links');if(button&&menu){button.addEventListener('click',()=>{const open=menu.classList.toggle('open');button.setAttribute('aria-expanded',String(open))})}
@@ -103,21 +85,3 @@ if(zoomableImages.length){
     if(event.key==='Tab'){event.preventDefault();closeButton.focus()}
   });
 }
-
-/* MG Site Check: collegamento anche nel footer */
-(function(){
-  function addSiteCheckFooterLink(){
-    var ro=document.documentElement.lang&&document.documentElement.lang.toLowerCase().startsWith("ro");
-    var href=ro?"/ro/analiza-site/":"/analisi-sito/";
-    document.querySelectorAll(".footer-grid").forEach(function(grid){
-      if(grid.querySelector('a[href="'+href+'"]')) return;
-      var col=grid.querySelector("div");
-      if(!col) return;
-      var a=document.createElement("a");
-      a.href=href;a.textContent=ro?"Analiză gratuită site":"Analisi gratuita sito";
-      col.appendChild(a);
-    });
-  }
-  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",addSiteCheckFooterLink);
-  else addSiteCheckFooterLink();
-})();
