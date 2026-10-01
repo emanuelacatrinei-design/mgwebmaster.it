@@ -64,3 +64,44 @@
   .site-header .nav-links.open{display:flex}
   .site-header .nav-links .button{width:100%}
 }
+
+/* Menu principale uniforme a due righe */
+@media (min-width:901px){
+  .site-header .nav{
+    min-height:96px;
+    align-items:center;
+    gap:18px;
+  }
+  .site-header .brand{
+    flex:0 0 auto;
+  }
+  .site-header .nav-links{
+    flex:1 1 auto;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+    column-gap:18px;
+    row-gap:8px;
+    line-height:1.15;
+    padding:9px 0;
+  }
+  .site-header .nav-links>a:not(.button),
+  .site-header .language-menu{
+    white-space:nowrap;
+  }
+  .site-header .nav-links a{
+    font-size:.88rem;
+  }
+  .site-header .nav-links .button{
+    padding:10px 15px;
+    white-space:nowrap;
+  }
+}
+@media (min-width:901px) and (max-width:1180px){
+  .site-header .nav-links{
+    column-gap:14px;
+    row-gap:7px;
+  }
+  .site-header .nav-links a{
+    font-size:.84rem;
+  }
+}

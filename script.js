@@ -1,16 +1,50 @@
-// MG Webmaster: voce Contatti/Contact nel menu principale
+// MG Webmaster: menu principale uniforme su tutte le pagine
 const isRomanianPage=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
 document.querySelectorAll('.nav-links').forEach(nav=>{
-  const isRo=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
-  const href=isRo?'/ro/contact/':'/contatti/';
-  if(nav.querySelector(`a[href="${href}"]`))return;
-  const link=document.createElement('a');
-  link.href=href;
-  link.textContent=isRo?'Contact':'Contatti';
-  const current=location.pathname.replace(/\/+$/,'/')===href;
-  if(current)link.setAttribute('aria-current','page');
-  const before=nav.querySelector('.language-switcher, .language-menu, a.button[href^="https://wa.me/"]');
-  nav.insertBefore(link,before||null);
+  const ro=isRomanianPage;
+  const items=ro?[
+    ['/ro/','Acasă'],
+    ['/ro/servicii/','Servicii'],
+    ['/ro/preturi/','Prețuri'],
+    ['/ro/proiecte/','Proiecte'],
+    ['/ro/template/','Template'],
+    ['/ro/blog/','Blog'],
+    ['/ro/despre-mine/','Despre mine'],
+    ['/ro/analiza-site/','Analizează site-ul'],
+    ['/ro/contact/','Contact']
+  ]:[
+    ['/','Home'],
+    ['/servizi/','Servizi'],
+    ['/prezzi/','Prezzi'],
+    ['/progetti/','Progetti'],
+    ['/template/','Template'],
+    ['/blog/','Blog'],
+    ['/chi-sono/','Chi sono'],
+    ['/analisi-sito/','Analizza sito'],
+    ['/contatti/','Contatti']
+  ];
+  const current=(location.pathname.replace(/\/+$/,'')||'/');
+  nav.innerHTML='';
+  items.forEach(([href,label])=>{
+    const a=document.createElement('a');
+    a.href=href;a.textContent=label;
+    const normalized=(href.replace(/\/+$/,'')||'/');
+    if(current===normalized)a.setAttribute('aria-current','page');
+    nav.appendChild(a);
+  });
+  const details=document.createElement('details');
+  details.className='language-menu';
+  details.innerHTML=ro
+    ? '<summary>🌐 Limbă</summary><div><a href="/">Italiano</a><span aria-current="page">Română</span></div>'
+    : '<summary>🌐 Lingua</summary><div><span aria-current="page">Italiano</span><a href="/ro/" lang="ro">Română</a></div>';
+  nav.appendChild(details);
+  const wa=document.createElement('a');
+  wa.className='button';
+  wa.href=ro
+    ? 'https://wa.me/393453223023?text=Bun%C4%83%20ziua%2C%20Emanuel.%20Doresc%20informa%C8%9Bii%20despre%20serviciile%20MG%20Webmaster.'
+    : 'https://wa.me/393453223023?text=Buongiorno%20Emanuel%2C%20vorrei%20informazioni%20sui%20servizi%20MG%20Webmaster.';
+  wa.textContent='WhatsApp';
+  nav.appendChild(wa);
 });
 
 const button=document.querySelector('.menu-button');const menu=document.querySelector('.nav-links');if(button&&menu){button.addEventListener('click',()=>{const open=menu.classList.toggle('open');button.setAttribute('aria-expanded',String(open))})}
@@ -86,29 +120,20 @@ if(zoomableImages.length){
   });
 }
 
-/* MG Site Check: collegamento globale nel menu e nel footer */
+/* MG Site Check: collegamento anche nel footer */
 (function(){
-  function addSiteCheckLinks(){
+  function addSiteCheckFooterLink(){
     var ro=document.documentElement.lang&&document.documentElement.lang.toLowerCase().startsWith("ro");
     var href=ro?"/ro/analiza-site/":"/analisi-sito/";
-    var label=ro?"Analizează site-ul":"Analizza sito";
-    document.querySelectorAll(".nav-links").forEach(function(nav){
-      if(nav.querySelector('a[href="'+href+'"]')) return;
-      var a=document.createElement("a");
-      a.href=href;a.textContent=label;a.className="mg-site-check-global-link";
-      var lang=nav.querySelector(".language-menu");
-      if(lang) nav.insertBefore(a,lang); else nav.appendChild(a);
-    });
     document.querySelectorAll(".footer-grid").forEach(function(grid){
       if(grid.querySelector('a[href="'+href+'"]')) return;
       var col=grid.querySelector("div");
       if(!col) return;
       var a=document.createElement("a");
       a.href=href;a.textContent=ro?"Analiză gratuită site":"Analisi gratuita sito";
-      a.className="mg-site-check-global-link";
       col.appendChild(a);
     });
   }
-  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",addSiteCheckLinks);
-  else addSiteCheckLinks();
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",addSiteCheckFooterLink);
+  else addSiteCheckFooterLink();
 })();
