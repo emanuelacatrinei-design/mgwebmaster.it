@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Literal
 
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 MAX_PAGES = 5
 MAX_REDIRECTS = 5
 MAX_HTML_BYTES = 2_000_000
@@ -25,6 +25,8 @@ TIMEOUT = (5, 12)
 UA = "MGWebmaster-SiteCheck/0.1 (+https://www.mgwebmaster.it/)"
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
+TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET","").strip()
+TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 _RATE_LOCK = threading.Lock()
 _RATE_BUCKETS = {}
 _RATE_SALT = os.urandom(16)
@@ -389,6 +391,24 @@ def _client_key(request: Request) -> str:
     return hashlib.sha256(_RATE_SALT + raw.encode("utf-8", errors="ignore")).hexdigest()
 
 
+def _verify_turnstile(token: str, remote_ip: str | None = None):
+    if not TURNSTILE_SECRET:
+        raise HTTPException(status_code=503, detail="Protezione Turnstile non configurata.")
+    token = (token or "").strip()
+    if not token:
+        raise HTTPException(status_code=400, detail="Verifica anti-bot mancante.")
+    payload = {"secret": TURNSTILE_SECRET, "response": token}
+    if remote_ip:
+        payload["remoteip"] = remote_ip
+    try:
+        r = requests.post(TURNSTILE_VERIFY_URL, data=payload, timeout=(5, 10))
+        data = r.json()
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail="Verifica anti-bot non disponibile.") from exc
+    if not data.get("success"):
+        raise HTTPException(status_code=403, detail="Verifica anti-bot non superata.")
+
+
 def _rate_limit(request: Request):
     now = time.time()
     key = _client_key(request)
@@ -418,8 +438,15 @@ async def scan(request: Request):
         try:
             data = json.loads(raw.decode("utf-8"))
             payload = ScanRequest.model_validate(data)
+            turnstile_token = str(data.get("turnstile_token") or "")
         except Exception as exc:
             raise HTTPException(status_code=400, detail="Richiesta non valida.") from exc
+        remote_ip = (
+            request.headers.get("cf-connecting-ip")
+            or (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
+            or (request.client.host if request.client else None)
+        )
+        _verify_turnstile(turnstile_token, remote_ip)
         return engine.audit(payload.url)
     except HTTPException:
         raise

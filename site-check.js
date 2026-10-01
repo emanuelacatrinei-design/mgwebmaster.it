@@ -58,7 +58,10 @@ const list=results.querySelector("[data-issues]");list.innerHTML="";
 results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function showError(text){clearTimers();status.hidden=false;bar.style.width="0";steps.forEach(x=>x.classList.remove("active","done"));msg.innerHTML=`<div class="site-check-error">${escapeHtml(text)}</div>`;btn.disabled=false}
-form.addEventListener("submit",async e=>{e.preventDefault();if(!auth.checked)return;btn.disabled=true;results.hidden=true;status.hidden=false;fakeProgress();
+form.addEventListener("submit",async e=>{e.preventDefault();if(!auth.checked)return;
+const turnstileToken=(document.querySelector('input[name="cf-turnstile-response"]')?.value||"").trim();
+if(!turnstileToken){showError(lang==="ro"?"Completează verificarea anti-bot înainte de analiză.":"Completa la verifica anti-bot prima di avviare l’analisi.");return;}
+btn.disabled=true;results.hidden=true;status.hidden=false;fakeProgress();
 try{
 let lastErr=null,res=null;
 for(const endpoint of API_ENDPOINTS){
@@ -66,7 +69,7 @@ for(const endpoint of API_ENDPOINTS){
     res=await fetch(endpoint,{
       method:"POST",
       headers:{"Content-Type":"text/plain;charset=UTF-8","Accept":"application/json"},
-      body:JSON.stringify({url:input.value.trim(),authorized:true}),
+      body:JSON.stringify({url:input.value.trim(),authorized:true,turnstile_token:(document.querySelector('input[name="cf-turnstile-response"]')?.value||"")}),
       mode:"cors"
     });
     break;

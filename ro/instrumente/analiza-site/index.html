@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/accessibility.css"><link rel="stylesheet" href="/language.css"><link rel="stylesheet" href="/cmp.css"><link rel="stylesheet" href="/site-design.css"><link rel="stylesheet" href="/site-check.css">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"><link rel="shortcut icon" href="/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});gtag('set','ads_data_redaction',true);</script><script defer src="/cookie-consent.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body class="site-unified site-check-page">
 <a class="skip" href="#contenuto">Sari la conținut</a>
@@ -26,6 +27,7 @@
 <label for="site-url">Adresa site-ului</label>
 <div class="site-check-url"><input id="site-url" name="url" type="url" inputmode="url" autocomplete="url" placeholder="https://www.esempio.it/" required><button class="button" type="submit">Pornește analiza</button></div>
 <label class="site-check-consent"><input name="authorized" type="checkbox" required><span>Confirm că sunt proprietarul site-ului sau că sunt autorizat să îl analizez.</span></label>
+<div class="cf-turnstile" data-sitekey="0x4AAAAAAFLd4eBDAiK_X3nR" data-theme="auto"></div>
 <p class="site-check-note">Scanarea nu creează o arhivă a raportului. Datele sunt folosite pentru rezultatul solicitat; logurile tehnice normale ale infrastructurii pot fi totuși prelucrate conform <a href="/ro/confidentialitate/">Politicii de confidențialitate</a>.</p>
 </form>
 <div class="site-check-status" data-site-check-status hidden><div class="site-check-progress"><span data-site-check-bar></span></div><div class="site-check-steps"><span data-site-check-step>Conectare</span><span data-site-check-step>Pagini</span><span data-site-check-step>SEO</span><span data-site-check-step>Securitate</span><span data-site-check-step>Raport</span></div><p class="site-check-message" data-site-check-message></p></div>
@@ -46,5 +48,5 @@
 <a class="floating-wa" href="https://wa.me/393453223023?text=Buongiorno%20Emanuel%2C%20vorrei%20informazioni%20sui%20servizi%20MG%20Webmaster." aria-label="Scrie pe WhatsApp">WhatsApp</a>
 <div class="cookie-banner" data-cookie-banner hidden role="dialog" aria-modal="false" aria-labelledby="cookie-title"><div><h2 id="cookie-title">Confidențialitatea ta, o alegere clară</h2><p>Folosesc cookie-uri tehnice necesare. Instrumentele de analiză sau marketing se activează numai cu acordul tău.</p><a href="/ro/politica-cookies/">Citește politica privind cookie-urile</a></div><div class="cookie-actions"><button type="button" data-cookie-accept>Acceptă tot</button><button type="button" data-cookie-reject>Refuză tot</button><button type="button" data-cookie-customize>Personalizează</button></div></div>
 <button class="cookie-manage" type="button" data-cookie-manage hidden>Preferințe cookie</button><p class="visually-hidden" data-cookie-status role="status" aria-live="polite"></p>
-<script src="/script.js"></script><script src="/site-check.js?v=20261001-sitescanner-3"></script>
+<script src="/script.js"></script><script src="/site-check.js?v=20261001-turnstile-1"></script>
 </body></html>
