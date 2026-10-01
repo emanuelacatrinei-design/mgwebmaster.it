@@ -1,5 +1,8 @@
 (()=>{"use strict";
-const API="https://sitescanner.mgwebmaster.it/v1/scan";
+const API_ENDPOINTS=[
+"https://sitescanner.mgwebmaster.it/v1/scan",
+"https://mg-site-check.onrender.com/v1/scan"
+];
 const form=document.querySelector("[data-site-check-form]");
 if(!form)return;
 const lang=document.documentElement.lang==="ro"?"ro":"it";
@@ -56,10 +59,23 @@ results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function showError(text){clearTimers();status.hidden=false;bar.style.width="0";steps.forEach(x=>x.classList.remove("active","done"));msg.innerHTML=`<div class="site-check-error">${escapeHtml(text)}</div>`;btn.disabled=false}
 form.addEventListener("submit",async e=>{e.preventDefault();if(!auth.checked)return;btn.disabled=true;results.hidden=true;status.hidden=false;fakeProgress();
-try{const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url:input.value.trim(),authorized:true})});
+try{
+let lastErr=null,res=null;
+for(const endpoint of API_ENDPOINTS){
+  try{
+    res=await fetch(endpoint,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=UTF-8","Accept":"application/json"},
+      body:JSON.stringify({url:input.value.trim(),authorized:true}),
+      mode:"cors"
+    });
+    break;
+  }catch(err){lastErr=err}
+}
+if(!res)throw lastErr||new Error("network");
 let body={};try{body=await res.json()}catch{}
 if(!res.ok)throw new Error(body.detail||t.err);render(body)
-}catch(err){const network=/fetch|network|failed/i.test(String(err));showError(network?t.offline:(err.message||t.err))}
+}catch(err){const network=/fetch|network|failed|load/i.test(String(err));showError(network?t.offline:(err.message||t.err))}
 finally{btn.disabled=false}});
 const printBtn=document.querySelector("[data-site-check-print]");if(printBtn)printBtn.addEventListener("click",()=>window.print());
 const txtBtn=document.querySelector("[data-site-check-download]");if(txtBtn)txtBtn.addEventListener("click",()=>{if(!lastResult)return;const d=lastResult;const lines=[t.download,d.final_url||d.requested_url,"","Punteggio generale: "+(d.overall_score??t.na)+"/100",...Object.entries(d.scores||{}).map(([k,v])=>`${t.labels[k]||k}: ${scoreValue(v)}`),"",t.issues+":",...(d.issues||[]).map(i=>`- [${t.sev[i.severity]||i.severity}] ${i.title}: ${i.message}`),"",d.disclaimer||""];const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);let host="sito";try{host=new URL(d.final_url||d.requested_url).hostname.replace(/^www\./,"")}catch{}a.download=`mg-webmaster-site-check-${host}.txt`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});

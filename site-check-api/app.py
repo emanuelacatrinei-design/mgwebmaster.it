@@ -10,7 +10,7 @@ from urllib.parse import urljoin, urlparse, urlunparse
 
 import requests
 from bs4 import BeautifulSoup
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Literal
@@ -371,9 +371,17 @@ def health():
 
 
 @app.post("/v1/scan")
-def scan(payload: ScanRequest):
+async def scan(request: Request):
     try:
+        raw = await request.body()
+        try:
+            data = json.loads(raw.decode("utf-8"))
+            payload = ScanRequest.model_validate(data)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail="Richiesta non valida.") from exc
         return engine.audit(payload.url)
+    except HTTPException:
+        raise
     except UnsafeTargetError as exc:
         raise HTTPException(status_code=400,detail=str(exc)) from exc
     except AuditError as exc:
