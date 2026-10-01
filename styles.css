@@ -203,3 +203,34 @@
     min-width:240px;
   }
 }
+
+/* Menu centrato in due righe */
+@media (min-width:1101px){
+  .site-header .nav{
+    grid-template-columns:300px minmax(0,1fr) 300px !important;
+    column-gap:24px !important;
+  }
+
+  .site-header .brand{
+    grid-column:1;
+    justify-self:start !important;
+  }
+
+  .site-header .nav-links{
+    grid-column:2;
+    width:auto !important;
+    max-width:760px;
+    justify-self:center !important;
+    align-items:center !important;
+  }
+
+  .site-header .nav-row{
+    justify-content:center !important;
+    gap:22px !important;
+  }
+
+  .site-header .nav-row-primary,
+  .site-header .nav-row-secondary{
+    width:auto !important;
+  }
+}
