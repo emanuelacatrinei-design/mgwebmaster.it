@@ -1,5 +1,5 @@
 (()=>{"use strict";
-const API="https://audit.mgwebmaster.it/v1/scan";
+const API="https://sitescanner.mgwebmaster.it/v1/scan";
 const form=document.querySelector("[data-site-check-form]");
 if(!form)return;
 const lang=document.documentElement.lang==="ro"?"ro":"it";
