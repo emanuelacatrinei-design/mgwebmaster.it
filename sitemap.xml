@@ -55,6 +55,11 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/servizi/assistenza-manutenzione/"/>
   </url>
   <url>
+    <loc>https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/"/>
+  </url>
+  <url>
     <loc>https://www.mgwebmaster.it/chi-sono/</loc>
     <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/chi-sono/"/>
     <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/despre-mine/"/>
