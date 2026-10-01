@@ -66,58 +66,91 @@
 }
 
 
-/* Menu principale: due righe ordinate su tutte le pagine */
-@media (min-width:901px){
+/* Menu principale: due righe pulite e leggibili */
+@media (min-width:1101px){
   .site-header .nav{
-    min-height:116px;
+    min-height:126px;
+    display:grid;
+    grid-template-columns:300px minmax(0,1fr);
     align-items:center;
-    gap:20px;
+    column-gap:40px;
   }
-  .site-header .brand{flex:0 0 auto}
+  .site-header .brand{
+    justify-self:start;
+    align-self:center;
+  }
   .site-header .nav-links{
-    flex:1 1 auto;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-    justify-content:center;
-    gap:9px;
-    padding:10px 0;
+    width:100%;
+    min-width:0;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-end !important;
+    justify-content:center !important;
+    gap:12px !important;
+    padding:12px 0;
   }
   .site-header .nav-row{
     width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap:18px;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    flex-wrap:nowrap !important;
+    gap:24px !important;
   }
   .site-header .nav-row a,
-  .site-header .nav-row .language-menu{
+  .site-header .nav-row summary{
+    font-size:.93rem;
+    line-height:1.2;
     white-space:nowrap;
   }
-  .site-header .nav-row a{font-size:.9rem}
-  .site-header .nav-row .button{padding:10px 15px}
+  .site-header .nav-row-secondary{
+    gap:20px !important;
+  }
+  .site-header .language-menu{
+    flex:0 0 auto;
+  }
+  .site-header .language-menu summary{
+    min-width:120px;
+    text-align:center;
+  }
+  .site-header .nav-row .button{
+    flex:0 0 auto;
+    margin:0;
+    padding:10px 18px;
+  }
 }
-@media (min-width:901px) and (max-width:1180px){
-  .site-header .nav-row{gap:13px}
-  .site-header .nav-row a{font-size:.84rem}
-}
-@media (max-width:900px){
-  .site-header .nav-links.open{
+@media (max-width:1100px){
+  .site-header .nav{
+    min-height:78px;
     display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:12px;
+  }
+  .site-header .nav-links{
+    display:none !important;
+  }
+  .site-header .nav-links.open{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:12px !important;
   }
   .site-header .nav-row{
     width:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:12px;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:12px !important;
   }
-  .site-header .nav-row .button{width:100%;text-align:center}
+  .site-header .nav-row a,
+  .site-header .nav-row summary{
+    width:100%;
+  }
+  .site-header .nav-row .button{
+    width:100%;
+    text-align:center;
+  }
 }
 
 /* Respiro tra il richiamo MG Site Check e la fascia con testo scorrevole */
-.site-check-home-promo{margin-bottom:28px}
-@media(max-width:620px){.site-check-home-promo{margin-bottom:20px}}
+.site-check-home-promo{margin-bottom:42px}
+@media(max-width:620px){.site-check-home-promo{margin-bottom:28px}}
