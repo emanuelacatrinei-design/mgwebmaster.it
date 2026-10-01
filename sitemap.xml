@@ -57,6 +57,13 @@
   <url>
     <loc>https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/</loc>
     <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/servicii/curatare-site-compromis/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/"/>
+  </url>
+  <url>
+    <loc>https://www.mgwebmaster.it/ro/servicii/curatare-site-compromis/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/servicii/curatare-site-compromis/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/servizi/bonifica-siti-compromessi/"/>
   </url>
   <url>
