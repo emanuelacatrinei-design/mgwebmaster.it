@@ -1,7 +1,6 @@
 // MG Webmaster: menu principale uniforme su tutte le pagine
 const isRomanianPage=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
 document.querySelectorAll('.nav-links').forEach(nav=>{
-  if(nav.querySelector('.nav-row')) return;
   const ro=isRomanianPage;
   const items=ro?[
     ['/ro/','Acasă'],['/ro/servicii/','Servicii'],['/ro/preturi/','Prețuri'],
@@ -18,14 +17,17 @@ document.querySelectorAll('.nav-links').forEach(nav=>{
   nav.innerHTML='';
   const row1=document.createElement('div'); row1.className='nav-row nav-row-primary';
   const row2=document.createElement('div'); row2.className='nav-row nav-row-secondary';
+  const secondLinks=document.createElement('div'); secondLinks.className='nav-secondary-links';
+  const actions=document.createElement('div'); actions.className='nav-actions';
   items.forEach(([href,label],index)=>{
     const a=document.createElement('a'); a.href=href; a.textContent=label;
     const normalized=(href.replace(/\/+$/,'')||'/');
     if(current===normalized || (normalized!=='/' && current.startsWith(normalized))) a.setAttribute('aria-current','page');
-    (index<6?row1:row2).appendChild(a);
+    if(index<6) row1.appendChild(a); else secondLinks.appendChild(a);
   });
-  if(oldLang) row2.appendChild(oldLang);
-  if(oldWa) row2.appendChild(oldWa);
+  if(oldLang) actions.appendChild(oldLang);
+  if(oldWa) actions.appendChild(oldWa);
+  row2.append(secondLinks,actions);
   nav.append(row1,row2);
 });
 
