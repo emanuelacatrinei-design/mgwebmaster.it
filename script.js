@@ -1,50 +1,32 @@
 // MG Webmaster: menu principale uniforme su tutte le pagine
 const isRomanianPage=(document.documentElement.lang||'').toLowerCase().startsWith('ro')||location.pathname.startsWith('/ro/');
 document.querySelectorAll('.nav-links').forEach(nav=>{
+  if(nav.querySelector('.nav-row')) return;
   const ro=isRomanianPage;
   const items=ro?[
-    ['/ro/','Acasă'],
-    ['/ro/servicii/','Servicii'],
-    ['/ro/preturi/','Prețuri'],
-    ['/ro/proiecte/','Proiecte'],
-    ['/ro/template/','Template'],
-    ['/ro/blog/','Blog'],
-    ['/ro/despre-mine/','Despre mine'],
-    ['/ro/analiza-site/','Analizează site-ul'],
-    ['/ro/contact/','Contact']
+    ['/ro/','Acasă'],['/ro/servicii/','Servicii'],['/ro/preturi/','Prețuri'],
+    ['/ro/proiecte/','Proiecte'],['/ro/template/','Template'],['/ro/blog/','Blog'],
+    ['/ro/despre-mine/','Despre mine'],['/ro/analiza-site/','Analizează site-ul'],['/ro/contact/','Contact']
   ]:[
-    ['/','Home'],
-    ['/servizi/','Servizi'],
-    ['/prezzi/','Prezzi'],
-    ['/progetti/','Progetti'],
-    ['/template/','Template'],
-    ['/blog/','Blog'],
-    ['/chi-sono/','Chi sono'],
-    ['/analisi-sito/','Analizza sito'],
-    ['/contatti/','Contatti']
+    ['/','Home'],['/servizi/','Servizi'],['/prezzi/','Prezzi'],
+    ['/progetti/','Progetti'],['/template/','Template'],['/blog/','Blog'],
+    ['/chi-sono/','Chi sono'],['/analisi-sito/','Analizza sito'],['/contatti/','Contatti']
   ];
+  const oldLang=nav.querySelector('.language-menu')?.cloneNode(true);
+  const oldWa=nav.querySelector('a.button[href*="wa.me"]')?.cloneNode(true);
   const current=(location.pathname.replace(/\/+$/,'')||'/');
   nav.innerHTML='';
-  items.forEach(([href,label])=>{
-    const a=document.createElement('a');
-    a.href=href;a.textContent=label;
+  const row1=document.createElement('div'); row1.className='nav-row nav-row-primary';
+  const row2=document.createElement('div'); row2.className='nav-row nav-row-secondary';
+  items.forEach(([href,label],index)=>{
+    const a=document.createElement('a'); a.href=href; a.textContent=label;
     const normalized=(href.replace(/\/+$/,'')||'/');
-    if(current===normalized)a.setAttribute('aria-current','page');
-    nav.appendChild(a);
+    if(current===normalized || (normalized!=='/' && current.startsWith(normalized))) a.setAttribute('aria-current','page');
+    (index<6?row1:row2).appendChild(a);
   });
-  const details=document.createElement('details');
-  details.className='language-menu';
-  details.innerHTML=ro
-    ? '<summary>🌐 Limbă</summary><div><a href="/">Italiano</a><span aria-current="page">Română</span></div>'
-    : '<summary>🌐 Lingua</summary><div><span aria-current="page">Italiano</span><a href="/ro/" lang="ro">Română</a></div>';
-  nav.appendChild(details);
-  const wa=document.createElement('a');
-  wa.className='button';
-  wa.href=ro
-    ? 'https://wa.me/393453223023?text=Bun%C4%83%20ziua%2C%20Emanuel.%20Doresc%20informa%C8%9Bii%20despre%20serviciile%20MG%20Webmaster.'
-    : 'https://wa.me/393453223023?text=Buongiorno%20Emanuel%2C%20vorrei%20informazioni%20sui%20servizi%20MG%20Webmaster.';
-  wa.textContent='WhatsApp';
-  nav.appendChild(wa);
+  if(oldLang) row2.appendChild(oldLang);
+  if(oldWa) row2.appendChild(oldWa);
+  nav.append(row1,row2);
 });
 
 const button=document.querySelector('.menu-button');const menu=document.querySelector('.nav-links');if(button&&menu){button.addEventListener('click',()=>{const open=menu.classList.toggle('open');button.setAttribute('aria-expanded',String(open))})}

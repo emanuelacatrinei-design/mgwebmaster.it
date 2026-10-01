@@ -53,6 +53,67 @@ jobs:
         run: |
           find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/styles\.css(\?v=[^"]*)?"#href="/styles.css?v=20260926-blog-infographics"#g'
           find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/site-design\.css(\?v=[^"]*)?"#href="/site-design.css?v=20260926-blog-infographics"#g'
+      - name: Uniforma il menu principale su tutte le pagine
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          def route_for(path):
+              s = path.as_posix()
+              if s == "index.html":
+                  return "/"
+              if s.endswith("/index.html"):
+                  return "/" + s[:-10]
+              return "/" + s
+
+          def skip(path):
+              s = path.as_posix()
+              if s.startswith("template/") and s != "template/index.html":
+                  return True
+              if s.startswith("ro/template/") and s != "ro/template/index.html":
+                  return True
+              return False
+
+          def menu_html(ro, route, language_menu, whatsapp):
+              items = (
+                  [("/ro/","Acasă"),("/ro/servicii/","Servicii"),("/ro/preturi/","Prețuri"),
+                   ("/ro/proiecte/","Proiecte"),("/ro/template/","Template"),("/ro/blog/","Blog"),
+                   ("/ro/despre-mine/","Despre mine"),("/ro/analiza-site/","Analizează site-ul"),("/ro/contact/","Contact")]
+                  if ro else
+                  [("/","Home"),("/servizi/","Servizi"),("/prezzi/","Prezzi"),
+                   ("/progetti/","Progetti"),("/template/","Template"),("/blog/","Blog"),
+                   ("/chi-sono/","Chi sono"),("/analisi-sito/","Analizza sito"),("/contatti/","Contatti")]
+              )
+              def link(href, label):
+                  norm = href.rstrip("/") or "/"
+                  cur = route.rstrip("/") or "/"
+                  current = cur == norm or (norm != "/" and cur.startswith(norm))
+                  aria = ' aria-current="page"' if current else ""
+                  return f'<a{aria} href="{href}">{label}</a>'
+              row1 = "".join(link(*x) for x in items[:6])
+              row2 = "".join(link(*x) for x in items[6:]) + (language_menu or "") + (whatsapp or "")
+              return f'<nav class="nav-links" aria-label="{"Meniu principal" if ro else "Menu principale"}"><div class="nav-row nav-row-primary">{row1}</div><div class="nav-row nav-row-secondary">{row2}</div></nav>'
+
+          nav_re = re.compile(r'<nav class="nav-links"[^>]*>[\s\S]*?</nav>', re.I)
+          lang_re = re.compile(r'<details class="language-menu">[\s\S]*?</details>', re.I)
+          wa_re = re.compile(r'<a class="button"[^>]+href="https://wa\.me/[^"]+"[^>]*>WhatsApp</a>', re.I)
+
+          for path in Path(".").rglob("*.html"):
+              if skip(path):
+                  continue
+              text = path.read_text(encoding="utf-8")
+              match = nav_re.search(text)
+              if not match:
+                  continue
+              old = match.group(0)
+              lang = (lang_re.search(old).group(0) if lang_re.search(old) else "")
+              wa = (wa_re.search(old).group(0) if wa_re.search(old) else "")
+              ro = '<html lang="ro"' in text[:500].lower()
+              text = text[:match.start()] + menu_html(ro, route_for(path), lang, wa) + text[match.end():]
+              text = re.sub(r'<script src="/script\.js(?:\?v=[^"]*)?"></script>', '<script src="/script.js?v=20261002-menu2"></script>', text)
+              path.write_text(text, encoding="utf-8")
+          PY
       - name: Prepara il sito
         uses: actions/upload-pages-artifact@v3
         with:

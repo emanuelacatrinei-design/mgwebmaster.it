@@ -65,43 +65,59 @@
   .site-header .nav-links .button{width:100%}
 }
 
-/* Menu principale uniforme a due righe */
+
+/* Menu principale: due righe ordinate su tutte le pagine */
 @media (min-width:901px){
   .site-header .nav{
-    min-height:96px;
+    min-height:116px;
     align-items:center;
-    gap:18px;
+    gap:20px;
   }
-  .site-header .brand{
-    flex:0 0 auto;
-  }
+  .site-header .brand{flex:0 0 auto}
   .site-header .nav-links{
     flex:1 1 auto;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    justify-content:center;
+    gap:9px;
+    padding:10px 0;
+  }
+  .site-header .nav-row{
+    width:100%;
+    display:flex;
+    align-items:center;
     justify-content:flex-end;
-    flex-wrap:wrap;
-    column-gap:18px;
-    row-gap:8px;
-    line-height:1.15;
-    padding:9px 0;
+    gap:18px;
   }
-  .site-header .nav-links>a:not(.button),
-  .site-header .language-menu{
+  .site-header .nav-row a,
+  .site-header .nav-row .language-menu{
     white-space:nowrap;
   }
-  .site-header .nav-links a{
-    font-size:.88rem;
-  }
-  .site-header .nav-links .button{
-    padding:10px 15px;
-    white-space:nowrap;
-  }
+  .site-header .nav-row a{font-size:.9rem}
+  .site-header .nav-row .button{padding:10px 15px}
 }
 @media (min-width:901px) and (max-width:1180px){
-  .site-header .nav-links{
-    column-gap:14px;
-    row-gap:7px;
-  }
-  .site-header .nav-links a{
-    font-size:.84rem;
-  }
+  .site-header .nav-row{gap:13px}
+  .site-header .nav-row a{font-size:.84rem}
 }
+@media (max-width:900px){
+  .site-header .nav-links.open{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .site-header .nav-row{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .site-header .nav-row .button{width:100%;text-align:center}
+}
+
+/* Respiro tra il richiamo MG Site Check e la fascia con testo scorrevole */
+.site-check-home-promo{margin-bottom:28px}
+@media(max-width:620px){.site-check-home-promo{margin-bottom:20px}}
