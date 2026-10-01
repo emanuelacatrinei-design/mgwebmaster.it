@@ -349,8 +349,19 @@ class ScanRequest(BaseModel):
 
 
 origin=os.getenv("MG_SITE_ORIGIN","https://www.mgwebmaster.it")
+allowed_origins=list(dict.fromkeys([
+    origin,
+    "https://www.mgwebmaster.it",
+    "https://mgwebmaster.it",
+]))
 app=FastAPI(title="MG Webmaster Site Check API",version=VERSION,docs_url=None,redoc_url=None)
-app.add_middleware(CORSMiddleware,allow_origins=[origin],allow_credentials=False,allow_methods=["GET","POST"],allow_headers=["Content-Type"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET","POST","OPTIONS"],
+    allow_headers=["Content-Type","Accept"],
+)
 engine=Engine()
 
 
