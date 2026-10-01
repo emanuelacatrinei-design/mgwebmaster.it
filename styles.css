@@ -234,3 +234,54 @@
     width:auto !important;
   }
 }
+
+/* Menu desktop centrato rispetto alla pagina, indipendente dal logo */
+@media (min-width:1101px){
+  .site-header .nav{
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    min-height:132px !important;
+  }
+
+  .site-header .brand{
+    position:relative !important;
+    z-index:2;
+    margin:0 !important;
+  }
+
+  .site-header .nav-links{
+    position:absolute !important;
+    left:50% !important;
+    top:50% !important;
+    transform:translate(-50%,-50%) !important;
+    width:max-content !important;
+    max-width:calc(100vw - 700px) !important;
+    min-width:720px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:12px !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+
+  .site-header .nav-row{
+    width:auto !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex-wrap:nowrap !important;
+    gap:22px !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  .site-header .nav-row a,
+  .site-header .nav-row summary{
+    white-space:nowrap !important;
+  }
+}
