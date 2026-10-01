@@ -85,3 +85,30 @@ if(zoomableImages.length){
     if(event.key==='Tab'){event.preventDefault();closeButton.focus()}
   });
 }
+
+/* MG Site Check: collegamento globale nel menu e nel footer */
+(function(){
+  function addSiteCheckLinks(){
+    var ro=document.documentElement.lang&&document.documentElement.lang.toLowerCase().startsWith("ro");
+    var href=ro?"/ro/instrumente/analiza-site/":"/strumenti/analisi-sito/";
+    var label=ro?"Analizează site-ul":"Analizza sito";
+    document.querySelectorAll(".nav-links").forEach(function(nav){
+      if(nav.querySelector('a[href="'+href+'"]')) return;
+      var a=document.createElement("a");
+      a.href=href;a.textContent=label;a.className="mg-site-check-global-link";
+      var lang=nav.querySelector(".language-menu");
+      if(lang) nav.insertBefore(a,lang); else nav.appendChild(a);
+    });
+    document.querySelectorAll(".footer-grid").forEach(function(grid){
+      if(grid.querySelector('a[href="'+href+'"]')) return;
+      var col=grid.querySelector("div");
+      if(!col) return;
+      var a=document.createElement("a");
+      a.href=href;a.textContent=ro?"Analiză gratuită site":"Analisi gratuita sito";
+      a.className="mg-site-check-global-link";
+      col.appendChild(a);
+    });
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",addSiteCheckLinks);
+  else addSiteCheckLinks();
+})();
