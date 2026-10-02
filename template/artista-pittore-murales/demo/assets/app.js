@@ -1,1 +1,0 @@
-const b=document.querySelector('.menu-toggle'),m=document.querySelector('.menu');if(b&&m)b.addEventListener('click',()=>m.classList.toggle('open'));document.querySelectorAll('form').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();alert('Gratias! Petitio tua recepta est.')}));
