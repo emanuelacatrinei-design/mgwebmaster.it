@@ -20,5 +20,5 @@ document.querySelectorAll('.menu-header').forEach(header => {
   document.addEventListener('click', event => {
     if (!header.contains(event.target)) close();
   });
-  window.matchMedia('(min-width: 1001px)').addEventListener('change', close);
+  window.matchMedia('(min-width: 1181px)').addEventListener('change', close);
 });

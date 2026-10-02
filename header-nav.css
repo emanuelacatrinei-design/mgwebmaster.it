@@ -40,7 +40,7 @@
 .site-header.menu-header .nav-actions > .button { width: auto; flex: 0 0 auto; background: #075E54; color: #fff; font-size: .92rem; font-weight: 700; white-space: nowrap; box-shadow: 0 10px 26px rgba(7,94,84,.22); }
 .site-header.menu-header .nav-actions > .button:hover { background: #064c44; color: #fff; }
 .site-header.menu-header a:focus-visible, .site-header.menu-header summary:focus-visible, .site-header.menu-header button:focus-visible { outline: 3px solid #075bd8; outline-offset: 4px; }
-@media (max-width: 1000px) {
+@media (max-width: 1180px) {
   .site-header.menu-header .nav { grid-template-columns: minmax(0, 1fr) auto 44px; gap: 16px; min-height: 78px; }
   .site-header.menu-header .menu-button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; cursor: pointer; }
   .site-header.menu-header .nav-actions { grid-column: 2; grid-row: 1; gap: 14px; }
@@ -57,5 +57,5 @@
   .site-header.menu-header .brand small { font-size: .62rem; letter-spacing: .1em; line-height: 1.4; }
   .site-header.menu-header .nav-actions > .button { padding: 10px 18px; }
   .site-header.menu-header .nav-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; }
-  .site-header.menu-header .nav-row a { justify-content: center; }
+  .site-header.menu-header .nav-row a { justify-content: center; white-space: normal; text-align: center; }
 }
