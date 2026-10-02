@@ -1526,82 +1526,6 @@
       }
     },
     {
-      "slug": "lumiere-fashion",
-      "name": "Lumière Fashion",
-      "source": "lumiere-fashion-template(1).zip",
-      "pages": {
-        "it": [
-          {
-            "path": "/template/lumiere-fashion/demo/index.html",
-            "label": "Home"
-          }
-        ],
-        "ro": [
-          {
-            "path": "/template/lumiere-fashion/demo/index.html",
-            "label": "Demo"
-          }
-        ]
-      }
-    },
-    {
-      "slug": "maison-veloria-fashion",
-      "name": "Maison Veloria",
-      "source": "maison-veloria-template(1).zip",
-      "pages": {
-        "it": [
-          {
-            "path": "/template/maison-veloria-fashion/demo/index.html",
-            "label": "Home"
-          }
-        ],
-        "ro": [
-          {
-            "path": "/template/maison-veloria-fashion/demo/index.html",
-            "label": "Demo"
-          }
-        ]
-      }
-    },
-    {
-      "slug": "noctis-31-fashion-events",
-      "name": "Noctis 31",
-      "source": "noctis31-template(1).zip",
-      "pages": {
-        "it": [
-          {
-            "path": "/template/noctis-31-fashion-events/demo/index.html",
-            "label": "Home"
-          }
-        ],
-        "ro": [
-          {
-            "path": "/template/noctis-31-fashion-events/demo/index.html",
-            "label": "Demo"
-          }
-        ]
-      }
-    },
-    {
-      "slug": "nova-via-life-coach",
-      "name": "Nova Via",
-      "source": "NOVA-VIA-life-coach-template(1).zip",
-      "pages": {
-        "it": [
-          {
-            "path": "/template/nova-via-life-coach/demo/index.html",
-            "label": "Home"
-          }
-        ],
-        "ro": [
-          {
-            "path": "/template/nova-via-life-coach/demo/index.html",
-            "label": "Demo"
-          }
-        ]
-      }
-    },
-    {
       "slug": "osteria-del-chiostro",
       "name": "Osteria del Chiostro",
       "source": "OSTERIA-DEL-CHIOSTRO-template(1).zip",
@@ -1659,25 +1583,6 @@
       }
     },
     {
-      "slug": "terra-concordia",
-      "name": "Terra Concordia",
-      "source": "TERRA_CONCORDIA_TEMPLATE(1).zip",
-      "pages": {
-        "it": [
-          {
-            "path": "/template/terra-concordia/demo/index.html",
-            "label": "Home"
-          }
-        ],
-        "ro": [
-          {
-            "path": "/template/terra-concordia/demo/index.html",
-            "label": "Demo"
-          }
-        ]
-      }
-    },
-    {
       "slug": "terra-concordia-extra",
       "name": "Terra Concordia Summit",
       "source": "TERRA_CONCORDIA_TEMPLATE EXTRA.zip",
@@ -1710,25 +1615,6 @@
         "ro": [
           {
             "path": "/template/thermae-aureliae-spa/demo/index.html",
-            "label": "Demo"
-          }
-        ]
-      }
-    },
-    {
-      "slug": "via-alta-trekking",
-      "name": "Via Alta",
-      "source": "VIA-ALTA-template(1).zip",
-      "pages": {
-        "it": [
-          {
-            "path": "/template/via-alta-trekking/demo/index.html",
-            "label": "Home"
-          }
-        ],
-        "ro": [
-          {
-            "path": "/template/via-alta-trekking/demo/index.html",
             "label": "Demo"
           }
         ]
