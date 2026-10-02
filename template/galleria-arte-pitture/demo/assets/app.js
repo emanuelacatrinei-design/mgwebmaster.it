@@ -1,0 +1,1 @@
+document.querySelectorAll('form').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();alert('Gratias! Petitio tua recepta est.')}));

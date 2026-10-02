@@ -729,15 +729,15 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/strumenti/analisi-sito/"/>
   </url>
   <url>
-    <loc>https://www.mgwebmaster.it/template/artista-pittore-murales/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/artista-pittore-murales/"/>
-    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/artista-pittore-murales/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/artista-pittore-murales/"/>
+    <loc>https://www.mgwebmaster.it/template/galleria-arte-pitture/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/galleria-arte-pitture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
   </url>
   <url>
-    <loc>https://www.mgwebmaster.it/ro/template/artista-pittore-murales/</loc>
-    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/artista-pittore-murales/"/>
-    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/artista-pittore-murales/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/artista-pittore-murales/"/>
+    <loc>https://www.mgwebmaster.it/ro/template/galleria-arte-pitture/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/galleria-arte-pitture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
   </url>
 </urlset>

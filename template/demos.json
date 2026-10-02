@@ -1621,44 +1621,44 @@
       }
     },
     {
-      "slug": "artista-pittore-murales",
-      "name": "Atelier Cromatica – Artista e Pittore",
+      "slug": "galleria-arte-pitture",
+      "name": "Galleria d'Arte / Pitture",
       "source": "ATELIER-CROMATICA-template.zip",
       "source_sha256": "a416000e8cceff26b0b02014ea033cde338143ca9371a03ef6eb348861311568",
       "pages": {
         "it": [
           {
-            "path": "/template/artista-pittore-murales/demo/index.html",
+            "path": "/template/galleria-arte-pitture/demo/index.html",
             "label": "Home"
           },
           {
-            "path": "/template/artista-pittore-murales/demo/chi-sono.html",
+            "path": "/template/galleria-arte-pitture/demo/chi-sono.html",
             "label": "Chi sono"
           },
           {
-            "path": "/template/artista-pittore-murales/demo/galleria.html",
+            "path": "/template/galleria-arte-pitture/demo/galleria.html",
             "label": "Galleria Foto"
           },
           {
-            "path": "/template/artista-pittore-murales/demo/contatti.html",
+            "path": "/template/galleria-arte-pitture/demo/contatti.html",
             "label": "Contatti"
           }
         ],
         "ro": [
           {
-            "path": "/ro/template/artista-pittore-murales/demo/index.html",
+            "path": "/ro/template/galerie-de-arta-pictori/demo/index.html",
             "label": "Acasă"
           },
           {
-            "path": "/ro/template/artista-pittore-murales/demo/chi-sono.html",
+            "path": "/ro/template/galerie-de-arta-pictori/demo/chi-sono.html",
             "label": "Despre artist"
           },
           {
-            "path": "/ro/template/artista-pittore-murales/demo/galleria.html",
+            "path": "/ro/template/galerie-de-arta-pictori/demo/galleria.html",
             "label": "Galerie foto"
           },
           {
-            "path": "/ro/template/artista-pittore-murales/demo/contatti.html",
+            "path": "/ro/template/galerie-de-arta-pictori/demo/contatti.html",
             "label": "Contact"
           }
         ]
