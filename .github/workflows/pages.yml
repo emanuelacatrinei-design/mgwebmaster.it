@@ -53,6 +53,40 @@ jobs:
         run: |
           find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/styles\.css(\?v=[^"]*)?"#href="/styles.css?v=20260926-blog-infographics"#g'
           find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/site-design\.css(\?v=[^"]*)?"#href="/site-design.css?v=20260926-blog-infographics"#g'
+      - name: Ottimizza i loghi condivisi per tutte le pagine IT e RO
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import re
+
+          root = Path(".")
+          src = root / "assets" / "mg-webmaster-logo.png"
+          out = root / "assets" / "mg-webmaster-logo-footer.webp"
+
+          with Image.open(src) as im:
+              im = im.convert("RGBA")
+              im.save(out, "WEBP", quality=82, method=6)
+
+          for page in root.rglob("*.html"):
+              rel = page.as_posix()
+              if rel.startswith("template/") or rel.startswith("ro/template/") or rel.startswith("backups/"):
+                  continue
+
+              text = page.read_text(encoding="utf-8")
+              text = text.replace(
+                  "/assets/mg-webmaster-logo.png",
+                  "/assets/mg-webmaster-logo-footer.webp"
+              )
+              text = re.sub(
+                  r'(<img\\s+class="footer-logo"\\s+src="/assets/mg-webmaster-logo-footer\\.webp")(?![^>]*\\bloading=)',
+                  r'\\1 loading="lazy" decoding="async" fetchpriority="low"',
+                  text
+              )
+              page.write_text(text, encoding="utf-8")
+
+          print("Footer logo WebP:", out.stat().st_size, "bytes")
+          PY
       - name: Prepara il sito
         uses: actions/upload-pages-artifact@v3
         with:
