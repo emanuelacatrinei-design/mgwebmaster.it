@@ -22,6 +22,17 @@
 .site-check-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.4rem}.site-check-actions button{cursor:pointer}
 .site-check-privacy{margin-top:1.3rem;padding:1rem 1.1rem;border-radius:16px;background:#f6f8fb;color:#596b80;font-size:.9rem}
 .site-check-explainer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.site-check-explainer article{padding:1.2rem;border:1px solid var(--sc-line);border-radius:20px;background:#fff}.site-check-explainer h3{margin-top:0}
+.site-check-professional{background:linear-gradient(145deg,#fffaf0,#fff 70%);scroll-margin-top:160px}
+.site-check-professional-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
+.site-check-professional-card{min-width:0;padding:clamp(1.25rem,2.5vw,2rem);border:1px solid var(--sc-line);border-radius:24px;background:#fff;box-shadow:0 12px 30px rgba(16,45,83,.05)}
+.site-check-professional-card h3{margin:0 0 1rem;font-size:clamp(1.2rem,1.7vw,1.45rem);line-height:1.3;color:var(--sc-ink)}
+.site-check-professional-card p{color:#40536c;line-height:1.7}.site-check-professional-card p:last-child{margin-bottom:0}
+.site-check-professional-next{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:1.5rem;margin-top:1.5rem;padding:clamp(1.25rem,2.5vw,2rem);border:1px solid #e8dfca;border-radius:24px;background:#fff7e8}
+.site-check-professional-next h3{margin-top:0}.site-check-professional-next p{max-width:760px;margin-bottom:0}
+.site-check-professional-next .button{text-align:center;white-space:normal;max-width:100%}
+.site-check-result-help{color:#40536c;margin-top:.8rem}
+@media(max-width:900px){.site-check-professional-next{grid-template-columns:minmax(0,1fr)}.site-check-professional-next .button{justify-self:start}}
+@media(max-width:620px){.site-check-professional-grid{grid-template-columns:minmax(0,1fr)}.site-check-professional{scroll-margin-top:190px}}
 .site-check-error{padding:.9rem 1rem;border-radius:14px;background:#fff1ef;border:1px solid rgba(166,59,50,.18);color:#7e2f29}
 .site-check-na{font-size:1.15rem!important}
 .site-check-dev{font-size:.83rem;color:#7a8797;margin-top:.75rem}
