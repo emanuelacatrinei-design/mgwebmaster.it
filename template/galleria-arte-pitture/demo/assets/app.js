@@ -1,2 +1,0 @@
-const toggle=document.querySelector('.menu-toggle');const menu=document.querySelector('.menu');if(toggle&&menu){toggle.addEventListener('click',()=>menu.classList.toggle('open'));}
-const lb=document.querySelector('.lightbox');if(lb){document.querySelectorAll('[data-lightbox]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();lb.querySelector('img').src=el.href;lb.classList.add('open')}));lb.addEventListener('click',()=>lb.classList.remove('open'));}

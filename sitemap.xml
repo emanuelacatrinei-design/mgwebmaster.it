@@ -731,13 +731,13 @@
   <url>
     <loc>https://www.mgwebmaster.it/template/galleria-arte-pitture/</loc>
     <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
-    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/galleria-arte-pitture/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/galerie-de-arta-pictori/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
   </url>
   <url>
-    <loc>https://www.mgwebmaster.it/ro/template/galleria-arte-pitture/</loc>
+    <loc>https://www.mgwebmaster.it/ro/template/galerie-de-arta-pictori/</loc>
     <xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
-    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/galleria-arte-pitture/"/>
+    <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/template/galerie-de-arta-pictori/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/template/galleria-arte-pitture/"/>
   </url>
 </urlset>

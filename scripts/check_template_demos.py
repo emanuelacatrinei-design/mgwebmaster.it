@@ -94,6 +94,7 @@ slugs = [entry['slug'] for entry in entries]
 if len(slugs) != len(set(slugs)):
     fail(ROOT / 'template/demos.json', 'duplicate template slug')
 for lang, prefix in [('it', ''), ('ro', '/ro')]:
+    localized_slugs = {entry.get('slugs', {}).get(lang, entry['slug']) for entry in entries}
     catalog_path = ROOT / (prefix.lstrip('/') + '/' if prefix else '') / 'template/index.html'
     catalog = read(catalog_path)
     advertised = set()
@@ -101,13 +102,13 @@ for lang, prefix in [('it', ''), ('ro', '/ro')]:
         match = re.fullmatch(re.escape(prefix) + r'/template/([^/]+)/demo/', a.get('href', ''))
         if match:
             advertised.add(match[1])
-    if advertised != set(slugs):
-        fail(catalog_path, 'catalog and demo manifest differ: ' + str(advertised ^ set(slugs)))
+    if advertised != localized_slugs:
+        fail(catalog_path, 'catalog and demo manifest differ: ' + str(advertised ^ localized_slugs))
     details = {p.parent.name for p in catalog_path.parent.glob('*/index.html')}
-    if details != set(slugs):
-        fail(catalog_path, 'every template detail must have a registered demo: ' + str(details ^ set(slugs)))
+    if details != localized_slugs:
+        fail(catalog_path, 'every template detail must have a registered demo: ' + str(details ^ localized_slugs))
     for entry in entries:
-        slug = entry['slug']
+        slug = entry.get('slugs', {}).get(lang, entry['slug'])
         pages = entry['pages'].get(lang, [])
         if len(pages) < 2:
             fail(ROOT / 'template/demos.json', f'{slug}/{lang}: complete navigable site required')
