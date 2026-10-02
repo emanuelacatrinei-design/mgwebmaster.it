@@ -1619,6 +1619,50 @@
           }
         ]
       }
+    },
+    {
+      "slug": "artista-pittore-murales",
+      "name": "Atelier Cromatica – Artista e Pittore",
+      "source": "ATELIER-CROMATICA-template.zip",
+      "source_sha256": "a416000e8cceff26b0b02014ea033cde338143ca9371a03ef6eb348861311568",
+      "pages": {
+        "it": [
+          {
+            "path": "/template/artista-pittore-murales/demo/index.html",
+            "label": "Home"
+          },
+          {
+            "path": "/template/artista-pittore-murales/demo/chi-sono.html",
+            "label": "Chi sono"
+          },
+          {
+            "path": "/template/artista-pittore-murales/demo/galleria.html",
+            "label": "Galleria Foto"
+          },
+          {
+            "path": "/template/artista-pittore-murales/demo/contatti.html",
+            "label": "Contatti"
+          }
+        ],
+        "ro": [
+          {
+            "path": "/ro/template/artista-pittore-murales/demo/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/artista-pittore-murales/demo/chi-sono.html",
+            "label": "Despre artist"
+          },
+          {
+            "path": "/ro/template/artista-pittore-murales/demo/galleria.html",
+            "label": "Galerie foto"
+          },
+          {
+            "path": "/ro/template/artista-pittore-murales/demo/contatti.html",
+            "label": "Contact"
+          }
+        ]
+      }
     }
   ]
 }
