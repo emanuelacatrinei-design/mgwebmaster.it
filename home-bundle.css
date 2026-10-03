@@ -1708,3 +1708,32 @@ body .portrait-note {
   .site-audit-promo { padding: 26px 0; }
   .site-audit-promo-grid > .button { max-width: 100%; white-space: normal; }
 }
+
+
+/* Home IT infographic: smaller on-page preview, full image on click */
+.home-infographic .container{
+  display:flex;
+  justify-content:center;
+}
+.home-infographic-link{
+  display:block;
+  width:100%;
+  max-width:860px;
+  text-decoration:none;
+}
+.home-infographic-link .infographic{
+  width:100%;
+  height:auto;
+  margin:0 auto;
+  cursor:zoom-in;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.home-infographic-link:hover .infographic,
+.home-infographic-link:focus-visible .infographic{
+  transform:scale(1.01);
+}
+@media (max-width:768px){
+  .home-infographic-link{
+    max-width:92vw;
+  }
+}
