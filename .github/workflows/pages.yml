@@ -49,6 +49,30 @@ jobs:
                       out = src.with_name(f"{src.stem}-{width}.webp")
                       resized.save(out, "WEBP", quality=80, method=6)
           PY
+      - name: Genera immagini responsive per la Home IT
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          targets = [
+              Path("assets/hero-home-web-design-mgwebmaster.webp"),
+              Path("assets/infografica-web-design-siti-web-perugia-premium-avorio.webp"),
+          ]
+
+          for src in targets:
+              with Image.open(src) as im:
+                  mode = "RGBA" if "A" in im.getbands() else "RGB"
+                  im = im.convert(mode)
+                  for width in (480, 960, 1280):
+                      if width >= im.width:
+                          continue
+                      height = round(im.height * width / im.width)
+                      resized = im.resize((width, height), Image.Resampling.LANCZOS)
+                      out = src.with_name(f"{src.stem}-{width}.webp")
+                      resized.save(out, "WEBP", quality=82, method=6)
+                      print(out, out.stat().st_size)
+          PY
       - name: Uniforma la versione CSS su tutte le pagine
         run: |
           find . -type f -name "*.html" -print0 | xargs -0 sed -E -i 's#href="/styles\.css(\?v=[^"]*)?"#href="/styles.css?v=20260926-blog-infographics"#g'
