@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Literal
 
-VERSION = "0.1.4"
+VERSION = "0.1.5"
 MAX_PAGES = 5
 MAX_REDIRECTS = 5
 MAX_HTML_BYTES = 2_000_000
@@ -455,7 +455,7 @@ def _rate_limit(request: Request):
 
 @app.get("/health")
 def health():
-    return {"ok":True,"service":"mg-site-check","version":VERSION}
+    return {"ok":True,"status":"healthy","service":"mg-site-check","version":VERSION}
 
 
 @app.post("/v1/scan")
