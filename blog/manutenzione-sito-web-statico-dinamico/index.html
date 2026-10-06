@@ -14,9 +14,14 @@
 .maintenance-hero .container{
   position:relative;
   z-index:1;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:center;
+  gap:clamp(24px,4vw,48px);
 }
 .maintenance-hero .hero-copy{
-  max-width:800px;
+  min-width:0;
+  max-width:560px;
 }
 .site-unified .maintenance-hero .breadcrumbs{
   display:block;
@@ -27,8 +32,46 @@
 .maintenance-hero .eyebrow{
   margin-bottom:16px;
 }
-.maintenance-hero h1{
+.site-unified .maintenance-hero h1{
+  font-size:clamp(2rem,3.2vw,3.05rem);
   overflow-wrap:break-word;
+}
+.maintenance-hero .maintenance-visual{
+  width:100%;
+  max-width:550px;
+  margin:0;
+  justify-self:end;
+}
+.maintenance-hero .maintenance-visual img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  border-radius:24px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.7) 7%,#000 20%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.7) 7%,#000 20%);
+}
+@media(max-width:900px){
+  .maintenance-hero .container{
+    grid-template-columns:minmax(0,1fr);
+    gap:28px;
+  }
+  .maintenance-hero .hero-copy{max-width:760px}
+  .maintenance-hero .maintenance-visual{
+    max-width:420px;
+    justify-self:center;
+  }
+  .site-unified .maintenance-hero h1{
+    font-size:clamp(2rem,5.5vw,3.05rem);
+  }
+}
+@media(max-width:620px){
+  .maintenance-hero .maintenance-visual{max-width:340px}
+  .maintenance-hero .maintenance-visual img{
+    border-radius:18px;
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 14%);
+    mask-image:linear-gradient(to right,transparent 0%,#000 14%);
+  }
 }
 .maintenance-note{
   padding:1rem 1.1rem;
@@ -54,7 +97,7 @@
 <h1>Manutenzione del sito web: perché serve anche se il sito è statico</h1>
 <p style="max-width:650px;font-size:1.14rem;color:#40536c">Un sito statico richiede meno aggiornamenti di un CMS, ma non per questo può essere dimenticato. Prestazioni, sicurezza, contenuti, moduli, dominio e SEO continuano a cambiare nel tempo.</p>
 <div class="actions"><a class="button" href="/servizi/assistenza-manutenzione/">Assistenza e manutenzione</a></div>
-</div></div></section>
+</div><figure class="maintenance-visual"><img src="/assets/images/blog/manutenzione-sito-web-statico-dinamico.webp?v=20261006-4-corrected" srcset="/assets/images/blog/manutenzione-sito-web-statico-dinamico-720.webp?v=20261006-4-corrected 720w, /assets/images/blog/manutenzione-sito-web-statico-dinamico.webp?v=20261006-4-corrected 1672w" sizes="(max-width:620px) 340px, (max-width:900px) 420px, 550px" width="1672" height="941" alt="Postazione di lavoro per la manutenzione di siti web statici e dinamici" decoding="async" fetchpriority="high"></figure></div></section>
 <section class="section"><div class="container prose">
 <section class="article-block"><p>Un sito web non smette di avere bisogno di attenzione nel momento in cui viene pubblicato. È facile pensare il contrario: le pagine si aprono, il dominio è stato pagato e quindi il lavoro è finito. In realtà è proprio da quel momento che comincia la parte meno visibile ma più importante: mantenerlo funzionante, sicuro, veloce e coerente con l’attività che rappresenta.</p><p>Questo vale per WordPress, per un e-commerce, per un sito collegato a un database, ma anche per un sito statico costruito in HTML, CSS e JavaScript. La manutenzione necessaria non è la stessa: un sito statico ha meno componenti che possono rompersi e una superficie di attacco generalmente più ridotta; un CMS richiede invece aggiornamenti più frequenti. Dire però che un sito statico “non necessita di manutenzione” sarebbe sbagliato.</p><div class="maintenance-note"><strong>La domanda corretta non è “il mio sito ha bisogno di manutenzione?”, ma “quale manutenzione serve al mio sito e con quale frequenza?”.</strong></div></section>
 

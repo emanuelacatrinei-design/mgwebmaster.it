@@ -14,9 +14,14 @@
 .maintenance-hero .container{
   position:relative;
   z-index:1;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:center;
+  gap:clamp(24px,4vw,48px);
 }
 .maintenance-hero .hero-copy{
-  max-width:800px;
+  min-width:0;
+  max-width:560px;
 }
 .site-unified .maintenance-hero .breadcrumbs{
   display:block;
@@ -27,8 +32,46 @@
 .maintenance-hero .eyebrow{
   margin-bottom:16px;
 }
-.maintenance-hero h1{
+.site-unified .maintenance-hero h1{
+  font-size:clamp(2rem,3.2vw,3.05rem);
   overflow-wrap:break-word;
+}
+.maintenance-hero .maintenance-visual{
+  width:100%;
+  max-width:550px;
+  margin:0;
+  justify-self:end;
+}
+.maintenance-hero .maintenance-visual img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  border-radius:24px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.7) 7%,#000 20%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.7) 7%,#000 20%);
+}
+@media(max-width:900px){
+  .maintenance-hero .container{
+    grid-template-columns:minmax(0,1fr);
+    gap:28px;
+  }
+  .maintenance-hero .hero-copy{max-width:760px}
+  .maintenance-hero .maintenance-visual{
+    max-width:420px;
+    justify-self:center;
+  }
+  .site-unified .maintenance-hero h1{
+    font-size:clamp(2rem,5.5vw,3.05rem);
+  }
+}
+@media(max-width:620px){
+  .maintenance-hero .maintenance-visual{max-width:340px}
+  .maintenance-hero .maintenance-visual img{
+    border-radius:18px;
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 14%);
+    mask-image:linear-gradient(to right,transparent 0%,#000 14%);
+  }
 }
 .maintenance-note{
   padding:1rem 1.1rem;
@@ -54,7 +97,7 @@
 <h1>Mentenanța site-ului web: de ce este necesară chiar și pentru un site static</h1>
 <p style="max-width:650px;font-size:1.14rem;color:#40536c">Un site static are nevoie de mai puține actualizări decât un CMS, dar nu poate fi pur și simplu uitat. Performanța, securitatea, conținutul, formularele, domeniul și SEO se schimbă în timp.</p>
 <div class="actions"><a class="button" href="/ro/servicii/mentenanta-site-web/">Mentenanță și asistență</a></div>
-</div></div></section>
+</div><figure class="maintenance-visual"><img src="/assets/images/blog/manutenzione-sito-web-statico-dinamico.webp?v=20261006-4-corrected" srcset="/assets/images/blog/manutenzione-sito-web-statico-dinamico-720.webp?v=20261006-4-corrected 720w, /assets/images/blog/manutenzione-sito-web-statico-dinamico.webp?v=20261006-4-corrected 1672w" sizes="(max-width:620px) 340px, (max-width:900px) 420px, 550px" width="1672" height="941" alt="Mediu de lucru pentru mentenanța site-urilor web statice și dinamice" decoding="async" fetchpriority="high"></figure></div></section>
 <section class="section"><div class="container prose">
 <section class="article-block"><p>Un site web nu încetează să aibă nevoie de atenție în momentul în care este publicat. Este ușor să crezi contrariul: paginile se deschid, domeniul este plătit, deci proiectul este terminat. În realitate, de aici începe partea mai puțin vizibilă, dar foarte importantă: să păstrezi site-ul funcțional, sigur, rapid și în acord cu activitatea pe care o reprezintă.</p><p>Acest lucru este valabil pentru WordPress, pentru un magazin online, pentru un site conectat la o bază de date, dar și pentru un site static realizat în HTML, CSS și JavaScript. Mentenanța nu este identică: un site static are mai puține componente care se pot defecta și, de regulă, o suprafață de atac mai mică; un CMS are nevoie de actualizări mai frecvente. Totuși, a spune că un site static „nu are nevoie de mentenanță” este greșit.</p><div class="maintenance-note"><strong>Întrebarea corectă nu este „site-ul meu are nevoie de mentenanță?”, ci „de ce tip de mentenanță are nevoie și cât de des?”.</strong></div></section>
 
