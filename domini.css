@@ -1,0 +1,84 @@
+/* Only the Domini / Domenii pages use this stylesheet. */
+.domain-page { --domain-navy: #071e36; --domain-warm: #fbf6eb; }
+.domain-space { padding: clamp(56px, 7vw, 96px) 0; }
+.domain-page h2 { font-size: clamp(1.9rem, 3.3vw, 3rem); text-wrap: balance; }
+.domain-page p { max-width: 70ch; }
+.domain-hero { position: relative; isolation: isolate; min-height: 610px; background: #071e36; color: #fff; display: grid; align-items: end; }
+.domain-hero-image { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center; }
+.domain-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(5,19,36,.87) 0%, rgba(5,19,36,.62) 38%, rgba(5,19,36,.10) 75%), linear-gradient(0deg, rgba(5,19,36,.6), transparent 70%); }
+.domain-hero-content { padding: 36px 0 62px; }
+.domain-hero h1 { color: #fff; max-width: 650px; font-size: clamp(2.4rem, 4.2vw, 3.85rem); letter-spacing: -.035em; text-wrap: balance; }
+.domain-hero .eyebrow { color: #d9f1ff; margin: 30px 0 18px; }
+.domain-hero .eyebrow::before { background: #ffc899; }
+.domain-hero .domain-hero-lead { max-width: 570px; font-size: 1.12rem; line-height: 1.7; color: #fff; }
+.site-unified .domain-hero .breadcrumbs { display: flex; width: fit-content; gap: .5rem; border-color: rgba(255,255,255,.36); background: rgba(5,19,36,.5); color: #fff; backdrop-filter: none; }
+.domain-hero .breadcrumbs a { color: #fff; }
+.domain-page .domain-cta { background: #f5cfaa; color: #172c40; box-shadow: none; border: 1px solid #f5cfaa; line-height: 1.4; min-height: 48px; text-align: center; }
+.domain-page .domain-cta:hover { background: #ffe1c3; border-color: #ffe1c3; color: #172c40; }
+.domain-secondary { color: #fff; display: inline-flex; align-items: center; min-height: 48px; text-underline-offset: 5px; font-weight: 650; }
+.domain-hero .actions { align-items: center; gap: 20px; }
+.domain-split { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(30px, 6vw, 90px); }
+.domain-intro { background: #fff; }
+.domain-intro .domain-split > div { border-left: 2px solid #c28252; padding-left: 28px; }
+.domain-intro p:first-child, .domain-support p:first-child { margin-top: 0; }
+.domain-search { background: var(--domain-warm); border-radius: 48px 48px 0 0; }
+.domain-search-layout { display: grid; grid-template-columns: 1.15fr .85fr; gap: 64px; align-items: center; }
+.domain-search h2 { margin-top: 14px; }
+.domain-platform-note { font-size: .87rem; color: #56657a; margin: 20px 0 0; }
+.domain-extensions { padding-left: 38px; border-left: 1px solid #ddcdbb; }
+.domain-extensions > p:first-child { font-weight: 700; color: #073763; }
+.domain-extensions ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+.domain-extensions li { padding: 10px 18px; border: 1px solid #d8c8b4; border-radius: 999px; font-size: 1.25rem; font-weight: 700; color: #073763; background: rgba(255,255,255,.6); }
+.domain-small { font-size: .88rem; color: #526273; }
+.domain-transfer .eyebrow { margin-bottom: 18px; }
+.domain-editorial-rows > div { border-top: 1px solid #dce5ea; padding: 24px 0 8px; }
+.domain-editorial-rows > div:first-child { padding-top: 0; border-top: 0; }
+.domain-editorial-rows h3 { font-size: 1.35rem; }
+.domain-dns { background: #edf4f6; border-radius: 0 48px 48px 0; }
+.domain-dns-layout { display: grid; grid-template-columns: 1.25fr .75fr; gap: 60px; align-items: center; }
+.domain-dns .eyebrow { margin-bottom: 18px; }
+.domain-records { padding: 30px; border: 1px solid #c5d6e1; border-radius: 26px; background: #fff; }
+.domain-records dl { margin: 0; }
+.domain-records dl > div { padding: 16px 0; border-bottom: 1px solid #e1e9ed; }
+.domain-records dl > div:first-child { padding-top: 0; }
+.domain-records dt { font-family: ui-monospace, monospace; font-size: 1.1rem; font-weight: 750; color: #073763; }
+.domain-records dd { margin: 3px 0 0; }
+.domain-records .domain-small { margin-bottom: 0; }
+.domain-section-heading { max-width: 800px; margin-bottom: 38px; }
+.domain-services { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 36px; }
+.domain-services > div { border-top: 2px solid #bd855c; padding-top: 22px; }
+.domain-step { color: #8c562e; font-size: .9rem; font-weight: 750; display: block; margin-bottom: 16px; }
+.domain-services p { color: #42536b; }
+.domain-services a { color: #073763; font-weight: 700; text-underline-offset: 4px; }
+.domain-support { background: #fbf6eb; }
+.domain-support .button { margin-top: 14px; }
+.domain-faq .container { max-width: 940px; }
+.domain-faq h2 { margin-bottom: 28px; }
+.domain-faq .faq details { padding: 20px 0; border: 0; border-bottom: 1px solid #dce5ea; border-radius: 0; background: transparent; box-shadow: none; }
+.domain-faq summary { font-size: 1.06rem; }
+.domain-faq details p { color: #42536b; }
+.domain-final { text-align: center; background: #071e36; color: #fff; border-radius: 48px 48px 0 0; }
+.domain-final h2 { color: #fff; max-width: 760px; margin-inline: auto; }
+.domain-final p { margin: 0 auto 28px; color: #e2ebf3; }
+.domain-page a:focus-visible { outline: 3px solid #d59052; outline-offset: 5px; }
+@media (min-width: 1800px) { .domain-hero { min-height: 670px; } }
+@media (max-width: 1000px) { .domain-search-layout, .domain-dns-layout { gap: 34px; } .domain-split { gap: 34px; } .domain-services { gap: 24px; } .domain-hero h1 { max-width: 560px; } }
+@media (max-width: 760px) {
+  .domain-hero { display: block; min-height: 0; }
+  .domain-hero-image { position: relative; inset: auto; width: 100%; height: auto; object-fit: contain; }
+  .domain-hero::after { display: none; }
+  .domain-hero-content { padding: 24px 0 42px; }
+  .domain-hero h1 { font-size: clamp(2.1rem, 7.5vw, 2.9rem); max-width: 640px; }
+  .domain-hero .eyebrow { margin-top: 22px; }
+  .domain-hero .domain-hero-lead { font-size: 1.04rem; }
+  .domain-hero .actions { gap: 12px 20px; margin-top: 24px; }
+  .domain-split, .domain-search-layout, .domain-dns-layout { grid-template-columns: 1fr; gap: 28px; }
+  .domain-split h2 { margin-bottom: 0; }
+  .domain-extensions { border-left: 0; padding-left: 0; border-top: 1px solid #ddcdbb; padding-top: 12px; }
+  .domain-services { grid-template-columns: 1fr; gap: 26px; }
+  .domain-search, .domain-final { border-radius: 28px 28px 0 0; }
+  .domain-dns { border-radius: 0 28px 28px 0; }
+  .domain-records { padding: 24px; }
+  .domain-intro .domain-split > div { padding-left: 20px; }
+}
+@media (max-width: 400px) { .domain-hero .domain-cta { width: 100%; } .domain-extensions li { font-size: 1.1rem; padding: 8px 14px; } }
