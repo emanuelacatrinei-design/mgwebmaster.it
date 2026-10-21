@@ -35,6 +35,22 @@
 <script defer src="/cookie-consent.js">
 </script>
 <script defer src="/header-nav.js?v=20261002-site-audit"></script>
+<style id="home-projects-style">
+.home-projects .grid-2{align-items:stretch}
+.home-project-card{display:flex;flex-direction:column;min-width:0}
+.home-project-media{margin:0 0 22px}
+.home-project-media a{display:block;aspect-ratio:16/10;overflow:hidden;border-radius:16px;background:#f7f5ef}
+.home-project-media img{width:100%;height:100%;object-fit:contain}
+.home-project-media figcaption{margin-top:8px;font-size:.84rem;color:var(--muted)}
+.home-project-card .eyebrow{margin-bottom:12px}
+.home-project-card .actions{margin-top:auto;padding-top:16px}
+.home-offer{margin-top:48px;padding-top:40px;border-top:1px solid var(--line)}
+.home-offer h2{font-size:clamp(1.7rem,3vw,2.6rem)}
+.home-offer ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 32px;list-style:none;padding:0;margin:28px 0}
+.home-offer li{border-left:3px solid var(--blue);padding-left:16px;color:var(--muted)}
+.home-offer li strong{display:block;color:var(--ink);margin-bottom:5px}
+@media(max-width:620px){.home-offer ul{grid-template-columns:1fr;gap:20px}.home-project-card .button{width:100%}}
+</style>
 </head>
 <body class="home-modern site-unified">
 <a class="skip" href="#continut">Sari la conținut</a>
@@ -143,6 +159,52 @@
 <div class="actions">
 <a class="button outline" href="/ro/servicii/">Descoperă toate serviciile</a>
 </div>
+</div>
+</div>
+</section>
+<section class="section home-projects" aria-labelledby="home-proiecte-title">
+<div class="container">
+<div class="section-intro">
+<span class="eyebrow">Două proiecte pe care le poți vedea</span>
+<h2 id="home-proiecte-title">De la serviciile unui meseriaș la cursuri online</h2>
+<p>O firmă de instalații și un proiect de formare au nevoi diferite. Aceste două site-uri arată cum am organizat serviciile, conținutul și traseele până la contact.</p>
+</div>
+<div class="grid-2">
+<article class="card home-project-card">
+<figure class="home-project-media">
+<a href="https://www.alexsmarthome.it/" target="_blank" rel="noopener noreferrer" aria-label="Vizitează site-ul realizat pentru AlexSmartHome, în italiană">
+<img src="/assets/progetto-alexsmarthome-anteprima.webp" width="900" height="618" loading="lazy" decoding="async" alt="Previzualizare a site-ului AlexSmartHome, cu servicii electrice și soluții pentru case inteligente în Terni, Italia">
+</a>
+<figcaption>Site-ul firmei din Italia, în limba originală.</figcaption>
+</figure>
+<span class="eyebrow">Servicii tehnice · Terni, Italia</span>
+<h3>AlexSmartHome: instalații electrice și case inteligente</h3>
+<p>Pentru AlexSmartHome am organizat prezentarea instalațiilor electrice, a sistemelor fotovoltaice și a soluțiilor pentru case inteligente. De pe site poți consulta serviciile și găsi telefonul, adresa de e-mail și opțiunile pentru a solicita o ofertă, inclusiv de pe telefon.</p>
+<div class="actions"><a class="button outline" href="https://www.alexsmarthome.it/" target="_blank" rel="noopener noreferrer">Vezi AlexSmartHome, în italiană</a></div>
+</article>
+<article class="card home-project-card">
+<figure class="home-project-media">
+<a href="/ro/proiecte/cursuri-croitorie/" aria-label="Descoperă proiectul Sartoria Italiana și cursurile online">
+<img src="/assets/case-study-corsi-sartoria-udemy-multilingua.webp" width="624" height="600" loading="lazy" decoding="async" alt="Prezentarea proiectului Sartoria Italiana și a cursurilor Ginei Chiriac în mai multe limbi">
+</a>
+<figcaption>Proiectul cursurilor și al paginilor în mai multe limbi.</figcaption>
+</figure>
+<span class="eyebrow">Formare · Mai multe limbi</span>
+<h3>Sartoria Italiana: de la site la cursul potrivit</h3>
+<p>Pentru cursurile Ginei Chiriac am construit trasee separate pe limbi, cu pagini dedicate și legături spre Udemy. Vizitatorul poate citi prezentarea cursului în limba sa și apoi poate trece la platforma unde se înscrie.</p>
+<div class="actions"><a class="button outline" href="/ro/proiecte/cursuri-croitorie/">Descoperă proiectul de croitorie</a></div>
+</article>
+</div>
+<div class="home-offer" aria-labelledby="home-oferta-title">
+<h2 id="home-oferta-title">O ofertă care explică ce primești</h2>
+<p>Înainte să începem stabilim ce realizăm, cine pregătește materialele și ce servicii continuă după publicare.</p>
+<ul>
+<li><strong>Pagini și conținut</strong>Stabilim navigarea, textele și imaginile necesare, precizând ce materiale pregătești tu și de ce mă ocup eu.</li>
+<li><strong>Computer și telefon</strong>Proiectul include o versiune ușor de citit pe ecrane diferite, cu meniul și traseele până la contact verificate.</li>
+<li><strong>Pregătire pentru motoarele de căutare</strong>Organizez titlurile, descrierile și legăturile și verific partea tehnică înainte de publicare.</li>
+<li><strong>Predare și asistență</strong>Clarific accesul la conturi, titularul acestora, costurile recurente și asistența stabilită, ca să știi cum va fi administrat site-ul.</li>
+</ul>
+<p>Găsești tipurile de site, etapele și termenele pe pagina de <a href="/ro/servicii/creare-site-web/">creare site-uri web</a>. Pentru proiectul tău poți consulta <a href="/ro/preturi/">prețurile și ofertele</a> sau îmi poți <a href="/ro/contact/">scrie de ce ai nevoie</a>.</p>
 </div>
 </div>
 </section>
