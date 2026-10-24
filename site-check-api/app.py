@@ -30,7 +30,7 @@ from passive_security import php_evidence, php_report, passive_findings, localiz
 from advisory_feed import start_refresh, metadata as feed_metadata
 from csp_analysis import policies as csp_policies, parse as parse_csp
 
-VERSION = "0.4.0"
+VERSION = "0.4.1"
 MAX_PAGES = 5
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600

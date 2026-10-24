@@ -147,3 +147,32 @@ def test_engine_accepts_meta_csp_as_enforced_protection(monkeypatch):
 
 def test_late_meta_reports_resources_that_may_precede_protection():
     assert 'sec_csp_late_meta' in csp('', "<script src='/x.js'></script><meta http-equiv='Content-Security-Policy' content=\"script-src 'self'\">")
+
+
+def test_scheduled_mirror_fallback_preserves_original_download_time(tmp_path, monkeypatch):
+    import time
+    original = int(time.time()) - 3600
+    data = {'source': feed.FEED_URL, 'checked_at': original, 'partial': False,
+            'advisories': feed.normalize([advisory()])}
+    monkeypatch.setattr(feed, 'CACHE', tmp_path / 'feed.json')
+    calls = []
+    def download(url):
+        calls.append(url)
+        if url == feed.FEED_URL:
+            raise ValueError('HTTP_403')
+        assert url == feed.MIRROR_URL
+        return data, ''
+    monkeypatch.setattr(feed, 'download', download)
+    result = feed.refresh()
+    assert result['checked_at'] == original
+    assert calls == [feed.FEED_URL, feed.MIRROR_URL]
+    assert feed.snapshot() == data
+
+
+def test_snapshot_rejects_other_sources_and_future_dates():
+    import time
+    for change in [{'source': 'https://attacker.example/'}, {'checked_at': int(time.time()) + 10000}]:
+        data = {'source': feed.FEED_URL, 'checked_at': int(time.time()),
+                'advisories': feed.normalize([advisory()]), **change}
+        with pytest.raises(ValueError):
+            feed.validate_snapshot(data)

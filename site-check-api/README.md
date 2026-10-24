@@ -177,3 +177,27 @@ l’esecuzione del browser. Non valida ogni sintassi o ogni combinazione CSP3 e 
 
 Riferimenti: https://docs.github.com/en/rest/security-advisories/repository-advisories
 ; https://www.w3.org/TR/CSP/
+
+
+### Consegna affidabile dell’archivio — 0.4.1
+
+Il workflow Pages genera un archivio JSON ridotto durante ogni pubblicazione e
+con una pianificazione ogni sei ore (al minuto 23, UTC). Consulta gli avvisi PHP
+ufficiali usando il token effimero GitHub Actions con le autorizzazioni di lettura
+già presenti, senza aggiungere permessi di scrittura ai contenuti. L’archivio non
+contiene descrizioni, esempi di attacco o dati dei siti analizzati. È generato
+nell’artefatto Pages, non tramite commit automatici al repository.
+
+Se l’API ufficiale non è raggiungibile dal backend, il motore legge questo
+archivio da `/assets/security/php-advisories.json` sul sito MG Webmaster. Verifica
+struttura, ID, provenienza e timestamp e **conserva la data originale**: scaricare
+un vecchio archivio non lo rende recente. Se anche questa fonte fallisce,
+conserva la cache precedente e continua a indicare dati mancanti o non recenti.
+L’aggiornamento su GitHub non dipende dalla sospensione del servizio Render;
+la pianificazione GitHub Actions può subire ritardi o sospensioni della piattaforma.
+Non è una garanzia di tempestività assoluta e non invia notifiche.
+
+Il download automatico diretto iniziale su Render è fallito; questa seconda
+modalità evita che la disponibilità dell’API dalla rete del backend sia l’unica
+via di aggiornamento. Le verifiche finali devono confermare nell’health check un
+conteggio maggiore di zero e un timestamp recente, non solo il deploy `live`.

@@ -9,59 +9,65 @@ import threading
 import time
 
 import requests
+from advisory_format import normalize
 
 FEED_URL = 'https://api.github.com/repos/php/php-src/security-advisories?per_page=100'
+MIRROR_URL = 'https://www.mgwebmaster.it/assets/security/php-advisories.json'
 CACHE = Path(tempfile.gettempdir()) / 'mgw-php-advisories-v1.json'
 INTERVAL = 6 * 3600
 MAX_BYTES = 4 * 1024 * 1024
 LOG = logging.getLogger('mgw.sitecheck')
 
 
-def normalize(payload):
-    if not isinstance(payload, list) or not payload or len(payload) > 100:
-        raise ValueError('Invalid advisory list')
-    records = []
-    for item in payload:
-        if item.get('state') != 'published' or item.get('withdrawn_at'):
-            continue
-        ghsa = item.get('ghsa_id', '')
-        if not re.fullmatch(r'GHSA-[a-z0-9-]{14}', ghsa):
-            raise ValueError('Invalid advisory ID')
-        rows = []
-        for v in item.get('vulnerabilities', [])[:100]:
-            package = v.get('package') or {}
-            if package.get('ecosystem') != 'php':
-                continue
-            rows.append({'range': str(v.get('vulnerable_version_range') or '')[:512],
-                         'patched': str(v.get('patched_versions') or '')[:128]})
-        cve = item.get('cve_id') or ghsa
-        if not re.fullmatch(r'(?:CVE-\d{4}-\d{4,9}|GHSA-[a-z0-9-]{14})', cve):
-            raise ValueError('Invalid CVE ID')
-        records.append({'id': cve, 'ghsa': ghsa, 'severity': item.get('severity', 'unknown'),
-                        'ranges': rows, 'url': 'https://github.com/php/php-src/security/advisories/' + ghsa})
-    if not records:
-        raise ValueError('No published PHP advisories')
-    return records
 
 
-def refresh():
-    """Fixed trusted HTTPS destination, no redirects/proxies/cookies, finite body/time."""
+def download(url):
     with requests.Session() as session:
         session.trust_env = False
-        with session.get(FEED_URL, headers={'Accept': 'application/vnd.github+json',
+        with session.get(url, headers={'Accept': 'application/vnd.github+json',
                          'Accept-Encoding': 'identity', 'User-Agent': 'MG-Webmaster-Site-Check'},
                          timeout=(5, 8), stream=True, allow_redirects=False) as response:
             if response.status_code != 200:
-                raise ValueError('Advisory source unavailable')
+                raise ValueError('HTTP_' + str(response.status_code))
             deadline = time.monotonic() + 20
             body = bytearray()
             for chunk in response.iter_content(16384):
                 body.extend(chunk)
                 if len(body) > MAX_BYTES or time.monotonic() > deadline:
-                    raise ValueError('Advisory source limit')
-            records = normalize(json.loads(body))
-            data = {'checked_at': int(time.time()), 'source': FEED_URL, 'advisories': records,
-                    'partial': 'rel="next"' in response.headers.get('link', '')}
+                    raise ValueError('source_limit')
+            return json.loads(body), response.headers.get('link', '')
+
+
+def validate_snapshot(data):
+    if (not isinstance(data, dict) or data.get('source') != FEED_URL
+            or not isinstance(data.get('checked_at'), int)
+            or not 0 < data['checked_at'] <= time.time() + 300
+            or not isinstance(data.get('advisories'), list)
+            or not 0 < len(data['advisories']) <= 100):
+        raise ValueError('snapshot_format')
+    for item in data['advisories']:
+        if (not re.fullmatch(r'(?:CVE-\d{4}-\d{4,9}|GHSA-[a-z0-9-]{14})', item.get('id', ''))
+                or not re.fullmatch(r'GHSA-[a-z0-9-]{14}', item.get('ghsa', ''))
+                or item.get('url') != 'https://github.com/php/php-src/security/advisories/' + item['ghsa']
+                or not isinstance(item.get('ranges'), list) or len(item['ranges']) > 100):
+            raise ValueError('snapshot_record')
+        for row in item['ranges']:
+            if not isinstance(row.get('range'), str) or len(row['range']) > 512:
+                raise ValueError('snapshot_range')
+    return data
+
+
+def refresh():
+    """Official API first; own scheduled Pages artifact if API is unavailable."""
+    try:
+        payload, link = download(FEED_URL)
+        data = {'checked_at': int(time.time()), 'source': FEED_URL, 'advisories': normalize(payload),
+                'partial': 'rel="next"' in link}
+    except Exception as exc:
+        reason = str(exc) if isinstance(exc, ValueError) and re.fullmatch(r'HTTP_\d{3}', str(exc)) else type(exc).__name__
+        LOG.warning('php_advisories_direct_unavailable reason=%s', reason)
+        data, _ = download(MIRROR_URL)
+        validate_snapshot(data)
     fd, temporary = tempfile.mkstemp(prefix='mgw-php-', dir=CACHE.parent)
     try:
         with os.fdopen(fd, 'w') as handle:
@@ -78,11 +84,7 @@ def snapshot():
         if CACHE.stat().st_size > MAX_BYTES:
             return None
         data = json.loads(CACHE.read_text())
-        if (not isinstance(data, dict) or data.get('source') != FEED_URL
-                or not isinstance(data.get('checked_at'), int)
-                or not isinstance(data.get('advisories'), list)
-                or not 0 < len(data['advisories']) <= 100):
-            return None
+        validate_snapshot(data)
         return data
     except (OSError, ValueError, TypeError, AttributeError):
         return None
