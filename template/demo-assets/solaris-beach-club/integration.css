@@ -4,3 +4,6 @@ header .mobile-toggle{display:none;background:transparent;color:inherit;border:1
 @media(max-width:640px){.hero-content,.hero-grid,.hero-copy,.subhero-copy{min-width:0} .hero h1,.hero-copy h1,.subhero h1,.pagehero h1,.contact-hero h1{font-size:clamp(2rem,10vw,3.2rem)!important}header .brand{font-size:21px}header .brand strong{font-size:23px}header .brand small{font-size:9px}.contact-form,.formcard{padding:24px}.hero-rail{min-width:0}}
 
 @media(max-width:1100px){header nav.open a,header nav.open a.active{color:#182a24!important}header nav.open a:hover{color:#6f491e!important}}
+
+.artist-portrait{aspect-ratio:3/4;background-image:url('/template/demo-assets/solaris-beach-club/assets/musica-lineup-clean.webp');background-size:500% auto;background-repeat:no-repeat;background-position:0% 50%}
+.artist:nth-child(2) .artist-portrait{background-position:25% 50%}.artist:nth-child(3) .artist-portrait{background-position:50% 50%}.artist:nth-child(4) .artist-portrait{background-position:75% 50%}.artist:nth-child(5) .artist-portrait{background-position:100% 50%}
