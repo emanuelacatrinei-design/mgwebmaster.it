@@ -105,3 +105,36 @@ equivale a un firewall di uscita né garantisce assenza di vulnerabilità.
 La configurazione reale di CDN, hosting e reverse proxy può produrre log
 tecnici propri. Privacy Policy e tempi di conservazione devono descrivere il
 trattamento effettivo.
+
+
+## Controlli passivi PHP e sicurezza — 0.3.0
+
+Il report aggiunge `php`: versioni dichiarate negli header `Server`/`X-Powered-By`,
+origine dell’osservazione, stato, fonti ufficiali e data di revisione delle regole.
+Cookie PHPSESSID e URL `.php` sono soltanto indizi senza versione; nessun banner
+significa **non verificabile**, mai PHP assente o sito sicuro. Non vengono cercati
+`phpinfo.php`, pannelli, backup o file di configurazione. Nessun payload di exploit
+viene inviato e il numero massimo di richieste non aumenta.
+
+Le soglie del 21 ottobre 2026 (8.2.35, 8.3.36, 8.4.27, 8.5.12) riguardano
+CVE-2026-109618 / CVE-2026-109619. Un banner precedente genera un rischio
+**potenziale**, con verifica delle patch dell’hosting: i vendor possono applicare
+backport senza cambiare la versione. Un banner successivo raggiunge soltanto
+quelle soglie, non certifica la sicurezza. CVE-2026-115560 dipende anche dalla
+configurazione e dal codice applicativo: questo controllo non la verifica.
+
+Le regole sono locali, revisionate il 24 ottobre 2026: dopo 30 giorni il report
+segnala che devono essere aggiornate. Non esiste ancora un feed CVE automatico.
+Le date di fine supporto dei rami noti vengono valutate alla data della scansione.
+Rami nuovi, versioni incomplete e prerelease richiedono verifica manuale.
+
+Ulteriori osservazioni sulle sole risposte già scaricate: script/iframe HTTP in
+pagine HTTPS, moduli con destinazione HTTP, attributi dei cookie dal nome
+riconducibile a sessioni e testo compatibile con errori PHP. Non vengono salvati
+né restituiti valori dei cookie o dettagli degli errori. Questi sono segnali da
+verificare, non dimostrazioni di intrusione o test di sfruttabilità. Le nuove
+segnalazioni e il riquadro PHP sono localizzati IT/RO e inclusi nell’export TXT.
+
+Fonti: https://www.php.net/archive/2026.php#2026-10-21-5 ;
+https://www.php.net/supported-versions.php ;
+https://cert.europa.eu/publications/security-advisories/2026-018/

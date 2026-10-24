@@ -24,7 +24,9 @@ from typing import Literal
 from security import (AuditError, UnsafeTargetError, ScanLimitError, Budget, SafeFetcher,
                       SCAN_SECONDS, normalize_url)
 
-VERSION = "0.2.0"
+from passive_security import php_evidence, php_report, passive_findings, localize_report
+
+VERSION = "0.3.0"
 MAX_PAGES = 5
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
@@ -184,6 +186,18 @@ class Engine(SafeFetcher):
             if not present:
                 add("sec_"+header,"Sicurezza",sev,f"{label} non rilevato","Manca una protezione HTTP consigliata; serve una verifica della configurazione.")
 
+        raw_headers = getattr(r, "raw", None)
+        raw_headers = getattr(raw_headers, "headers", None)
+        cookie_headers = list(raw_headers.getlist("Set-Cookie")) if raw_headers is not None and hasattr(raw_headers, "getlist") else []
+        if not cookie_headers and r.headers.get("set-cookie"):
+            cookie_headers = [r.headers["set-cookie"]]
+        php = php_evidence(r.headers, final, cookie_headers)
+        issues.extend(passive_findings(soup, r.headers, final, cookie_headers))
+        php_check = php_report(php)
+        if php_check["status"] in {"unsupported", "potentially_outdated"}:
+            issues.append({"code": "sec_php_version", "area": "Sicurezza", "severity": "high",
+                           **{k: php_check[k] for k in ("title", "message", "title_ro", "message_ro")}, "page": final})
+
         internal = []
         for raw in hrefs:
             if not raw or raw.startswith(("#","mailto:","tel:","javascript:")):
@@ -201,7 +215,7 @@ class Engine(SafeFetcher):
         has_cta = any(x in lower for x in ("contatt","preventiv","chiama","scriv","whatsapp","contact","quote","sună","contactează","ofert"))
 
         return {
-            "url":final,"issues":issues,"links":sorted(set(internal),key=self.priority),
+            "url":final,"issues":issues,"php":php,"links":sorted(set(internal),key=self.priority),
             "local":{"phone":has_phone,"maps":has_maps,"address":has_address,"schema":schema_types(soup)},
             "cta":has_cta
         }
@@ -318,7 +332,8 @@ class Engine(SafeFetcher):
             "requested_url":requested,"final_url":first["url"],"scanned_at_epoch":int(time.time()),
             "duration_ms":int((time.perf_counter()-started)*1000),"pages_checked":len(pages),
             "overall_score":overall,"scores":scores,"counts":counts,"criticality":criticality,
-            "issues":[{"area":i["area"],"severity":i["severity"],"title":i["title"],"message":i["message"],"page":i["page"]} for i in unique[:8]],
+            "issues":[{k: v for k, v in i.items() if k not in {"code", "occurrences"}} for i in unique[:8]],
+            "php":php_report([observation for p in pages for observation in p.get("php", [])]),
             "disclaimer":"Scansione automatica sintetica. Il punteggio Prestazioni è un controllo tecnico leggero e non equivale a Lighthouse/Core Web Vitals. Il punteggio SEO locale usa segnali di base e non sostituisce un audit Local SEO. La scansione non dimostra, da sola, la presenza o l'assenza di malware o intrusioni."
         }
 
@@ -563,7 +578,7 @@ async def scan(request: Request):
         _scan_quota()
         result = await run_in_threadpool(_run_audit, payload.url)
         _LOG.info("scan_completed pages=%s", result.get("pages_checked", 0))
-        return result
+        return localize_report(result, payload.language)
     except HTTPException as exc:
         _LOG.info("scan_rejected status=%s", exc.status_code)
         raise
