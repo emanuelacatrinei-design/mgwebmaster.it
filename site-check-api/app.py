@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import ipaddress
+import logging
+import multiprocessing
 import json
 import os
 import re
-import socket
 import threading
 import time
 from urllib.parse import urljoin, urlparse, urlunparse
@@ -14,15 +16,16 @@ import requests
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
 from typing import Literal
 
-VERSION = "0.1.5"
+from security import (AuditError, UnsafeTargetError, ScanLimitError, Budget, SafeFetcher,
+                      SCAN_SECONDS, normalize_url)
+
+VERSION = "0.2.0"
 MAX_PAGES = 5
-MAX_REDIRECTS = 5
-MAX_HTML_BYTES = 2_000_000
-TIMEOUT = (5, 12)
-UA = "MGWebmaster-SiteCheck/0.1 (+https://www.mgwebmaster.it/)"
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
 TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET","").strip()
@@ -30,6 +33,15 @@ TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverif
 _RATE_LOCK = threading.Lock()
 _RATE_BUCKETS = {}
 _RATE_SALT = os.urandom(16)
+_MAX_RATE_BUCKETS = 5000
+_MAX_BODY_BYTES = 8192
+_SCAN_SLOTS = threading.BoundedSemaphore(2)
+_GLOBAL_HITS = []
+_LOG = logging.getLogger("mgw.sitecheck")
+# Empty by default: never trust arbitrary client-supplied forwarding headers.
+# Only configure networks of proxies whose append/overwrite behavior is verified.
+_TRUSTED_PROXIES = tuple(ipaddress.ip_network(n.strip()) for n in
+                         os.getenv("MG_TRUSTED_PROXY_CIDRS", "").split(",") if n.strip())
 
 SECURITY_HEADERS = {
     "strict-transport-security": ("HSTS", "high"),
@@ -41,52 +53,6 @@ SECURITY_HEADERS = {
 }
 SKIP_EXT = (".jpg",".jpeg",".png",".gif",".webp",".svg",".pdf",".zip",".rar",".7z",".mp4",".mp3",".css",".js",".xml",".json",".ico",".woff",".woff2",".ttf")
 HINTS = ("servizi","services","servicii","service","chi-sono","about","despre","contatti","contact","prezzi","pricing","preturi","negozio","shop","prodotti","products")
-
-
-class AuditError(RuntimeError):
-    pass
-
-
-class UnsafeTargetError(AuditError):
-    pass
-
-
-def normalize_url(value: str) -> str:
-    value = (value or "").strip()
-    if not value:
-        raise AuditError("Inserisci un URL.")
-    if "://" not in value:
-        value = "https://" + value
-    p = urlparse(value)
-    if p.scheme not in {"http", "https"}:
-        raise UnsafeTargetError("Sono consentiti solo URL HTTP/HTTPS.")
-    if p.username or p.password:
-        raise UnsafeTargetError("URL con credenziali incorporate non consentiti.")
-    if not p.hostname:
-        raise AuditError("Dominio non valido.")
-    if p.port not in {None, 80, 443}:
-        raise UnsafeTargetError("Sono consentite solo le porte web standard 80/443.")
-    host = p.hostname.encode("idna").decode("ascii").lower()
-    netloc = host + (f":{p.port}" if p.port else "")
-    return urlunparse((p.scheme.lower(), netloc, p.path or "/", "", p.query, ""))
-
-
-def public_target(url: str) -> str:
-    url = normalize_url(url)
-    p = urlparse(url)
-    host = p.hostname or ""
-    if host in {"localhost", "localhost.localdomain"} or host.endswith(".local"):
-        raise UnsafeTargetError("Host locale non consentito.")
-    try:
-        infos = socket.getaddrinfo(host, p.port or (443 if p.scheme == "https" else 80), type=socket.SOCK_STREAM)
-    except socket.gaierror as exc:
-        raise AuditError("Dominio non risolvibile.") from exc
-    ips = {x[4][0] for x in infos}
-    for raw in ips:
-        ip = ipaddress.ip_address(raw)
-        if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_multicast or ip.is_reserved or ip.is_unspecified:
-            raise UnsafeTargetError("Destinazione privata o riservata non consentita.")
-    return url
 
 
 def same_site(a: str, b: str) -> bool:
@@ -127,51 +93,15 @@ def schema_types(soup: BeautifulSoup) -> list[str]:
     return sorted(found)
 
 
-class Engine:
-    def __init__(self):
-        self.s = requests.Session()
-        self.s.headers.update({"User-Agent": UA, "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.5"})
-
-    def fetch(self, url: str, html_only=True, max_bytes=MAX_HTML_BYTES):
-        current = public_target(url)
-        start = time.perf_counter()
-        for _ in range(MAX_REDIRECTS + 1):
-            public_target(current)
-            try:
-                r = self.s.get(current, timeout=TIMEOUT, allow_redirects=False, stream=True)
-            except requests.RequestException as exc:
-                raise AuditError("Connessione al sito non riuscita.") from exc
-            if r.status_code in {301,302,303,307,308}:
-                loc = r.headers.get("Location")
-                r.close()
-                if not loc:
-                    raise AuditError("Redirect senza destinazione.")
-                current = urljoin(current, loc)
-                public_target(current)
-                continue
-            ctype = (r.headers.get("Content-Type") or "").lower()
-            if html_only and "text/html" not in ctype and "application/xhtml+xml" not in ctype:
-                r.close()
-                raise AuditError("La risorsa non è una pagina HTML.")
-            parts, size = [], 0
-            for chunk in r.iter_content(65536):
-                if not chunk:
-                    continue
-                size += len(chunk)
-                if size > max_bytes:
-                    r.close()
-                    raise AuditError("Risorsa troppo grande per la scansione gratuita.")
-                parts.append(chunk)
-            elapsed = int((time.perf_counter() - start) * 1000)
-            return r, b"".join(parts), elapsed
-        raise AuditError("Troppi redirect.")
-
+class Engine(SafeFetcher):
     def probe(self, url: str) -> int:
         try:
             r, _, _ = self.fetch(url, html_only=False, max_bytes=512_000)
             status = int(r.status_code)
             r.close()
             return status
+        except ScanLimitError:
+            raise
         except AuditError:
             return 0
 
@@ -297,7 +227,7 @@ class Engine:
 
     def audit(self, raw: str):
         started=time.perf_counter()
-        requested=public_target(raw)
+        requested=normalize_url(raw)
         first=self.audit_page(requested)
         pages=[first]
         seen={normalize_url(first["url"])}
@@ -305,7 +235,10 @@ class Engine:
             if len(pages)>=MAX_PAGES:
                 break
             try:
-                candidate=public_target(candidate)
+                self.budget.remaining()
+                candidate=normalize_url(candidate)
+            except ScanLimitError:
+                raise
             except AuditError:
                 continue
             if candidate in seen:
@@ -313,6 +246,8 @@ class Engine:
             seen.add(candidate)
             try:
                 pages.append(self.audit_page(candidate))
+            except ScanLimitError:
+                raise
             except AuditError:
                 pass
 
@@ -391,6 +326,7 @@ class Engine:
 class ScanRequest(BaseModel):
     url: str = Field(min_length=4, max_length=2048)
     authorized: Literal[True]
+    language: Literal["it", "ro"] = "it"
 
 
 origin=os.getenv("MG_SITE_ORIGIN","https://www.mgwebmaster.it")
@@ -399,7 +335,7 @@ allowed_origins=list(dict.fromkeys([
     "https://www.mgwebmaster.it",
     "https://mgwebmaster.it",
 ]))
-app=FastAPI(title="MG Webmaster Site Check API",version=VERSION,docs_url=None,redoc_url=None)
+app=FastAPI(title="MG Webmaster Site Check API",version=VERSION,docs_url=None,redoc_url=None,openapi_url=None)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
@@ -407,80 +343,232 @@ app.add_middleware(
     allow_methods=["GET","POST","OPTIONS"],
     allow_headers=["Content-Type","Accept"],
 )
-engine=Engine()
+
+
+def _client_ip(request: Request) -> str:
+    peer = request.client.host if request.client else "unknown"
+    try:
+        address = ipaddress.ip_address(peer)
+    except ValueError:
+        return "unknown"
+    if not any(address in network for network in _TRUSTED_PROXIES):
+        return address.compressed
+    chain = request.headers.get("x-forwarded-for", "").split(",")
+    if len(chain) > 16:
+        return address.compressed
+    # Skip only explicitly trusted proxies, walking from the server towards the client.
+    for raw in reversed(chain):
+        if not any(address in network for network in _TRUSTED_PROXIES):
+            break
+        try:
+            address = ipaddress.ip_address(raw.strip())
+        except ValueError:
+            return peer
+    return address.compressed
 
 
 def _client_key(request: Request) -> str:
-    raw = (
-        request.headers.get("cf-connecting-ip")
-        or (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
-        or (request.client.host if request.client else "unknown")
-    )
-    return hashlib.sha256(_RATE_SALT + raw.encode("utf-8", errors="ignore")).hexdigest()
+    return hashlib.sha256(_RATE_SALT + _client_ip(request).encode()).hexdigest()
 
 
-def _verify_turnstile(token: str, remote_ip: str | None = None):
+def _verify_turnstile(token: str):
     if not TURNSTILE_SECRET:
-        raise HTTPException(status_code=503, detail="Protezione Turnstile non configurata.")
+        raise HTTPException(status_code=503, detail="Protezione anti-bot non configurata.")
     token = (token or "").strip()
-    if not token:
-        raise HTTPException(status_code=400, detail="Verifica anti-bot mancante.")
-    payload = {"secret": TURNSTILE_SECRET, "response": token}
-    if remote_ip:
-        payload["remoteip"] = remote_ip
-    try:
-        r = requests.post(TURNSTILE_VERIFY_URL, data=payload, timeout=(5, 10))
-        data = r.json()
-    except Exception as exc:
-        raise HTTPException(status_code=502, detail="Verifica anti-bot non disponibile.") from exc
-    if not data.get("success"):
+    if not token or len(token) > 2048:
+        raise HTTPException(status_code=400, detail="Verifica anti-bot mancante o non valida.")
+    # Do not send untrusted proxy headers as remoteip to the validation service.
+    with requests.Session() as session:
+        session.trust_env = False
+        try:
+            response = session.post(
+                TURNSTILE_VERIFY_URL, data={"secret": TURNSTILE_SECRET, "response": token},
+                headers={"Accept-Encoding": "identity"},
+                timeout=(3, 5), allow_redirects=False, stream=True,
+            )
+            with response:
+                if response.status_code != 200:
+                    raise ValueError("Siteverify response")
+                raw = response.raw.read(16385, decode_content=False)
+                if len(raw) > 16384:
+                    raise ValueError("Siteverify response too large")
+                data = json.loads(raw)
+                if not isinstance(data, dict):
+                    raise ValueError("Siteverify format")
+        except Exception as exc:
+            raise HTTPException(status_code=502, detail="Verifica anti-bot non disponibile.") from exc
+    if (data.get("success") is not True
+            or data.get("hostname") not in {"www.mgwebmaster.it", "mgwebmaster.it"}
+            or data.get("action") != "site_scan"):
         raise HTTPException(status_code=403, detail="Verifica anti-bot non superata.")
 
 
 def _rate_limit(request: Request):
-    now = time.time()
+    now = time.monotonic()
     key = _client_key(request)
     with _RATE_LOCK:
         hits = [t for t in _RATE_BUCKETS.get(key, []) if now - t < RATE_WINDOW_SECONDS]
         if len(hits) >= RATE_LIMIT:
-            _RATE_BUCKETS[key] = hits
-            raise HTTPException(status_code=429, detail="Limite temporaneo raggiunto. Riprova tra qualche minuto.")
+            raise HTTPException(status_code=429, detail="Limite temporaneo raggiunto. Riprova più tardi.",
+                                headers={"Retry-After": str(RATE_WINDOW_SECONDS)})
+        if key not in _RATE_BUCKETS and len(_RATE_BUCKETS) >= _MAX_RATE_BUCKETS:
+            stale = [k for k, v in _RATE_BUCKETS.items() if not v or now - v[-1] >= RATE_WINDOW_SECONDS]
+            for k in stale:
+                del _RATE_BUCKETS[k]
+            if len(_RATE_BUCKETS) >= _MAX_RATE_BUCKETS:
+                raise HTTPException(status_code=429, detail="Servizio temporaneamente occupato.")
         hits.append(now)
         _RATE_BUCKETS[key] = hits
-        if len(_RATE_BUCKETS) > 5000:
-            stale = [k for k,v in _RATE_BUCKETS.items() if not v or now - v[-1] >= RATE_WINDOW_SECONDS]
-            for k in stale[:1000]:
-                _RATE_BUCKETS.pop(k, None)
+
+
+def _scan_quota():
+    # Invalid anti-bot tokens must not exhaust the quota for verified visitors.
+    now = time.monotonic()
+    with _RATE_LOCK:
+        _GLOBAL_HITS[:] = [t for t in _GLOBAL_HITS if now - t < RATE_WINDOW_SECONDS]
+        if len(_GLOBAL_HITS) >= 20:
+            raise HTTPException(status_code=429, detail="Limite temporaneo del servizio raggiunto.",
+                                headers={"Retry-After": str(RATE_WINDOW_SECONDS)})
+        _GLOBAL_HITS.append(now)
+
+
+async def _read_body(request: Request):
+    size = 0
+    chunks = []
+    declared = request.headers.get("content-length")
+    if declared is not None:
+        if not declared.isdigit():
+            raise HTTPException(status_code=400, detail="Richiesta non valida.")
+        if int(declared) > _MAX_BODY_BYTES:
+            raise HTTPException(status_code=413, detail="Richiesta troppo grande.")
+    if request.headers.get("content-encoding", "identity").lower() != "identity":
+        raise HTTPException(status_code=415, detail="Compressione della richiesta non supportata.")
+    async for chunk in request.stream():
+        size += len(chunk)
+        if size > _MAX_BODY_BYTES:
+            raise HTTPException(status_code=413, detail="Richiesta troppo grande.")
+        chunks.append(chunk)
+    return b"".join(chunks)
+
+
+def _audit_worker(url, sender):
+    try:
+        try:
+            import resource
+            resource.setrlimit(resource.RLIMIT_AS, (192 * 1024 * 1024, 192 * 1024 * 1024))
+            resource.setrlimit(resource.RLIMIT_CPU, (40, 41))
+        except ImportError:
+            # Unix limits apply on Render; Windows still has the parent hard timeout.
+            pass
+        sender.send((200, Engine(Budget()).audit(url)))
+    except UnsafeTargetError:
+        sender.send((400, "Destinazione non consentita per la scansione."))
+    except ScanLimitError:
+        sender.send((504, "Limite di tempo o risorse della scansione raggiunto."))
+    except AuditError:
+        sender.send((422, "Impossibile completare la scansione di questo sito."))
+    except Exception:
+        sender.send((500, "Analisi non completata. Riprova più tardi."))
+    finally:
+        sender.close()
+
+
+def _run_audit(url, timeout=SCAN_SECONDS, worker=_audit_worker):
+    # A killable child bounds DNS resolution, slow responses AND HTML/JSON parsing.
+    # A timed-out thread would continue consuming resources after returning an error.
+    context = multiprocessing.get_context("spawn")
+    receiver, sender = context.Pipe(duplex=False)
+    process = context.Process(target=worker, args=(url, sender), daemon=True)
+    try:
+        process.start()
+        sender.close()
+        if not receiver.poll(timeout):
+            raise HTTPException(status_code=504, detail="Tempo massimo della scansione raggiunto.")
+        try:
+            status, result = receiver.recv()
+        except EOFError as exc:
+            raise HTTPException(status_code=502, detail="Motore di analisi non disponibile.") from exc
+        if status != 200:
+            raise HTTPException(status_code=status, detail=result)
+        return result
+    finally:
+        receiver.close()
+        sender.close()
+        if process.pid is not None:
+            if process.is_alive():
+                process.terminate()
+            process.join(timeout=1)
+            if process.is_alive():
+                process.kill()
+                process.join(timeout=1)
+            process.close()
+
+
+@app.middleware("http")
+async def response_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Robots-Tag"] = "noindex"
+    return response
+
+
+@app.exception_handler(HTTPException)
+async def api_error(request, exc):
+    language = getattr(request.state, "language", request.headers.get("accept-language", "it")[:2])
+    romanian = {
+        400: "Adresa URL sau cererea nu este validă. Verifică datele și încearcă din nou.",
+        403: "Verificarea anti-bot nu a fost validată. Repetă verificarea și încearcă din nou.",
+        408: "Timpul de trimitere a cererii a expirat. Încearcă din nou.",
+        413: "Cererea este prea mare.",
+        415: "Formatul cererii nu este acceptat.",
+        422: "Analiza acestui site nu a putut fi finalizată.",
+        429: "Limita temporară de cereri a fost atinsă. Încearcă din nou mai târziu.",
+        500: "Analiza nu a fost finalizată. Încearcă din nou mai târziu.",
+        502: "Serviciul de analiză sau verificare nu este disponibil momentan.",
+        503: "Serviciul este ocupat sau indisponibil momentan. Încearcă din nou mai târziu.",
+        504: "Limita de timp sau de resurse a analizei a fost atinsă.",
+    }
+    detail = romanian.get(exc.status_code, "Cererea nu a putut fi finalizată.") if language == "ro" else exc.detail
+    return JSONResponse({"detail": detail}, status_code=exc.status_code, headers=exc.headers)
 
 
 @app.get("/health")
 def health():
-    return {"ok":True,"status":"healthy","service":"mg-site-check","version":VERSION}
+    return {"ok": True, "status": "healthy", "service": "mg-site-check", "version": VERSION}
 
 
 @app.post("/v1/scan")
 async def scan(request: Request):
+    _rate_limit(request)
+    if not _SCAN_SLOTS.acquire(blocking=False):
+        raise HTTPException(status_code=503, detail="Motore occupato. Riprova tra poco.",
+                            headers={"Retry-After": "15"})
     try:
-        _rate_limit(request)
-        raw = await request.body()
+        try:
+            raw = await asyncio.wait_for(_read_body(request), timeout=10)
+        except asyncio.TimeoutError as exc:
+            raise HTTPException(status_code=408, detail="Tempo di invio della richiesta scaduto.") from exc
         try:
             data = json.loads(raw.decode("utf-8"))
             payload = ScanRequest.model_validate(data)
-            turnstile_token = str(data.get("turnstile_token") or "")
-        except Exception as exc:
-            raise HTTPException(status_code=400, detail="Richiesta non valida.") from exc
-        remote_ip = (
-            request.headers.get("cf-connecting-ip")
-            or (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
-            or (request.client.host if request.client else None)
-        )
-        _verify_turnstile(turnstile_token, remote_ip)
-        return engine.audit(payload.url)
-    except HTTPException:
+            request.state.language = payload.language
+            token = data.get("turnstile_token", "")
+            if not isinstance(token, str):
+                raise ValueError("Token format")
+            normalize_url(payload.url)
+        except (ValueError, AuditError, UnicodeError) as exc:
+            raise HTTPException(status_code=400, detail="URL o richiesta non validi.") from exc
+        await run_in_threadpool(_verify_turnstile, token)
+        _scan_quota()
+        result = await run_in_threadpool(_run_audit, payload.url)
+        _LOG.info("scan_completed pages=%s", result.get("pages_checked", 0))
+        return result
+    except HTTPException as exc:
+        _LOG.info("scan_rejected status=%s", exc.status_code)
         raise
-    except UnsafeTargetError as exc:
-        raise HTTPException(status_code=400,detail=str(exc)) from exc
-    except AuditError as exc:
-        raise HTTPException(status_code=422,detail=str(exc)) from exc
     except Exception as exc:
-        raise HTTPException(status_code=500,detail="Analisi non completata. Riprova più tardi.") from exc
+        _LOG.error("scan_failed category=%s", type(exc).__name__)
+        raise HTTPException(status_code=500, detail="Analisi non completata. Riprova più tardi.") from exc
+    finally:
+        _SCAN_SLOTS.release()

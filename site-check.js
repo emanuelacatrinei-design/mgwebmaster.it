@@ -68,8 +68,8 @@ for(const endpoint of API_ENDPOINTS){
   try{
     res=await fetch(endpoint,{
       method:"POST",
-      headers:{"Content-Type":"text/plain;charset=UTF-8","Accept":"application/json"},
-      body:JSON.stringify({url:input.value.trim(),authorized:true,turnstile_token:(document.querySelector('input[name="cf-turnstile-response"]')?.value||"")}),
+      headers:{"Content-Type":"text/plain;charset=UTF-8","Accept":"application/json","Accept-Language":lang},
+      body:JSON.stringify({url:input.value.trim(),authorized:true,language:lang,turnstile_token:turnstileToken}),
       mode:"cors"
     });
     break;
@@ -79,7 +79,7 @@ if(!res)throw lastErr||new Error("network");
 let body={};try{body=await res.json()}catch{}
 if(!res.ok)throw new Error(body.detail||t.err);render(body)
 }catch(err){const network=/fetch|network|failed|load/i.test(String(err));showError(network?t.offline:(err.message||t.err))}
-finally{btn.disabled=false}});
+finally{btn.disabled=false;if(window.turnstile&&typeof window.turnstile.reset==="function")window.turnstile.reset()}});
 const printBtn=document.querySelector("[data-site-check-print]");if(printBtn)printBtn.addEventListener("click",()=>window.print());
 const txtBtn=document.querySelector("[data-site-check-download]");if(txtBtn)txtBtn.addEventListener("click",()=>{if(!lastResult)return;const d=lastResult;const lines=[t.download,d.final_url||d.requested_url,"","Punteggio generale: "+(d.overall_score??t.na)+"/100",...Object.entries(d.scores||{}).map(([k,v])=>`${t.labels[k]||k}: ${scoreValue(v)}`),"",t.issues+":",...(d.issues||[]).map(i=>`- [${t.sev[i.severity]||i.severity}] ${i.title}: ${i.message}`),"",d.disclaimer||""];const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);let host="sito";try{host=new URL(d.final_url||d.requested_url).hostname.replace(/^www\./,"")}catch{}a.download=`mg-webmaster-site-check-${host}.txt`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
 })();
