@@ -144,5 +144,5 @@ def localize_report(result, language):
             if language == 'ro' and translated:
                 item[key] = translated
     if language == 'ro' and 'disclaimer' in result:
-        result['disclaimer'] = 'Scanare automată sintetică. Rezumatul tehnic și prioritatea de securitate sunt distincte și orientative. Performanța este verificată printr-un control tehnic simplificat, nu prin Lighthouse sau Core Web Vitals. Semnalele locale nu înlocuiesc un audit Local SEO. Scanarea nu dovedește prezența sau absența programelor malware ori a intruziunilor.'
+        result['disclaimer'] = 'Verificare preliminară pe cel mult cinci pagini, nu un audit complet. Numerele reprezintă grupuri de semnalări, nu scoruri de calitate. Calitatea textelor, Core Web Vitals, competitivitatea locală și potențialul de clasare nu sunt evaluate. Absența semnalărilor nu garantează absența problemelor. Scanarea nu certifică securitatea sau absența programelor malware.'
     return result

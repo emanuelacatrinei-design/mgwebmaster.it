@@ -229,3 +229,6 @@ codici HTTP o versioni PHP differenti, rimangono separate. API, schermata,
 stampa e TXT includono tutti i gruppi trovati nel campione massimo di cinque
 pagine, senza taglio ai primi otto. Nessuna nuova richiesta ai siti analizzati.
 I nuovi testi, le spiegazioni e gli URL sono verificati su IT/RO.
+
+## Basic checks v3 (0.6.0)
+The public report no longer publishes numerical quality scores. Compatibility score fields are null. `basic_checks` counts grouped findings and unique affected URLs by area, including site-wide robots, sitemap and CTA findings. Counts are not percentages or rankings. No findings means none detected by these limited checks. The scan covers at most five pages. Content quality, CWV, local competitiveness and ranking potential are explicitly not evaluated. Missing HSTS/CSP are medium hardening findings; stronger observed security evidence can still produce high priority.

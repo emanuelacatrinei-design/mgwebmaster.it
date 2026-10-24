@@ -106,7 +106,9 @@ def test_engine_integration_includes_php_penalty_and_report(monkeypatch):
     monkeypatch.setattr(engine, 'probe', lambda *a: 200)
     result = engine.audit('https://example.com/')
     assert result['php']['status'] == 'potentially_outdated'
-    assert result['scores']['security'] < 100
+    assert result['scores']['security'] is None
+    assert result['security_priority'] == 'high'
+    assert result['basic_checks']['security']['findings'] > 0
     # PHP remains visible in its dedicated report even with more than eight findings.
     assert '8.3.35' in result['php']['title']
 

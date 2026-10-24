@@ -32,7 +32,7 @@ from csp_analysis import policies as csp_policies, parse as parse_csp
 
 from report_model import summarize, group_issues
 
-VERSION = "0.5.0"
+VERSION = "0.6.0"
 MAX_PAGES = 5
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
@@ -52,8 +52,8 @@ _TRUSTED_PROXIES = tuple(ipaddress.ip_network(n.strip()) for n in
                          os.getenv("MG_TRUSTED_PROXY_CIDRS", "").split(",") if n.strip())
 
 SECURITY_HEADERS = {
-    "strict-transport-security": ("HSTS", "high"),
-    "content-security-policy": ("CSP", "high"),
+    "strict-transport-security": ("HSTS", "medium"),
+    "content-security-policy": ("CSP", "medium"),
     "x-content-type-options": ("X-Content-Type-Options", "medium"),
     "referrer-policy": ("Referrer-Policy", "medium"),
     "permissions-policy": ("Permissions-Policy", "medium"),
@@ -284,20 +284,7 @@ class Engine(SafeFetcher):
         if not any(p["cta"] for p in pages):
             issues.append({"code":"cta","area":"Contenuti","severity":"medium","title":"Contatto poco evidente","message":"Nelle pagine controllate non è emerso un invito al contatto facilmente riconoscibile.","page":first["url"]})
 
-        seo=self.score("SEO tecnica",pages)
-        perf=self.score("Prestazioni",pages)
-        sec=self.score("Sicurezza",pages)
-        content=self.score("Contenuti",pages)
-        localdata=[p["local"] for p in pages]
-        types={x.lower() for p in localdata for x in p["schema"]}
-        signals={
-            "schema":any(x in types for x in ("localbusiness","professionalservice","organization")),
-            "phone":any(p["phone"] for p in localdata),
-            "address":any(p["address"] for p in localdata),
-            "maps":any(p["maps"] for p in localdata),
-        }
-        local=None if not any(signals.values()) else min(90,30+(20 if signals["schema"] else 0)+(20 if signals["phone"] else 0)+(10 if signals["address"] else 0)+(10 if signals["maps"] else 0))
-        scores={"seo":seo,"performance":perf,"security":sec,"content":content,"local":local}
+        scores={key: None for key in ('seo','performance','security','content','local')}
         unique=group_issues(issues)
         summary=summarize(scores, unique)
         counts={severity:sum(i["severity"]==severity for i in unique) for severity in ("high","medium","low")}
@@ -306,11 +293,11 @@ class Engine(SafeFetcher):
         return {
             "requested_url":requested,"final_url":first["url"],"scanned_at_epoch":int(time.time()),
             "duration_ms":int((time.perf_counter()-started)*1000),"pages_checked":len(pages),
-            "overall_score":summary["technical_score"],"scores":scores,"counts":counts,"criticality":summary["security_priority"],
+            "overall_score":summary["technical_score"],"scores":{key: None for key in scores},"counts":counts,"criticality":summary["security_priority"],
             **summary,
             "issues":unique,
             "php":php_report([observation for p in pages for observation in p.get("php", [])]),
-            "disclaimer":"Scansione automatica sintetica. Il punteggio Prestazioni è un controllo tecnico leggero e non equivale a Lighthouse/Core Web Vitals. Il punteggio SEO locale usa segnali di base e non sostituisce un audit Local SEO. La scansione non dimostra, da sola, la presenza o l'assenza di malware o intrusioni."
+            "disclaimer":"Controllo preliminare su un massimo di cinque pagine, non un audit completo. Le quantità indicano gruppi di segnalazioni, non voti di qualità. Qualità dei testi, Core Web Vitals, competitività locale e capacità di posizionamento non sono valutati. Nessuna segnalazione non significa assenza di problemi. La scansione non certifica sicurezza né assenza di malware."
         }
 
 

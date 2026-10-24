@@ -36,7 +36,7 @@ def test_health_missing_token_and_fail_closed_configuration(monkeypatch):
     async def run():
         async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app.app), base_url="https://api.example") as client:
             health = await client.get("/health")
-            assert health.status_code == 200 and health.json()["version"] == "0.5.0"
+            assert health.status_code == 200 and health.json()["version"] == "0.6.0"
             assert health.headers["cache-control"] == "no-store"
             assert (await client.get("/openapi.json")).status_code == 404
             response = await client.post("/v1/scan", json=payload())
@@ -201,4 +201,4 @@ def test_both_language_pages_use_expected_turnstile_action():
     for rel in ("strumenti/analisi-sito/index.html", "ro/instrumente/analiza-site/index.html"):
         text = (root / rel).read_text()
         assert 'data-action="site_scan"' in text
-        assert 'site-check.js?v=20261024-report-v2' in text
+        assert 'site-check.js?v=20261024-checks-v3' in text

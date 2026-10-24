@@ -11,31 +11,25 @@ def issue(code='h1', severity='high', area='Contenuti', page='https://example.co
     return dict(code=code, severity=severity, area=area, page=page, title=title, message='Evidence')
 
 
-def test_technical_quality_is_not_capped_by_number_of_issues_or_security_score():
-    scores={'seo':88, 'performance':86, 'content':90, 'local':80, 'security':26}
-    result=summarize(scores,[issue(str(n)) for n in range(6)])
-    assert result['technical_score']==87
-    assert result['security_priority']=='high'
-    assert result['score_model']=='technical_v2'
-    assert 'security' not in result['technical_weights']
-    assert abs(sum(result['technical_weights'].values())-1)<1e-9
+def test_no_unjustified_quality_score_even_if_legacy_values_are_perfect():
+    result=summarize({k:100 for k in ('seo','performance','content','local','security')},[])
+    assert result['technical_score'] is None
+    assert result['score_model']=='basic_checks_v3'
+    assert result['basic_checks']['local']['status']=='not_evaluated'
+    assert 'core_web_vitals' in result['not_evaluated']
 
 
-def test_seo_alerts_cannot_raise_security_priority():
-    result=summarize({'seo':10, 'performance':100, 'content':10, 'local':None, 'security':100},[issue(str(n)) for n in range(10)])
-    assert result['security_priority']=='low'
+def test_global_findings_are_included_without_diluting_across_pages():
+    findings=group_issues([issue('sitemap',area='SEO tecnica'),issue('cta'),issue('h1',page='https://example.com/b')])
+    result=summarize({},findings)
+    assert result['basic_checks']['seo']['findings']==1
+    assert result['basic_checks']['content']['affected_pages']==2
 
 
-def test_php_security_alert_stays_high_even_with_perfect_technical_score():
-    scores={k:100 for k in ('seo','performance','content','local','security')}
-    result=summarize(scores,[issue('sec_php_version',area='Sicurezza')])
-    assert result['technical_score']==100
-    assert result['security_priority']=='high'
-
-
-def test_missing_dimensions_are_excluded_and_all_missing_is_unknown():
-    assert summarize({'seo':80,'performance':None,'local':None,'content':None},[])['technical_score']==80
-    assert summarize({'security':10},[])['technical_score'] is None
+def test_security_priority_uses_security_evidence_only():
+    assert summarize({},[issue()])['security_priority']=='low'
+    assert summarize({},[issue(area='Sicurezza')])['security_priority']=='high'
+    assert summarize({},[issue(area='Sicurezza',severity='medium')])['security_priority']=='medium'
 
 
 def test_group_keeps_every_unique_url_and_different_evidence():

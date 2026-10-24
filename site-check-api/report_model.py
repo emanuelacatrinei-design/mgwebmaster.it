@@ -1,23 +1,23 @@
 """Explainable report model: technical quality and security remain separate."""
-TECHNICAL_WEIGHTS = {'seo': .30, 'performance': .20, 'content': .20, 'local': .10}
-MODEL = 'technical_v2'
+MODEL = 'basic_checks_v3'
+AREAS = {'seo': 'SEO tecnica', 'performance': 'Prestazioni',
+         'security': 'Sicurezza', 'content': 'Contenuti', 'local': 'Locale'}
 
 
 def summarize(scores, issues):
-    active = [(scores.get(key), weight) for key, weight in TECHNICAL_WEIGHTS.items()
-              if scores.get(key) is not None]
-    technical = round(sum(value * weight for value, weight in active) / sum(weight for _, weight in active)) if active else None
+    # No numerical quality estimate can be justified by this limited scan.
     security = [i for i in issues if i['area'] == 'Sicurezza']
-    score = scores.get('security')
-    if any(i['severity'] == 'high' for i in security) or (score is not None and score < 50):
-        priority = 'high'
-    elif any(i['severity'] == 'medium' for i in security) or (score is not None and score < 75):
-        priority = 'medium'
-    else:
-        priority = 'low'
-    return {'technical_score': technical, 'security_priority': priority, 'score_model': MODEL,
-            'technical_weights': {key: weight / sum(w for _, w in active) for key, weight in TECHNICAL_WEIGHTS.items()
-                                  if scores.get(key) is not None} if active else {}}
+    priority = ('high' if any(i['severity'] == 'high' for i in security) else
+                'medium' if any(i['severity'] == 'medium' for i in security) else 'low')
+    areas = {}
+    for key, area in AREAS.items():
+        findings = [i for i in issues if i['area'] == area]
+        areas[key] = {'findings': len(findings),
+                      'affected_pages': len({url for i in findings for url in i.get('pages', [i.get('page')]) if url}),
+                      'status': 'not_evaluated' if key == 'local' else 'findings' if findings else 'none_detected'}
+    return {'technical_score': None, 'security_priority': priority,
+            'score_model': MODEL, 'technical_weights': {}, 'basic_checks': areas,
+            'not_evaluated': ['content_quality', 'core_web_vitals', 'local_competitiveness', 'ranking_potential']}
 
 
 def group_issues(issues):
