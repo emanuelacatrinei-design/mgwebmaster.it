@@ -135,9 +135,14 @@ def passive_findings(soup, headers, url, cookie_headers=()):
 
 def localize_report(result, language):
     """Translate new observations in API, including TXT/print consumers."""
+    from report_model import romanian_issue
     for item in [*result.get('issues', []), result.get('php', {})]:
+        if language == 'ro':
+            romanian_issue(item)
         for key in ('title', 'message'):
             translated = item.pop(key + '_ro', None)
             if language == 'ro' and translated:
                 item[key] = translated
+    if language == 'ro' and 'disclaimer' in result:
+        result['disclaimer'] = 'Scanare automată sintetică. Rezumatul tehnic și prioritatea de securitate sunt distincte și orientative. Performanța este verificată printr-un control tehnic simplificat, nu prin Lighthouse sau Core Web Vitals. Semnalele locale nu înlocuiesc un audit Local SEO. Scanarea nu dovedește prezența sau absența programelor malware ori a intruziunilor.'
     return result

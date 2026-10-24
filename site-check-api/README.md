@@ -201,3 +201,31 @@ Il download automatico diretto iniziale su Render è fallito; questa seconda
 modalità evita che la disponibilità dell’API dalla rete del backend sia l’unica
 via di aggiornamento. Le verifiche finali devono confermare nell’health check un
 conteggio maggiore di zero e un timestamp recente, non solo il deploy `live`.
+
+## Report e priorità — 0.5.0, modello technical_v2
+
+`technical_score` riassume esclusivamente SEO, prestazioni, contenuti e segnali
+locali: pesi di partenza 0.30 / 0.20 / 0.20 / 0.10, normalizzati sulle dimensioni
+disponibili. La sicurezza è esclusa da questa media. `overall_score` mantiene
+compatibilità di forma ma ora coincide con `technical_score`; `score_model`
+identifica la discontinuità. UI e TXT spiegano che i punteggi non sono direttamente
+confrontabili con il vecchio modello. Non è una previsione del ranking.
+
+`security_priority` riguarda solo le segnalazioni nell’area Sicurezza e il suo
+punteggio osservabile: alta per almeno un avviso alto o punteggio sotto 50;
+media per almeno un avviso medio o punteggio sotto 75; altrimenti bassa. Non usa
+il numero di problemi SEO. `criticality` resta un alias per compatibilità.
+Non esistono più tetti a 55/60/65/70/75 sul riepilogo tecnico. Una priorità bassa
+non certifica sicurezza, patch o assenza di intrusioni.
+
+H1 mancante: priorità media. `noindex` (o `none` nei robots meta) è una
+segnalazione di verifica, bassa, con penalità automatica zero: la scansione non
+conosce l’intenzione editoriale. Gli altri problemi SEO della pagina rimangono.
+
+Le segnalazioni sono aggregate solo quando codice, titolo ed evidenza coincidono:
+`pages` contiene tutti gli URL finali distinti e `occurrences` il loro numero.
+`page` mantiene il primo URL per client precedenti. Evidenze diverse, per esempio
+codici HTTP o versioni PHP differenti, rimangono separate. API, schermata,
+stampa e TXT includono tutti i gruppi trovati nel campione massimo di cinque
+pagine, senza taglio ai primi otto. Nessuna nuova richiesta ai siti analizzati.
+I nuovi testi, le spiegazioni e gli URL sono verificati su IT/RO.

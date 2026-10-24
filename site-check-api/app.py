@@ -30,7 +30,9 @@ from passive_security import php_evidence, php_report, passive_findings, localiz
 from advisory_feed import start_refresh, metadata as feed_metadata
 from csp_analysis import policies as csp_policies, parse as parse_csp
 
-VERSION = "0.4.1"
+from report_model import summarize, group_issues
+
+VERSION = "0.5.0"
 MAX_PAGES = 5
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
@@ -154,15 +156,17 @@ class Engine(SafeFetcher):
         if not desc:
             add("description","SEO tecnica","medium","Meta description mancante","Non è stata rilevata una meta description.")
         if not h1s:
-            add("h1","Contenuti","high","H1 mancante","La pagina non presenta un H1.")
+            add("h1","Contenuti","medium","H1 mancante","La pagina non presenta un H1; verificare la struttura del contenuto.")
+            issues[-1].update(title_ro="Titlu H1 neidentificat", message_ro="Pagina nu prezintă un H1; verifică structura conținutului.")
         elif len(h1s) > 1:
             add("h1_multiple","Contenuti","low","Più H1 rilevati","Sono presenti più H1; conviene verificarne la gerarchia.")
         if len(words) < 180:
             add("thin","Contenuti","medium","Contenuto molto breve","La pagina contiene poco testo utile rispetto a una normale pagina servizio.")
         if not canonical:
             add("canonical","SEO tecnica","medium","Canonical non rilevata","Non è stato rilevato un URL canonical.")
-        if "noindex" in robots.lower():
-            add("noindex","SEO tecnica","high","Pagina noindex","La pagina chiede ai motori di ricerca di non essere indicizzata.")
+        if re.search(r"(?:^|[\s,;])(?:noindex|none)(?:$|[\s,;])", robots, re.I):
+            add("noindex","SEO tecnica","low","Noindex: verificare se è voluto","La pagina richiede l’esclusione dall’indice. Verificare se è intenzionale: per pagine riservate o di servizio può essere corretto; per una pagina che deve comparire nei risultati richiede una correzione.")
+            issues[-1].update(title_ro="Noindex: verifică dacă este intenționat", message_ro="Pagina solicită excluderea din index. Verifică dacă este intenționată: poate fi corectă pentru pagini private sau utilitare; o pagină care trebuie să apară în rezultate necesită corectare.")
         missing_alt = sum(1 for i in imgs if i.get("alt") is None)
         no_dims = sum(1 for i in imgs if not i.get("width") or not i.get("height"))
         if imgs and missing_alt / len(imgs) > .25:
@@ -231,7 +235,7 @@ class Engine(SafeFetcher):
         penalties={"high":14,"medium":7,"low":3}
         code_penalties={
             "http_error":22,
-            "noindex":22,
+            "noindex":0,
             "https":20,
             "sec_strict-transport-security":16,
             "sec_content-security-policy":16,
@@ -294,51 +298,17 @@ class Engine(SafeFetcher):
         }
         local=None if not any(signals.values()) else min(90,30+(20 if signals["schema"] else 0)+(20 if signals["phone"] else 0)+(10 if signals["address"] else 0)+(10 if signals["maps"] else 0))
         scores={"seo":seo,"performance":perf,"security":sec,"content":content,"local":local}
-        weights={"seo":.30,"performance":.20,"security":.20,"content":.20,"local":.10}
-        active=[(scores[k],w) for k,w in weights.items() if scores[k] is not None]
-        overall=round(sum(v*w for v,w in active)/sum(w for _,w in active)) if active else 0
-
-        grouped={}
-        for i in issues:
-            key=i["code"]
-            if key not in grouped:
-                grouped[key]={**i,"occurrences":1}
-            else:
-                grouped[key]["occurrences"]+=1
-        unique=list(grouped.values())
-        for i in unique:
-            if i["occurrences"]>1:
-                i["message"] += f" Rilevato in {i['occurrences']} pagine controllate."
-        order={"high":0,"medium":1,"low":2}
-        unique.sort(key=lambda i:order.get(i["severity"],3))
-        counts={s:sum(i["severity"]==s for i in unique) for s in ("high","medium","low")}
+        unique=group_issues(issues)
+        summary=summarize(scores, unique)
+        counts={severity:sum(i["severity"]==severity for i in unique) for severity in ("high","medium","low")}
         counts["total"]=len(unique)
-
-        # Le aree critiche limitano il riepilogo generale.
-        if sec is not None and sec < 50:
-            overall=min(overall,60)
-        elif sec is not None and sec < 65:
-            overall=min(overall,70)
-
-        if counts["high"] >= 4:
-            overall=min(overall,55)
-        elif counts["high"] >= 2:
-            overall=min(overall,65)
-        elif counts["high"] == 1:
-            overall=min(overall,75)
-
-        if (sec is not None and sec < 50) or counts["high"] >= 3:
-            criticality="high"
-        elif (sec is not None and sec < 70) or counts["high"] >= 1 or counts["medium"] >= 3:
-            criticality="medium"
-        else:
-            criticality="low"
 
         return {
             "requested_url":requested,"final_url":first["url"],"scanned_at_epoch":int(time.time()),
             "duration_ms":int((time.perf_counter()-started)*1000),"pages_checked":len(pages),
-            "overall_score":overall,"scores":scores,"counts":counts,"criticality":criticality,
-            "issues":[{k: v for k, v in i.items() if k not in {"code", "occurrences"}} for i in unique[:8]],
+            "overall_score":summary["technical_score"],"scores":scores,"counts":counts,"criticality":summary["security_priority"],
+            **summary,
+            "issues":unique,
             "php":php_report([observation for p in pages for observation in p.get("php", [])]),
             "disclaimer":"Scansione automatica sintetica. Il punteggio Prestazioni è un controllo tecnico leggero e non equivale a Lighthouse/Core Web Vitals. Il punteggio SEO locale usa segnali di base e non sostituisce un audit Local SEO. La scansione non dimostra, da sola, la presenza o l'assenza di malware o intrusioni."
         }
