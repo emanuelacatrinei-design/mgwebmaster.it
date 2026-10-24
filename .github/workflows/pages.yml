@@ -111,6 +111,10 @@ jobs:
 
           print("Footer logo WebP:", out.stat().st_size, "bytes")
           PY
+      - name: Applica CSP agli script di tutte le pagine
+        run: |
+          python scripts/test_build_csp.py
+          python scripts/build_csp.py .
       - name: Prepara il sito
         uses: actions/upload-pages-artifact@v3
         with:
