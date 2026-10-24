@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 import asyncio
 import hashlib
 import ipaddress
@@ -26,7 +27,10 @@ from security import (AuditError, UnsafeTargetError, ScanLimitError, Budget, Saf
 
 from passive_security import php_evidence, php_report, passive_findings, localize_report
 
-VERSION = "0.3.0"
+from advisory_feed import start_refresh, metadata as feed_metadata
+from csp_analysis import policies as csp_policies, parse as parse_csp
+
+VERSION = "0.4.0"
 MAX_PAGES = 5
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
@@ -179,9 +183,11 @@ class Engine(SafeFetcher):
         csp_value = (r.headers.get("content-security-policy") or "").lower()
         for header, (label, sev) in SECURITY_HEADERS.items():
             present = bool((r.headers.get(header) or "").strip())
+            if header == "content-security-policy":
+                present = bool(csp_policies(soup, r.headers))
             if header == "strict-transport-security" and urlparse(final).scheme != "https":
                 present = False
-            if header == "x-frame-options" and "frame-ancestors" in csp_value:
+            if header == "x-frame-options" and any(parse_csp(p).get("frame-ancestors") for p in csp_value.split(",")):
                 present = True
             if not present:
                 add("sec_"+header,"Sicurezza",sev,f"{label} non rilevato","Manca una protezione HTTP consigliata; serve una verifica della configurazione.")
@@ -350,7 +356,16 @@ allowed_origins=list(dict.fromkeys([
     "https://www.mgwebmaster.it",
     "https://mgwebmaster.it",
 ]))
-app=FastAPI(title="MG Webmaster Site Check API",version=VERSION,docs_url=None,redoc_url=None,openapi_url=None)
+@asynccontextmanager
+async def lifespan(application):
+    stop = start_refresh()
+    try:
+        yield
+    finally:
+        stop.set()
+
+
+app=FastAPI(lifespan=lifespan,title="MG Webmaster Site Check API",version=VERSION,docs_url=None,redoc_url=None,openapi_url=None)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
@@ -550,7 +565,7 @@ async def api_error(request, exc):
 
 @app.get("/health")
 def health():
-    return {"ok": True, "status": "healthy", "service": "mg-site-check", "version": VERSION}
+    return {"ok": True, "status": "healthy", "service": "mg-site-check", "version": VERSION, "php_advisories": feed_metadata()}
 
 
 @app.post("/v1/scan")

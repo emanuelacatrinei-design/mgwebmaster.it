@@ -4,6 +4,9 @@ Rules reviewed 2026-10-24 against PHP's advisories/support calendar. Version
 banners are untrusted evidence, not proof of the running binary or its patches.
 """
 import re
+from datetime import datetime, timezone
+from advisory_feed import snapshot, metadata, match_advisories
+from csp_analysis import findings as csp_findings
 from datetime import date
 from http.cookies import SimpleCookie, CookieError
 from urllib.parse import urljoin, urlparse
@@ -33,7 +36,7 @@ def php_evidence(headers, url, cookie_headers=()):
     return observations
 
 
-def php_report(observations, today=None):
+def php_report(observations, today=None, feed=None):
     today = today or date.today()
     versions = sorted({o['version'] for o in observations if o['version']})
     status = 'not_observable'
@@ -68,13 +71,31 @@ def php_report(observations, today=None):
     if observations:
         message += ' Gli header possono essere nascosti o inesatti; alcune distribuzioni applicano patch mantenendo il numero di versione. La configurazione relativa a CVE-2026-115560 non è verificabile dall’esterno.'
         message_ro += ' Antetele pot fi ascunse sau inexacte; unele distribuții aplică corecții fără să schimbe numărul versiunii. Configurația relevantă pentru CVE-2026-115560 nu poate fi verificată din exterior.'
+    feed = snapshot() if feed is None else feed
+    feed_meta = metadata(feed)
+    matched, unresolved = match_advisories(observations, feed)
+    if matched:
+        if status != 'unsupported':
+            status = 'potentially_outdated'
+        message += ' Il confronto automatico con gli avvisi ufficiali segnala possibili corrispondenze: ' + ', '.join(matched[:12]) + '. Applicabilità e patch del fornitore richiedono conferma tecnica.'
+        message_ro += ' Comparația automată cu avertizările oficiale indică posibile potriviri: ' + ', '.join(matched[:12]) + '. Aplicabilitatea și corecțiile furnizorului necesită confirmare tehnică.'
+    if unresolved and versions:
+        message += ' Alcuni intervalli o prerequisiti degli avvisi richiedono una verifica manuale; l’elenco non è esaustivo.'
+        message_ro += ' Unele intervale sau condiții din avertizări necesită verificare manuală; lista nu este exhaustivă.'
+    if feed_meta['stale'] or feed_meta['partial']:
+        message += ' Archivio automatico non disponibile, non recente o parziale: la copertura degli avvisi non è completa.'
+        message_ro += ' Arhiva automată nu este disponibilă, nu este recentă sau este parțială: avertizările nu sunt acoperite integral.'
+    elif feed_meta['checked_at']:
+        checked = datetime.fromtimestamp(feed_meta['checked_at'], timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+        message += ' Archivio ufficiale controllato: ' + checked + '.'
+        message_ro += ' Arhivă oficială verificată: ' + checked + '.'
     stale = (today - REVIEWED).days > 30
     if stale:
         message += ' Regole da aggiornare: ultimo controllo degli avvisi oltre 30 giorni fa.'
         message_ro += ' Regulile trebuie actualizate: ultima verificare a avertizărilor a fost făcută cu peste 30 de zile în urmă.'
     return {'status': status, 'title': title, 'title_ro': title_ro, 'message': message, 'message_ro': message_ro,
             'versions': versions, 'observations': observations[:40], 'rules_reviewed_on': REVIEWED.isoformat(),
-            'rules_stale': stale, 'cves': CVES if versions else [], 'sources': SOURCES}
+            'rules_stale': stale, 'cves': sorted(set((CVES if versions else []) + matched)), 'sources': SOURCES, 'feed': feed_meta, 'matched_advisories': matched, 'manual_review_required': unresolved}
 
 
 def passive_findings(soup, headers, url, cookie_headers=()):
@@ -108,6 +129,7 @@ def passive_findings(soup, headers, url, cookie_headers=()):
     visible = soup.get_text(' ', strip=True)
     if re.search(r'(?i)(?:PHP\s+(?:Warning|Fatal error|Parse error)|(?:Warning|Fatal error|Parse error):\s+.{0,300}?\s+in\s+[^\n]{0,200}\.php\s+on\s+line\s+\d+)', visible):
         add('sec_php_errors', 'medium', 'Messaggi di errore PHP visibili', 'La pagina contiene testo compatibile con un errore PHP. Verificare che non sia un esempio didattico; in produzione gli errori tecnici vanno registrati privatamente.', 'Mesaje de eroare PHP vizibile', 'Pagina conține text compatibil cu o eroare PHP. Verifică dacă este doar un exemplu explicativ; în producție, erorile tehnice trebuie înregistrate privat.')
+    findings.extend(csp_findings(soup, headers, url))
     return findings
 
 

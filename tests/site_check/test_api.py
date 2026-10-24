@@ -36,7 +36,7 @@ def test_health_missing_token_and_fail_closed_configuration(monkeypatch):
     async def run():
         async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app.app), base_url="https://api.example") as client:
             health = await client.get("/health")
-            assert health.status_code == 200 and health.json()["version"] == "0.3.0"
+            assert health.status_code == 200 and health.json()["version"] == "0.4.0"
             assert health.headers["cache-control"] == "no-store"
             assert (await client.get("/openapi.json")).status_code == 404
             response = await client.post("/v1/scan", json=payload())

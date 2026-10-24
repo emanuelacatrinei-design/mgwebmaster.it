@@ -138,3 +138,42 @@ segnalazioni e il riquadro PHP sono localizzati IT/RO e inclusi nell’export TX
 Fonti: https://www.php.net/archive/2026.php#2026-10-21-5 ;
 https://www.php.net/supported-versions.php ;
 https://cert.europa.eu/publications/security-advisories/2026-018/
+
+
+## Aggiornamento automatico avvisi e analisi CSP — 0.4.0
+
+Il backend avvia un thread indipendente all’accensione e ricontrolla ogni sei ore
+l’API pubblica degli avvisi del repository ufficiale `php/php-src`. Non richiede
+chiavi API e non comunica alla fonte gli URL scansionati. Su Render gratuito il
+controllo periodico opera mentre il servizio è attivo; dopo un riavvio riparte
+automaticamente. Non è un servizio di monitoraggio continuo o di notifica.
+
+Fonte fissa HTTPS, redirect e proxy d’ambiente disabilitati, timeout e limite
+4 MiB. Conserva solo ID, gravità, intervalli di versione e URL ufficiali; scarta
+le descrizioni, che possono contenere prove di attacco. Cache locale atomica
+con permessi privati; un errore non sostituisce l’ultima copia valida. Non cambia
+le protezioni SSRF né i budget delle scansioni. `/health.php_advisories` espone
+stato, conteggio e data dell’ultimo download riuscito, senza dati dei clienti.
+
+La prima pagina comprende al massimo 100 avvisi pubblicati. Se esiste una pagina
+successiva, la copertura è dichiarata parziale. Mancanza di dati o ultimo download
+oltre 24 ore vengono indicati nel report; rimangono anche le regole incorporate.
+Il confronto supporta intervalli numerici semplici, congiunzioni e alternative;
+le forme sconosciute richiedono verifica manuale. Le righe PHP del tipo `< X.Y.Z`
+sono trattate come specifiche del ramo X.Y per evitare falsi positivi tra rami.
+La corrispondenza resta potenziale: non conferma prerequisiti, estensioni attive,
+patch del fornitore o sfruttabilità. Un avviso non ancora pubblicato nella fonte
+non può essere rilevato automaticamente. Le date di supporto e le eccezioni
+specifiche richiedono ancora manutenzione delle regole incorporate.
+
+La CSP considera header HTTP e meta in head, cumulativamente. Ignora Report-Only
+e le direttive non applicabili nelle meta, rispetta la prima direttiva duplicata
+e analizza il fallback script-src-elem/attr → script-src → default-src. Verifica
+inline/eventi, eval, fonti eccessivamente ampie, object-src e base-uri. Considera
+nonce/hash, strict-dynamic e sandbox per evitare falsi positivi comuni. Le policy
+meta possono arrivare dopo risorse già caricate: il controllo non ricostruisce
+l’esecuzione del browser. Non valida ogni sintassi o ogni combinazione CSP3 e non
+è un test di XSS o una certificazione. I nuovi messaggi sono disponibili IT/RO.
+
+Riferimenti: https://docs.github.com/en/rest/security-advisories/repository-advisories
+; https://www.w3.org/TR/CSP/
