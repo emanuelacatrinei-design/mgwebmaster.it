@@ -754,4 +754,5 @@
     <xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/domenii/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mgwebmaster.it/domini/"/>
   </url>
-</urlset>
+<url><loc>https://www.mgwebmaster.it/blog/falle-critiche-php-sicurezza-sito-web/</loc><lastmod>2026-10-24</lastmod><xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/blog/falle-critiche-php-sicurezza-sito-web/"/><xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/blog/vulnerabilitati-critice-php-securitate-site/"/></url><url><loc>https://www.mgwebmaster.it/ro/blog/vulnerabilitati-critice-php-securitate-site/</loc><lastmod>2026-10-24</lastmod><xhtml:link rel="alternate" hreflang="it-IT" href="https://www.mgwebmaster.it/blog/falle-critiche-php-sicurezza-sito-web/"/><xhtml:link rel="alternate" hreflang="ro-RO" href="https://www.mgwebmaster.it/ro/blog/vulnerabilitati-critice-php-securitate-site/"/></url></urlset>
+
