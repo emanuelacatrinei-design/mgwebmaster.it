@@ -6,3 +6,6 @@ header .mobile-toggle{display:none;background:transparent;color:inherit;border:1
 @media(max-width:1100px){header nav.open a,header nav.open a.active{color:#182a24!important}header nav.open a:hover{color:#6f491e!important}}
 
 @media(max-width:1100px){header.site-header{left:0!important;right:0!important;width:100%!important;box-sizing:border-box}}
+
+/* Original reveal animation must never hide demo content without its observer. */
+section,.organic-card{opacity:1;transform:none}
