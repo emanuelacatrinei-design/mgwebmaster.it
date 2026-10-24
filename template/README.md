@@ -31,3 +31,7 @@ Il codice pubblicato è il sito dimostrativo. Gli archivi originali, gli eseguib
 Le attività illustrate, le persone, le recensioni e i risultati numerici sono esempi di impaginazione, non clienti o risultati di MG Webmaster. Gli avvisi della demo devono rimanere visibili. Le fonti originali dei dodici concept sono registrate nel manifest; gli archivi rimangono separati dalla pubblicazione.
 
 Font Cormorant Garamond, Inter e Montserrat distribuiti localmente; licenze OFL nella cartella `demo-shared/fonts/`.
+
+## Testi dimostrativi in latino
+
+I cinque concept ripristinati dagli originali il 24 ottobre 2026 mantengono i testi dimostrativi in latino, come richiesto per questi template. Il manifest dichiara `demo_language: "la"` e il corpo delle pagine ha `lang="la"`; la lingua del documento, del visualizzatore, degli avvisi e dei messaggi interattivi resta IT o RO. Le immagini e la grafica sono quelle del progetto originale, condivise tra le due versioni. Il controllo accetta il latino soltanto per le voci che lo dichiarano esplicitamente; tutti i controlli su pagine, navigazione, risorse, moduli e visualizzatore restano obbligatori.

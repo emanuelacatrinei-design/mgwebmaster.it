@@ -1528,97 +1528,227 @@
     {
       "slug": "osteria-del-chiostro",
       "name": "Osteria del Chiostro",
-      "source": "OSTERIA-DEL-CHIOSTRO-template(1).zip",
+      "source": "OSTERIA-DEL-CHIOSTRO-template(2).zip",
       "pages": {
         "it": [
           {
-            "path": "/template/osteria-del-chiostro/demo/index.html",
+            "path": "/template/osteria-del-chiostro/demo/site/index.html",
             "label": "Home"
+          },
+          {
+            "path": "/template/osteria-del-chiostro/demo/site/menu.html",
+            "label": "Menu"
+          },
+          {
+            "path": "/template/osteria-del-chiostro/demo/site/experientia.html",
+            "label": "Esperienza"
+          },
+          {
+            "path": "/template/osteria-del-chiostro/demo/site/galleria.html",
+            "label": "Galleria"
+          },
+          {
+            "path": "/template/osteria-del-chiostro/demo/site/reservationes.html",
+            "label": "Prenotazioni"
           }
         ],
         "ro": [
           {
-            "path": "/template/osteria-del-chiostro/demo/index.html",
-            "label": "Demo"
+            "path": "/ro/template/osteria-del-chiostro/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/osteria-del-chiostro/demo/site/menu.html",
+            "label": "Meniu"
+          },
+          {
+            "path": "/ro/template/osteria-del-chiostro/demo/site/experientia.html",
+            "label": "Experiență"
+          },
+          {
+            "path": "/ro/template/osteria-del-chiostro/demo/site/galleria.html",
+            "label": "Galerie"
+          },
+          {
+            "path": "/ro/template/osteria-del-chiostro/demo/site/reservationes.html",
+            "label": "Rezervări"
           }
         ]
-      }
+      },
+      "source_sha256": "0204f98e61891ed86e5ac02b06617592e533c2425cabcdce44be0d0aa604ff6c",
+      "demo_language": "la"
     },
     {
       "slug": "solaris-beach-club",
       "name": "Solaris Beach Sessions",
-      "source": "SOLARIS_3_PAGINE.zip",
+      "source": "SOLARIS_3_PAGINE(1).zip",
       "pages": {
         "it": [
           {
-            "path": "/template/solaris-beach-club/demo/index.html",
+            "path": "/template/solaris-beach-club/demo/site/index.html",
             "label": "Home"
+          },
+          {
+            "path": "/template/solaris-beach-club/demo/site/musica.html",
+            "label": "Musica ed eventi"
+          },
+          {
+            "path": "/template/solaris-beach-club/demo/site/galleria.html",
+            "label": "Galleria e contatti"
           }
         ],
         "ro": [
           {
-            "path": "/template/solaris-beach-club/demo/index.html",
-            "label": "Demo"
+            "path": "/ro/template/solaris-beach-club/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/solaris-beach-club/demo/site/musica.html",
+            "label": "Muzică și evenimente"
+          },
+          {
+            "path": "/ro/template/solaris-beach-club/demo/site/galleria.html",
+            "label": "Galerie și contact"
           }
         ]
-      }
+      },
+      "source_sha256": "57fa376567c8d45586a8928af4c1ef464e178dfa3850b65c5185e81aae2e8b60",
+      "demo_language": "la"
     },
     {
       "slug": "studio-salus-poliambulatorio",
       "name": "Studio Salus",
-      "source": "STUDIO_SALUS_3_PAGINE(1).zip",
+      "source": "STUDIO_SALUS_3_PAGINE(3).zip",
       "pages": {
         "it": [
           {
-            "path": "/template/studio-salus-poliambulatorio/demo/index.html",
+            "path": "/template/studio-salus-poliambulatorio/demo/site/index.html",
             "label": "Home"
+          },
+          {
+            "path": "/template/studio-salus-poliambulatorio/demo/site/servitia.html",
+            "label": "Servizi"
+          },
+          {
+            "path": "/template/studio-salus-poliambulatorio/demo/site/reservatio.html",
+            "label": "Prenotazioni"
           }
         ],
         "ro": [
           {
-            "path": "/template/studio-salus-poliambulatorio/demo/index.html",
-            "label": "Demo"
+            "path": "/ro/template/studio-salus-poliambulatorio/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/studio-salus-poliambulatorio/demo/site/servitia.html",
+            "label": "Servicii"
+          },
+          {
+            "path": "/ro/template/studio-salus-poliambulatorio/demo/site/reservatio.html",
+            "label": "Programări"
           }
         ]
-      }
+      },
+      "source_sha256": "57ba3e2ca5107144140c947d5e4e4d1d00924bb1bcaae153c8042c8852332e5c",
+      "demo_language": "la"
     },
     {
       "slug": "terra-concordia-extra",
       "name": "Terra Concordia Summit",
-      "source": "TERRA_CONCORDIA_TEMPLATE EXTRA.zip",
+      "source": "TERRA_CONCORDIA_TEMPLATE EXTRA(1).zip",
       "pages": {
         "it": [
           {
-            "path": "/template/terra-concordia-extra/demo/index.html",
+            "path": "/template/terra-concordia-extra/demo/site/index.html",
             "label": "Home"
+          },
+          {
+            "path": "/template/terra-concordia-extra/demo/site/de-nobis.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/terra-concordia-extra/demo/site/actiones.html",
+            "label": "Progetti"
+          },
+          {
+            "path": "/template/terra-concordia-extra/demo/site/conventus.html",
+            "label": "Conferenze"
+          },
+          {
+            "path": "/template/terra-concordia-extra/demo/site/contactus.html",
+            "label": "Contatti"
           }
         ],
         "ro": [
           {
-            "path": "/template/terra-concordia-extra/demo/index.html",
-            "label": "Demo"
+            "path": "/ro/template/terra-concordia-extra/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/terra-concordia-extra/demo/site/de-nobis.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/terra-concordia-extra/demo/site/actiones.html",
+            "label": "Proiecte"
+          },
+          {
+            "path": "/ro/template/terra-concordia-extra/demo/site/conventus.html",
+            "label": "Conferințe"
+          },
+          {
+            "path": "/ro/template/terra-concordia-extra/demo/site/contactus.html",
+            "label": "Contact"
           }
         ]
-      }
+      },
+      "source_sha256": "a5cc5c55e643d54a0fdc7734b3daf345992cfec1d36088812eda050e44d7890a",
+      "demo_language": "la"
     },
     {
       "slug": "thermae-aureliae-spa",
       "name": "Thermae Aureliae",
-      "source": "THERMAE-AURELIAE-template.zip",
+      "source": "THERMAE-AURELIAE-template(1).zip",
       "pages": {
         "it": [
           {
-            "path": "/template/thermae-aureliae-spa/demo/index.html",
+            "path": "/template/thermae-aureliae-spa/demo/site/index.html",
             "label": "Home"
+          },
+          {
+            "path": "/template/thermae-aureliae-spa/demo/site/trattamenti.html",
+            "label": "Trattamenti"
+          },
+          {
+            "path": "/template/thermae-aureliae-spa/demo/site/chi-siamo.html",
+            "label": "Chi siamo"
+          },
+          {
+            "path": "/template/thermae-aureliae-spa/demo/site/contatti.html",
+            "label": "Contatti"
           }
         ],
         "ro": [
           {
-            "path": "/template/thermae-aureliae-spa/demo/index.html",
-            "label": "Demo"
+            "path": "/ro/template/thermae-aureliae-spa/demo/site/index.html",
+            "label": "Acasă"
+          },
+          {
+            "path": "/ro/template/thermae-aureliae-spa/demo/site/trattamenti.html",
+            "label": "Tratamente"
+          },
+          {
+            "path": "/ro/template/thermae-aureliae-spa/demo/site/chi-siamo.html",
+            "label": "Despre noi"
+          },
+          {
+            "path": "/ro/template/thermae-aureliae-spa/demo/site/contatti.html",
+            "label": "Contact"
           }
         ]
-      }
+      },
+      "source_sha256": "bc42b44c8a6718046590e3070119d657ecb3f9e8c3ca68d8bf83034eded008ec",
+      "demo_language": "la"
     },
     {
       "slug": "galleria-arte-pitture",

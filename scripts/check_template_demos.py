@@ -143,7 +143,10 @@ for lang, prefix in [('it', ''), ('ro', '/ro')]:
                 fail(path, 'internal navigation required')
             if not any(urlsplit(a.get('src', '')).path == '/template/demo-shared/runtime.js' for a in page.find('script')):
                 fail(path, 'shared demo behaviour missing')
-            if re.search(r'Lorem ipsum|Contactus|Ministeria|What we do|Our Services', ' '.join(page.text)):
+            latin_demo = entry.get('demo_language') == 'la'
+            if latin_demo and not page.find('body', lang='la'):
+                fail(path, 'Latin demo must declare its content language')
+            if not latin_demo and re.search(r'Lorem ipsum|Contactus|Ministeria|What we do|Our Services', ' '.join(page.text)):
                 fail(path, 'untranslated source text')
             for a in page.find('a'):
                 href = a.get('href', '')
