@@ -1,4 +1,4 @@
-"""Explainable report model: technical quality and security remain separate."""
+"""Explainable technical section scores with a separate security penalty."""
 MODEL = 'technical_v4'
 AREAS = {'seo': 'SEO tecnica', 'performance': 'Prestazioni',
          'security': 'Sicurezza', 'content': 'Contenuti', 'local': 'Locale'}

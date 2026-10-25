@@ -246,3 +246,30 @@ N/D. La provenienza dal calcolo di compatibilità è esplicitata in schermata
 e TXT; il payload API originale non viene modificato. Le due pagine IT/RO aggiornano la versione del file JS per evitare
 l'uso del vecchio esportatore in cache. I punteggi v4 non sono comparabili con
 modelli precedenti.
+
+
+## Observable local signals (0.7.1)
+`local_signals_v1` restores the local section with explicit HTML/JSON-LD evidence
+and source URLs, not a Google Maps ranking estimate. No additional network calls.
+Weights: phone (tel/WhatsApp/labelled/schema) 25, street address 25, locality 10,
+Google Maps link/embed 15, recognized local structured type 25. Organization alone
+receives only 5 schema points; type presence does not validate a complete entity.
+Each signal is counted once across the fetched sample. Raw generic numbers and
+isolated street keywords no longer count. Supported schema types are enumerated
+in `local_signals.py`; unsupported subtypes are not inferred as LocalBusiness.
+
+A successful HTML check without detected signals returns 0. With no usable pages
+the section is null (N/D). Malformed JSON-LD without recognized schema evidence
+makes the schema check unavailable: its weight is excluded proportionally from
+the local denominator, and the report states reduced coverage. Failed URLs and
+HTTP errors are excluded from local evidence and explicitly mark a partial scan.
+The scan does not execute JavaScript; dynamically injected signals may be absent
+from the fetched HTML. Evidence is observational and does not confirm ownership,
+accuracy or consistency of the business details.
+
+The existing technical_v4 general formula is unchanged and remains authoritative
+in the API. The frontend consumes its local score/evidence without recalculating.
+Only the old basic_checks_v3 compatibility path reconstructs the previous four
+section scores; it keeps local N/D when the API supplies no evidence. Contract
+tests compare this legacy calculation with the API to prevent formula drift.
+Screen/print and TXT share the same local evidence formatter.

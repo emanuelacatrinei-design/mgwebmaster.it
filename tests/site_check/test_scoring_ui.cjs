@@ -2,8 +2,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
+const contract=JSON.parse(require('node:child_process').execFileSync('python',[path.join(__dirname,'scoring_contract.py')],{encoding:'utf8'}));
 function element(){
- return {hidden:false,textContent:'',innerHTML:'',children:[],style:{setProperty(){}},
+ return {hidden:false,textContent:'',html:'',get innerHTML(){return this.html},set innerHTML(v){this.html=v;this.children=[]},children:[],style:{setProperty(){}},
  classList:{toggle(){},add(){},remove(){}},appendChild(e){this.children.push(e)},
  before(){},scrollIntoView(){},addEventListener(){},querySelector(){return element()}};
 }
@@ -18,8 +19,27 @@ for (const lang of ['it','ro']){
  querySelectorAll:()=>[],createElement:element}};
  vm.createContext(context);
  let source=fs.readFileSync(path.join(__dirname,'../../site-check.js'),'utf8');
- source=source.replace(/\}\)\(\);\s*$/, 'globalThis.testAPI={render,reportLines,withTechnicalScores};})();');
+ source=source.replace(/\}\)\(\);\s*$/, 'globalThis.testAPI={render,reportLines,withTechnicalScores,localLines,escapeHtml};})();');
  vm.runInContext(source,context);
+ for(const {old,expected} of contract.pairs){
+  const actual=context.testAPI.withTechnicalScores(old);
+  for(const key of Object.keys(expected.scores))assert.equal(actual.scores[key],expected.scores[key]);
+  assert.equal(actual.overall_score,expected.technical_score);
+ }
+ for(const {language,report} of contract.reports.filter(x=>x.language===lang)){
+  const normalized=context.testAPI.withTechnicalScores(report);
+  assert.equal(normalized,report); // native API reports are authoritative
+  context.testAPI.render(report);
+  assert.equal(get('[data-overall]').textContent,report.overall_score);
+  const cards=get('[data-score-grid]').children.slice(-5);
+  Object.values(report.scores).forEach((value,n)=>assert.match(cards[n].innerHTML,new RegExp(value==null?'N/D':`>${value}<`)));
+  const txt=context.testAPI.reportLines(report).join('\n');
+  assert.match(txt,new RegExp(`${report.overall_score}/100`));
+  assert.doesNotMatch(txt,/N\/D\/100/);
+  const evidence=get('[data-local-signals]').innerHTML;
+  for(const line of context.testAPI.localLines(report))assert.ok(evidence.includes(context.testAPI.escapeHtml(line)));
+  assert.match(txt,lang==='it'?/Segnali SEO locali/:/Semnale SEO locale/);
+ }
  const d={score_model:'technical_v4',overall_score:20,technical_score:20,
  scores:{seo:80,performance:null,security:null,content:null,local:null},pages_checked:1,
  scoring:{mean:40,security_penalty:20,security_assumed_zero:true,

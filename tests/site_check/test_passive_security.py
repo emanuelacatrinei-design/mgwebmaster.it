@@ -107,7 +107,8 @@ def test_engine_integration_includes_php_penalty_and_report(monkeypatch):
     result = engine.audit('https://example.com/')
     assert result['php']['status'] == 'potentially_outdated'
     assert isinstance(result['scores']['security'], (int, float))
-    assert result['scores']['local'] is None
+    assert result['scores']['local'] == 0
+    assert result['local_signals']['checks']['phone']['status'] == 'not_detected'
     assert result['security_priority'] == 'high'
     assert result['basic_checks']['security']['findings'] > 0
     # PHP remains visible in its dedicated report even with more than eight findings.

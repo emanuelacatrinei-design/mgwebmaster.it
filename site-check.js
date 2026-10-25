@@ -12,7 +12,7 @@ run:"Analiza este în curs. Nu închide pagina.",
 err:"Analiza nu a putut fi finalizată.",
 offline:"Motorul de analiză nu este încă disponibil. Pagina este pregătită, dar API-ul trebuie publicat.",
 na:"N/D",
-labels:{seo:"SEO tehnic",performance:"Performanță tehnică",security:"Protecții vizibile",content:"Structură HTML",local:"SEO local"},
+labels:{seo:"SEO tehnic",performance:"Performanță tehnică",security:"Protecții vizibile",content:"Structură HTML",local:"Semnale SEO locale"},
 sev:{high:"ridicată",medium:"medie",low:"redusă"},
 issues:"Semnalări detectate",
 technical:"Rezumat tehnic",legacyScore:"Scor general",securityPriority:"Prioritate de securitate",total:"în total",affected:"Pagini afectate",method:"Model tehnic v2: SEO, performanță, conținut și semnale locale. Securitatea este evaluată separat. Scorurile noi nu sunt direct comparabile cu cele ale modelului anterior.",
@@ -25,7 +25,7 @@ run:"Analisi in corso. Non chiudere la pagina.",
 err:"Non è stato possibile completare l’analisi.",
 offline:"Il motore di analisi non è ancora raggiungibile. La pagina è pronta, ma l’API deve essere pubblicata.",
 na:"N/D",
-labels:{seo:"SEO tecnica",performance:"Prestazioni tecniche",security:"Protezioni visibili",content:"Struttura HTML",local:"SEO locale"},
+labels:{seo:"SEO tecnica",performance:"Prestazioni tecniche",security:"Protezioni visibili",content:"Struttura HTML",local:"Segnali SEO locali"},
 sev:{high:"alta",medium:"media",low:"bassa"},
 issues:"Segnalazioni rilevate",
 technical:"Riepilogo tecnico",legacyScore:"Punteggio generale",securityPriority:"Priorità di sicurezza",total:"totali",affected:"Pagine interessate",method:"Modello tecnico v2: SEO, prestazioni, contenuti e segnali locali. La sicurezza è valutata separatamente. I nuovi punteggi non sono direttamente confrontabili con quelli del modello precedente.",
@@ -95,6 +95,20 @@ if(s.security_assumed_zero)notes.push(r?"Securitate N/D: evaluare indisponibilă
 if(s.excluded_sections?.length)notes.push((r?"Secțiuni N/D excluse din medie: ":"Sezioni N/D escluse dalla media: ")+s.excluded_sections.map(k=>t.labels[k]||k).join(", ")+".");
 return notes;
 }
+function localLines(data){
+const r=lang==="ro",l=data.local_signals;
+if(!l||l.method!=="local_signals_v1")return [data.scores?.local!=null?(r?"Dovezile semnalelor locale nu sunt disponibile în această versiune a API-ului.":"Le evidenze dei segnali locali non sono disponibili in questa versione dell’API."):(r?"Semnale SEO locale: N/D. API-ul nu furnizează dovezile necesare pentru această evaluare.":"Segnali SEO locali: N/D. L’API non fornisce le evidenze necessarie per questa valutazione.")];
+const labels=r?{phone:"Telefon / WhatsApp",address:"Adresă stradală",locality:"Localitate",maps:"Google Maps",schema:"Date structurate"}:{phone:"Telefono / WhatsApp",address:"Indirizzo stradale",locality:"Località",maps:"Google Maps",schema:"Dati strutturati"};
+const states=r?{detected:"Identificat",not_detected:"Căutat, neidentificat",not_evaluated:"Verificare neexecutabilă"}:{detected:"Rilevato",not_detected:"Cercato, non rilevato",not_evaluated:"Controllo non eseguibile"};
+const lines=[r?"Scorul descrie doar semnalele din HTML-ul primit, nu poziția în Google Maps. Conținutul adăugat prin JavaScript nu este verificat. Telefon 25, adresă 25, localitate 10, Maps 15, date structurate locale 25; Organization valorează doar 5 puncte și nu echivalează cu LocalBusiness. Prezența unui tip local nu confirmă completitudinea datelor. Verificările neexecutabile sunt excluse proporțional din punctaj.":"Il voto descrive solo i segnali nell’HTML ricevuto, non il posizionamento su Google Maps. I contenuti aggiunti da JavaScript non sono verificati. Telefono 25, indirizzo 25, località 10, Maps 15, dati strutturati locali 25; Organization vale solo 5 punti e non equivale a LocalBusiness. La presenza di un tipo locale non conferma la completezza dei dati. I controlli non eseguibili sono esclusi proporzionalmente dal voto."];
+if(l.partial)lines.push(r?"Analiză parțială: unele pagini sau date structurate nu au putut fi verificate.":"Analisi parziale: alcune pagine o dati strutturati non sono stati verificabili.");
+Object.keys(labels).forEach(k=>{const c=l.checks?.[k];if(!c)return;lines.push(labels[k]+": "+(states[c.status]||states.not_evaluated)+(c.points==null?"":` (${c.points}/${c.max_points})`));
+(c.evidence||[]).forEach(e=>lines.push(`  ${e.value} · ${e.source} · ${e.page}`));
+if(c.incomplete)lines.push(r?"  Unele date JSON-LD nu au putut fi interpretate.":"  Alcuni dati JSON-LD non sono stati interpretabili.");
+if(c.status!=="detected")(c.checked_pages||[]).forEach(url=>lines.push("  "+url));});
+(l.unchecked_pages||[]).forEach(url=>lines.push((r?"Pagină neverificabilă: ":"Pagina non verificabile: ")+url));
+return lines;
+}
 function reportLines(d){
 d=withTechnicalScores(d);
 const value=d.technical_score??d.overall_score;
@@ -102,6 +116,7 @@ return [t.download,d.final_url||d.requested_url,"",
 ...(isBasic(d)?[basicMethod]:[t.legacyScore+": "+scoreValue(value)+(value==null?"":"/100")]),
 ...(d.score_model?[(lang==="ro"?"Model: ":"Metodo: ")+d.score_model]:[]),
 ...scoringNotes(d),
+...localLines(d),
 ...(d.score_model==="technical_v2"?[t.method]:[]),
 t.securityPriority+": "+t.sev[d.security_priority||d.criticality||"low"],
 ...(isBasic(d)?Object.entries(d.basic_checks||{}).map(([k,a])=>basicText(k,a)):Object.entries(d.scores||{}).map(([k,v])=>(t.labels[k]||k)+": "+scoreValue(v)+(v==null?"":"/100"))),
@@ -119,6 +134,10 @@ results.querySelector("[data-url]").textContent=data.final_url||data.requested_u
 results.querySelector("[data-meta]").textContent=`${data.pages_checked||0} ${t.pages} · ${((data.duration_ms||0)/1000).toFixed(1)} ${t.seconds}`;
 const grid=results.querySelector("[data-score-grid]");grid.innerHTML="";
 ["seo","performance","security","content","local"].forEach(k=>{const v=data.scores?.[k];const el=document.createElement("div");el.className="site-check-score-card";if(isBasic(data)){el.textContent=basicText(k,data.basic_checks?.[k]);grid.appendChild(el);return}el.innerHTML=`<strong class="${v==null?"site-check-na":""}">${escapeHtml(scoreValue(v))}</strong><span>${escapeHtml(t.labels[k])}</span>`;grid.appendChild(el)});
+let localBox=results.querySelector("[data-local-signals]");
+if(!localBox){localBox=document.createElement("article");localBox.dataset.localSignals="";results.querySelector("[data-issues]").before(localBox)}
+localBox.className="site-check-issue";
+localBox.innerHTML=`<h3>${escapeHtml(t.labels.local)}</h3>${localLines(data).map(line=>`<p style="overflow-wrap:anywhere">${escapeHtml(line)}</p>`).join("")}`;
 const c=data.counts||{};const crit=data.security_priority||data.criticality||"low";results.querySelector("[data-counts]").innerHTML=`<span class="site-check-chip high">${c.high||0} ${t.sev.high}</span><span class="site-check-chip medium">${c.medium||0} ${t.sev.medium}</span><span class="site-check-chip low">${c.low||0} ${t.sev.low}</span><span class="site-check-chip">${c.total||0} ${t.total}</span><span class="site-check-chip ${crit==="high"?"high":crit==="medium"?"medium":"low"}">${(isBasic(data)||["technical_v2","technical_v4"].includes(data.score_model))?t.securityPriority:t.critical}: ${t.sev[crit]||crit}</span>`;
 let phpBox=results.querySelector("[data-php-report]");
 if(!phpBox){phpBox=document.createElement("article");phpBox.dataset.phpReport="";results.querySelector("[data-issues]").before(phpBox)}

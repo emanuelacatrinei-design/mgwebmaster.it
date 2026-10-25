@@ -31,8 +31,9 @@ from advisory_feed import start_refresh, metadata as feed_metadata
 from csp_analysis import policies as csp_policies, parse as parse_csp
 
 from report_model import MODEL, summarize, group_issues
+from local_signals import extract as extract_local, summarize_local
 
-VERSION = "0.7.0"
+VERSION = "0.7.1"
 MAX_PAGES = 5
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
@@ -219,14 +220,11 @@ class Engine(SafeFetcher):
                 if not candidate.lower().endswith(SKIP_EXT):
                     internal.append(candidate)
 
-        has_phone = bool(re.search(r"(?:\+?\d[\d\s().-]{7,}\d)", text)) or any(x.lower().startswith("tel:") for x in hrefs)
-        has_maps = any("google.com/maps" in x.lower() or "maps.app.goo.gl" in x.lower() for x in hrefs)
-        has_address = any(x in lower for x in ("via ","viale ","piazza ","strada ","corso ","street ","road ","bulevard ","adres"))
         has_cta = any(x in lower for x in ("contatt","preventiv","chiama","scriv","whatsapp","contact","quote","sună","contactează","ofert"))
 
         return {
             "url":final,"status_code":r.status_code,"issues":issues,"php":php,"links":sorted(set(internal),key=self.priority),
-            "local":{"phone":has_phone,"maps":has_maps,"address":has_address,"schema":schema_types(soup)},
+            "local":extract_local(soup),
             "cta":has_cta
         }
 
@@ -257,6 +255,7 @@ class Engine(SafeFetcher):
         requested=normalize_url(raw)
         first=self.audit_page(requested)
         pages=[first]
+        failed_pages=[]
         seen={normalize_url(first["url"])}
         for candidate in first["links"]:
             if len(pages)>=MAX_PAGES:
@@ -276,7 +275,7 @@ class Engine(SafeFetcher):
             except ScanLimitError:
                 raise
             except AuditError:
-                pass
+                failed_pages.append(candidate)
 
         issues=[i for p in pages for i in p["issues"]]
         root=urlunparse((urlparse(first["url"]).scheme,urlparse(first["url"]).netloc,"/","","",""))
@@ -287,11 +286,12 @@ class Engine(SafeFetcher):
         if not any(p["cta"] for p in pages):
             issues.append({"code":"cta","area":"Contenuti","severity":"medium","title":"Contatto poco evidente","message":"Nelle pagine controllate non è emerso un invito al contatto facilmente riconoscibile.","page":first["url"]})
 
-        # Local competitiveness is not measured; keep it explicitly unavailable.
+        # Observable local signals are distinct from local competitiveness/ranking.
         areas = {'seo': 'SEO tecnica', 'performance': 'Prestazioni',
                  'security': 'Sicurezza', 'content': 'Contenuti'}
         scores = {key: self.score(area, pages) for key, area in areas.items()}
-        scores['local'] = None
+        local_report = summarize_local(pages, failed_pages)
+        scores['local'] = local_report['score']
         page_issue_ids = {id(i) for p in pages for i in p['issues']}
         # Site-wide robots/sitemap/CTA findings apply once, not divided by page count.
         for key, area in areas.items():
@@ -310,6 +310,7 @@ class Engine(SafeFetcher):
             "overall_score":summary["technical_score"],"scores":scores,"counts":counts,"criticality":summary["security_priority"],
             **summary,
             "issues":unique,
+            "local_signals":local_report,
             "php":php_report([observation for p in pages for observation in p.get("php", [])]),
             "disclaimer":"Controllo preliminare su un massimo di cinque pagine, non un audit completo. I punteggi tecnici descrivono solo i controlli eseguiti sulle pagine analizzate. I conteggi indicano gruppi di segnalazioni. Qualità dei testi, Core Web Vitals, competitività locale e capacità di posizionamento non sono valutati. Nessuna segnalazione non significa assenza di problemi. La scansione non certifica sicurezza né assenza di malware."
         }
