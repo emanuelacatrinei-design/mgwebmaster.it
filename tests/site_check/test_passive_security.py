@@ -106,7 +106,8 @@ def test_engine_integration_includes_php_penalty_and_report(monkeypatch):
     monkeypatch.setattr(engine, 'probe', lambda *a: 200)
     result = engine.audit('https://example.com/')
     assert result['php']['status'] == 'potentially_outdated'
-    assert result['scores']['security'] is None
+    assert isinstance(result['scores']['security'], (int, float))
+    assert result['scores']['local'] is None
     assert result['security_priority'] == 'high'
     assert result['basic_checks']['security']['findings'] > 0
     # PHP remains visible in its dedicated report even with more than eight findings.
@@ -116,3 +117,4 @@ def test_engine_integration_includes_php_penalty_and_report(monkeypatch):
 def test_support_expiry_is_checked_at_scan_time():
     observation = php_evidence({'server': 'PHP/8.2.35'}, 'https://example.com/')
     assert php_report(observation, today=date(2027, 1, 1))['status'] == 'unsupported'
+

@@ -30,9 +30,9 @@ from passive_security import php_evidence, php_report, passive_findings, localiz
 from advisory_feed import start_refresh, metadata as feed_metadata
 from csp_analysis import policies as csp_policies, parse as parse_csp
 
-from report_model import summarize, group_issues
+from report_model import MODEL, summarize, group_issues
 
-VERSION = "0.6.0"
+VERSION = "0.7.0"
 MAX_PAGES = 5
 RATE_LIMIT = 5
 RATE_WINDOW_SECONDS = 600
@@ -225,7 +225,7 @@ class Engine(SafeFetcher):
         has_cta = any(x in lower for x in ("contatt","preventiv","chiama","scriv","whatsapp","contact","quote","sună","contactează","ofert"))
 
         return {
-            "url":final,"issues":issues,"php":php,"links":sorted(set(internal),key=self.priority),
+            "url":final,"status_code":r.status_code,"issues":issues,"php":php,"links":sorted(set(internal),key=self.priority),
             "local":{"phone":has_phone,"maps":has_maps,"address":has_address,"schema":schema_types(soup)},
             "cta":has_cta
         }
@@ -236,12 +236,15 @@ class Engine(SafeFetcher):
         code_penalties={
             "http_error":22,
             "noindex":0,
+            "scripts":0, "styles":0, "server":0,
             "https":20,
             "sec_strict-transport-security":16,
             "sec_content-security-policy":16,
         }
         vals=[]
         for p in pages:
+            if p.get("status_code", 200) >= 400 or any(i["code"] == "http_error" for i in p["issues"]):
+                continue
             value=100
             for i in p["issues"]:
                 if i["area"]==area:
@@ -284,7 +287,18 @@ class Engine(SafeFetcher):
         if not any(p["cta"] for p in pages):
             issues.append({"code":"cta","area":"Contenuti","severity":"medium","title":"Contatto poco evidente","message":"Nelle pagine controllate non è emerso un invito al contatto facilmente riconoscibile.","page":first["url"]})
 
-        scores={key: None for key in ('seo','performance','security','content','local')}
+        # Local competitiveness is not measured; keep it explicitly unavailable.
+        areas = {'seo': 'SEO tecnica', 'performance': 'Prestazioni',
+                 'security': 'Sicurezza', 'content': 'Contenuti'}
+        scores = {key: self.score(area, pages) for key, area in areas.items()}
+        scores['local'] = None
+        page_issue_ids = {id(i) for p in pages for i in p['issues']}
+        # Site-wide robots/sitemap/CTA findings apply once, not divided by page count.
+        for key, area in areas.items():
+            if scores[key] is not None:
+                global_penalty = sum({'high': 14, 'medium': 7, 'low': 3}.get(i['severity'], 0)
+                                     for i in issues if id(i) not in page_issue_ids and i['area'] == area)
+                scores[key] = max(0, scores[key] - global_penalty)
         unique=group_issues(issues)
         summary=summarize(scores, unique)
         counts={severity:sum(i["severity"]==severity for i in unique) for severity in ("high","medium","low")}
@@ -293,11 +307,11 @@ class Engine(SafeFetcher):
         return {
             "requested_url":requested,"final_url":first["url"],"scanned_at_epoch":int(time.time()),
             "duration_ms":int((time.perf_counter()-started)*1000),"pages_checked":len(pages),
-            "overall_score":summary["technical_score"],"scores":{key: None for key in scores},"counts":counts,"criticality":summary["security_priority"],
+            "overall_score":summary["technical_score"],"scores":scores,"counts":counts,"criticality":summary["security_priority"],
             **summary,
             "issues":unique,
             "php":php_report([observation for p in pages for observation in p.get("php", [])]),
-            "disclaimer":"Controllo preliminare su un massimo di cinque pagine, non un audit completo. Le quantità indicano gruppi di segnalazioni, non voti di qualità. Qualità dei testi, Core Web Vitals, competitività locale e capacità di posizionamento non sono valutati. Nessuna segnalazione non significa assenza di problemi. La scansione non certifica sicurezza né assenza di malware."
+            "disclaimer":"Controllo preliminare su un massimo di cinque pagine, non un audit completo. I punteggi tecnici descrivono solo i controlli eseguiti sulle pagine analizzate. I conteggi indicano gruppi di segnalazioni. Qualità dei testi, Core Web Vitals, competitività locale e capacità di posizionamento non sono valutati. Nessuna segnalazione non significa assenza di problemi. La scansione non certifica sicurezza né assenza di malware."
         }
 
 
@@ -522,7 +536,7 @@ async def api_error(request, exc):
 
 @app.get("/health")
 def health():
-    return {"ok": True, "status": "healthy", "service": "mg-site-check", "version": VERSION, "php_advisories": feed_metadata()}
+    return {"ok": True, "status": "healthy", "service": "mg-site-check", "version": VERSION, "score_model": MODEL, "php_advisories": feed_metadata()}
 
 
 @app.post("/v1/scan")
@@ -559,3 +573,4 @@ async def scan(request: Request):
         raise HTTPException(status_code=500, detail="Analisi non completata. Riprova più tardi.") from exc
     finally:
         _SCAN_SLOTS.release()
+

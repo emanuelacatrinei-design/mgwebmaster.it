@@ -38,6 +38,9 @@ jobs:
       - name: Verifica protezioni e contratto API
         run: python -m pytest -q tests/site_check
       - name: Verifica JavaScript
-        run: node --check site-check.js
+        run: |
+          node --check site-check.js
+          node tests/site_check/test_scoring_ui.cjs
       - name: Controlla vulnerabilità note delle dipendenze
         run: python -m pip_audit --progress-spinner off -r site-check-api/requirements.txt
+

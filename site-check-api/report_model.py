@@ -1,11 +1,29 @@
 """Explainable report model: technical quality and security remain separate."""
-MODEL = 'basic_checks_v3'
+MODEL = 'technical_v4'
 AREAS = {'seo': 'SEO tecnica', 'performance': 'Prestazioni',
          'security': 'Sicurezza', 'content': 'Contenuti', 'local': 'Locale'}
 
 
 def summarize(scores, issues):
-    # No numerical quality estimate can be justified by this limited scan.
+    """Equal section mean, then subtract 20% of the missing security points.
+
+    Security N/D stays null in scores but contributes zero to this calculation.
+    Other unavailable sections are excluded. Round only the final total, half up.
+    """
+    from math import isfinite, floor
+    normalized = {}
+    for key in AREAS:
+        value = scores.get(key)
+        normalized[key] = (float(value) if isinstance(value, (int, float))
+                           and not isinstance(value, bool) and isfinite(value)
+                           and 0 <= value <= 100 else None)
+    security_missing = normalized['security'] is None
+    values = [value for key, value in normalized.items()
+              if value is not None or key == 'security']
+    values = [0 if value is None else value for value in values]
+    mean = sum(values) / len(values)
+    penalty = .2 * (100 - (normalized['security'] or 0))
+    overall = floor(max(0, min(100, mean - penalty)) + .5)
     security = [i for i in issues if i['area'] == 'Sicurezza']
     priority = ('high' if any(i['severity'] == 'high' for i in security) else
                 'medium' if any(i['severity'] == 'medium' for i in security) else 'low')
@@ -14,8 +32,13 @@ def summarize(scores, issues):
         findings = [i for i in issues if i['area'] == area]
         areas[key] = {'findings': len(findings),
                       'affected_pages': len({url for i in findings for url in i.get('pages', [i.get('page')]) if url}),
-                      'status': 'not_evaluated' if key == 'local' else 'findings' if findings else 'none_detected'}
-    return {'technical_score': None, 'security_priority': priority,
+                      'status': 'not_evaluated' if normalized[key] is None else 'findings' if findings else 'none_detected'}
+    return {'technical_score': overall, 'security_priority': priority,
+            'scoring': {'mean': round(mean, 4), 'security_penalty': round(penalty, 4),
+                        'security_assumed_zero': security_missing,
+                        'excluded_sections': [k for k, v in normalized.items() if v is None and k != 'security'],
+                        'unavailable_sections': [k for k, v in normalized.items() if v is None],
+                        'section_weights': {k: 1 for k, v in normalized.items() if v is not None or k == 'security'}},
             'score_model': MODEL, 'technical_weights': {}, 'basic_checks': areas,
             'not_evaluated': ['content_quality', 'core_web_vitals', 'local_competitiveness', 'ranking_potential']}
 
@@ -68,3 +91,4 @@ def romanian_issue(item):
     elif code.startswith('sec_') and item.get('title', '').endswith(' non rilevato'):
         item['title_ro'] = item['title'].removesuffix(' non rilevato') + ' neidentificat'
         item['message_ro'] = 'O protecție HTTP recomandată nu a fost identificată; configurația trebuie verificată.'
+

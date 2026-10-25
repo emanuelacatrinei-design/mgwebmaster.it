@@ -202,33 +202,45 @@ modalità evita che la disponibilità dell’API dalla rete del backend sia l’
 via di aggiornamento. Le verifiche finali devono confermare nell’health check un
 conteggio maggiore di zero e un timestamp recente, non solo il deploy `live`.
 
-## Report e priorità — 0.5.0, modello technical_v2
+## Valutazione tecnica — 0.7.0, modello technical_v4
 
-`technical_score` riassume esclusivamente SEO, prestazioni, contenuti e segnali
-locali: pesi di partenza 0.30 / 0.20 / 0.20 / 0.10, normalizzati sulle dimensioni
-disponibili. La sicurezza è esclusa da questa media. `overall_score` mantiene
-compatibilità di forma ma ora coincide con `technical_score`; `score_model`
-identifica la discontinuità. UI e TXT spiegano che i punteggi non sono direttamente
-confrontabili con il vecchio modello. Non è una previsione del ranking.
+Ogni sezione misurata ha un voto 0–100; una sezione non misurabile mantiene null
+(N/D nella schermata e nel TXT). Il punteggio non valuta la qualità dei testi,
+i Core Web Vitals, la competitività locale, il ranking o la sicurezza interna.
+La SEO locale resta N/D perché non esiste un controllo adeguato in questo motore.
 
-`security_priority` riguarda solo le segnalazioni nell’area Sicurezza e il suo
-punteggio osservabile: alta per almeno un avviso alto o punteggio sotto 50;
-media per almeno un avviso medio o punteggio sotto 75; altrimenti bassa. Non usa
-il numero di problemi SEO. `criticality` resta un alias per compatibilità.
-Non esistono più tetti a 55/60/65/70/75 sul riepilogo tecnico. Una priorità bassa
-non certifica sicurezza, patch o assenza di intrusioni.
+Formula concordata con il titolare il 25 ottobre 2026:
 
-H1 mancante: priorità media. `noindex` (o `none` nei robots meta) è una
-segnalazione di verifica, bassa, con penalità automatica zero: la scansione non
-conosce l’intenzione editoriale. Gli altri problemi SEO della pagina rimangono.
+    generale = max(0, media(sezioni disponibili + sicurezza) - 0.20 * (100 - sicurezza))
 
-Le segnalazioni sono aggregate solo quando codice, titolo ed evidenza coincidono:
-`pages` contiene tutti gli URL finali distinti e `occurrences` il loro numero.
-`page` mantiene il primo URL per client precedenti. Evidenze diverse, per esempio
-codici HTTP o versioni PHP differenti, rimangono separate. API, schermata,
-stampa e TXT includono tutti i gruppi trovati nel campione massimo di cinque
-pagine, senza taglio ai primi otto. Nessuna nuova richiesta ai siti analizzati.
-I nuovi testi, le spiegazioni e gli URL sono verificati su IT/RO.
+Le sezioni hanno uguale peso. Sicurezza N/D entra nella media e nella penalità
+come 0 per criterio prudenziale, ma resta N/D in scores e viene spiegata come
+mancanza di dati, non come vulnerabilità accertata. Gli altri N/D sono esclusi.
+Zero reale è sempre incluso. Si arrotonda il risultato finale all'intero più
+vicino (mezzi verso l'alto), senza arrotondare la media prima della penalità.
+Esempi: 80/70/40 -> 51; 80/N/D/60 -> 62; 80/N/D/N/D -> 20.
+Con tutti i dati assenti il calcolo prudenziale vale 0, con sicurezza N/D ed
+esclusioni esplicitamente mostrate. Una scansione che fallisce del tutto resta
+un errore API e non genera un risultato di successo.
 
-## Basic checks v3 (0.6.0)
-The public report no longer publishes numerical quality scores. Compatibility score fields are null. `basic_checks` counts grouped findings and unique affected URLs by area, including site-wide robots, sitemap and CTA findings. Counts are not percentages or rankings. No findings means none detected by these limited checks. The scan covers at most five pages. Content quality, CWV, local competitiveness and ranking potential are explicitly not evaluated. Missing HSTS/CSP are medium hardening findings; stronger observed security evidence can still produce high priority.
+I voti di sezione partono da 100 per ciascuna pagina HTTP valida e sottraggono
+14/7/3 punti per segnalazione alta/media/bassa. Eccezioni: HTTPS assente 20;
+HSTS o CSP assente 16 ciascuno; noindex 0 perché può essere intenzionale.
+Script numerosi, fogli di stile numerosi e un singolo tempo server non riducono
+il voto: restano segnalazioni da verificare. I voti sono limitati a 0–100 e
+mediati sulle pagine valide. Pagine HTTP in errore sono escluse dalla valutazione;
+se non ci sono pagine valide la sezione è N/D. I problemi globali (robots,
+sitemap, contatto) si sottraggono una volta al voto di sezione, non vengono diluiti
+in base al numero di pagine. È un indice convenzionale dei controlli disponibili,
+non una percentuale di sicurezza o probabilità di successo commerciale.
+
+`technical_score` e `overall_score` coincidono. `scoring` documenta media,
+penalità, sicurezza prudenziale e sezioni escluse/non disponibili. `basic_checks`
+conserva i conteggi delle segnalazioni. `security_priority` e `criticality`
+restano basate sulla gravità delle sole segnalazioni di sicurezza.
+
+API, schermata, stampa e TXT devono utilizzare gli stessi valori. I client
+riconoscono ancora basic_checks_v3 senza trasformare risultati null in voti
+inventati. Le due pagine IT/RO aggiornano la versione del file JS per evitare
+l'uso del vecchio esportatore in cache. I punteggi v4 non sono comparabili con
+modelli precedenti.

@@ -11,8 +11,8 @@ steps:["Conectare","Pagini","SEO","Securitate","Raport"],
 run:"Analiza este în curs. Nu închide pagina.",
 err:"Analiza nu a putut fi finalizată.",
 offline:"Motorul de analiză nu este încă disponibil. Pagina este pregătită, dar API-ul trebuie publicat.",
-na:"N/A",
-labels:{seo:"SEO tehnic",performance:"Performanță tehnică",security:"Protecții vizibile",content:"Conținut",local:"SEO local"},
+na:"N/D",
+labels:{seo:"SEO tehnic",performance:"Performanță tehnică",security:"Protecții vizibile",content:"Structură HTML",local:"SEO local"},
 sev:{high:"ridicată",medium:"medie",low:"redusă"},
 issues:"Semnalări detectate",
 technical:"Rezumat tehnic",legacyScore:"Scor general",securityPriority:"Prioritate de securitate",total:"în total",affected:"Pagini afectate",method:"Model tehnic v2: SEO, performanță, conținut și semnale locale. Securitatea este evaluată separat. Scorurile noi nu sunt direct comparabile cu cele ale modelului anterior.",
@@ -25,7 +25,7 @@ run:"Analisi in corso. Non chiudere la pagina.",
 err:"Non è stato possibile completare l’analisi.",
 offline:"Il motore di analisi non è ancora raggiungibile. La pagina è pronta, ma l’API deve essere pubblicata.",
 na:"N/D",
-labels:{seo:"SEO tecnica",performance:"Prestazioni tecniche",security:"Protezioni visibili",content:"Contenuti",local:"SEO locale"},
+labels:{seo:"SEO tecnica",performance:"Prestazioni tecniche",security:"Protezioni visibili",content:"Struttura HTML",local:"SEO locale"},
 sev:{high:"alta",medium:"media",low:"bassa"},
 issues:"Segnalazioni rilevate",
 technical:"Riepilogo tecnico",legacyScore:"Punteggio generale",securityPriority:"Priorità di sicurezza",total:"totali",affected:"Pagine interessate",method:"Modello tecnico v2: SEO, prestazioni, contenuti e segnali locali. La sicurezza è valutata separatamente. I nuovi punteggi non sono direttamente confrontabili con quelli del modello precedente.",
@@ -50,17 +50,39 @@ function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;",
 function isBasic(data){return data.score_model==="basic_checks_v3"}
 function basicText(k,a){return (lang==="ro"?{seo:"Elemente SEO de bază",performance:"Semnale de încărcare",security:"Protecții vizibile",content:"Structură HTML a conținutului",local:"Competitivitate locală"}:{seo:"Elementi SEO di base",performance:"Segnali di caricamento",security:"Protezioni visibili",content:"Struttura HTML dei contenuti",local:"Competitività locale"})[k]+": "+(a?.status==="not_evaluated"?(lang==="ro"?"Neevaluată":"Non valutata"):`${a?.findings||0} ${lang==="ro"?"semnalări":"segnalazioni"} · ${a?.affected_pages||0} ${t.pages}`)}
 const basicMethod=lang==="ro"?"Verificare preliminară pe cel mult cinci pagini. Numerele reprezintă grupuri de semnalări, nu scoruri de calitate. Calitatea textelor, Core Web Vitals, competitivitatea locală și potențialul de clasare nu sunt evaluate. Absența semnalărilor nu garantează absența problemelor.":"Controllo preliminare su un massimo di cinque pagine. I numeri indicano gruppi di segnalazioni, non voti di qualità. Qualità dei testi, Core Web Vitals, competitività locale e capacità di posizionamento non sono valutati. Nessuna segnalazione non significa assenza di problemi.";
+function scoringNotes(data){
+if(data.score_model!=="technical_v4")return [];
+const r=lang==="ro",s=data.scoring||{};
+const notes=[r?"Scor general = media secțiunilor − 20% din punctele lipsă la securitate. Scoruri bazate doar pe verificările tehnice efectuate; nu reprezintă o certificare de securitate.":"Punteggio generale = media delle sezioni − 20% dei punti mancanti nella sicurezza. Voti riferiti solo ai controlli tecnici eseguiti; non sono una certificazione di sicurezza."];
+if(Number.isFinite(s.mean)&&Number.isFinite(s.security_penalty))notes.push((r?"Media: ":"Media: ")+s.mean.toFixed(2)+(r?"; penalizare securitate: −":"; penalità sicurezza: −")+s.security_penalty.toFixed(2)+"; "+(r?"rezultat: ":"risultato: ")+scoreValue(data.overall_score)+"/100.");
+if(s.security_assumed_zero)notes.push(r?"Securitate N/D: evaluare indisponibilă, calculată ca 0 în medie și în penalizare din precauție. Lipsa datelor nu dovedește o vulnerabilitate.":"Sicurezza N/D: valutazione non disponibile, conteggiata come 0 nella media e nella penalità per criterio prudenziale. La mancanza di dati non dimostra una vulnerabilità.");
+if(s.excluded_sections?.length)notes.push((r?"Secțiuni N/D excluse din medie: ":"Sezioni N/D escluse dalla media: ")+s.excluded_sections.map(k=>t.labels[k]||k).join(", ")+".");
+return notes;
+}
+function reportLines(d){
+const value=d.technical_score??d.overall_score;
+return [t.download,d.final_url||d.requested_url,"",
+...(isBasic(d)?[basicMethod]:[t.legacyScore+": "+scoreValue(value)+(value==null?"":"/100")]),
+...(d.score_model?[(lang==="ro"?"Model: ":"Metodo: ")+d.score_model]:[]),
+...scoringNotes(d),
+...(d.score_model==="technical_v2"?[t.method]:[]),
+t.securityPriority+": "+t.sev[d.security_priority||d.criticality||"low"],
+...(isBasic(d)?Object.entries(d.basic_checks||{}).map(([k,a])=>basicText(k,a)):Object.entries(d.scores||{}).map(([k,v])=>(t.labels[k]||k)+": "+scoreValue(v)+(v==null?"":"/100"))),
+(d.pages_checked||0)+" "+t.pages,"",
+...(d.php?[d.php.title,d.php.message,(lang==="ro"?"Reguli verificate la: ":"Regole verificate il: ")+d.php.rules_reviewed_on,""]:[]),
+t.issues+":",...(d.issues||[]).flatMap(i=>[`- [${t.sev[i.severity]||i.severity}] ${i.title}: ${i.message}`,...(i.pages||[i.page]).filter(Boolean).map(url=>`  ${url}`)]),"",d.disclaimer||""];
+}
 function render(data){lastResult=data;clearTimers();setStep(4,100);status.hidden=true;results.hidden=false;
 results.querySelector(".site-check-summary").style.gridTemplateColumns=isBasic(data)?"1fr":"";
 const ring=results.querySelector("[data-overall-ring]");ring.hidden=isBasic(data);ring.style.display=isBasic(data)?"none":"";ring.style.setProperty("--score",Math.max(0,Math.min(100,data.overall_score||0)));
 results.querySelector("[data-overall]").textContent=data.technical_score??data.overall_score??t.na;
 const caption=results.querySelector("[data-score-caption]");if(caption)caption.textContent=isBasic(data)?(lang==="ro"?"Verificări de bază":"Controlli di base"):data.score_model==="technical_v2"?t.technical:t.legacyScore;
-const method=results.querySelector("[data-score-method]");if(method){method.hidden=!isBasic(data)&&data.score_model!=="technical_v2";method.textContent=isBasic(data)?basicMethod:t.method}
+const method=results.querySelector("[data-score-method]");if(method){method.hidden=!isBasic(data)&&!["technical_v2","technical_v4"].includes(data.score_model);method.textContent=data.score_model==="technical_v4"?scoringNotes(data).join(" "):isBasic(data)?basicMethod:t.method}
 results.querySelector("[data-url]").textContent=data.final_url||data.requested_url||"";
 results.querySelector("[data-meta]").textContent=`${data.pages_checked||0} ${t.pages} · ${((data.duration_ms||0)/1000).toFixed(1)} ${t.seconds}`;
 const grid=results.querySelector("[data-score-grid]");grid.innerHTML="";
 ["seo","performance","security","content","local"].forEach(k=>{const v=data.scores?.[k];const el=document.createElement("div");el.className="site-check-score-card";if(isBasic(data)){el.textContent=basicText(k,data.basic_checks?.[k]);grid.appendChild(el);return}el.innerHTML=`<strong class="${v==null?"site-check-na":""}">${escapeHtml(scoreValue(v))}</strong><span>${escapeHtml(t.labels[k])}</span>`;grid.appendChild(el)});
-const c=data.counts||{};const crit=data.security_priority||data.criticality||"low";results.querySelector("[data-counts]").innerHTML=`<span class="site-check-chip high">${c.high||0} ${t.sev.high}</span><span class="site-check-chip medium">${c.medium||0} ${t.sev.medium}</span><span class="site-check-chip low">${c.low||0} ${t.sev.low}</span><span class="site-check-chip">${c.total||0} ${t.total}</span><span class="site-check-chip ${crit==="high"?"high":crit==="medium"?"medium":"low"}">${(isBasic(data)||data.score_model==="technical_v2")?t.securityPriority:t.critical}: ${t.sev[crit]||crit}</span>`;
+const c=data.counts||{};const crit=data.security_priority||data.criticality||"low";results.querySelector("[data-counts]").innerHTML=`<span class="site-check-chip high">${c.high||0} ${t.sev.high}</span><span class="site-check-chip medium">${c.medium||0} ${t.sev.medium}</span><span class="site-check-chip low">${c.low||0} ${t.sev.low}</span><span class="site-check-chip">${c.total||0} ${t.total}</span><span class="site-check-chip ${crit==="high"?"high":crit==="medium"?"medium":"low"}">${(isBasic(data)||["technical_v2","technical_v4"].includes(data.score_model))?t.securityPriority:t.critical}: ${t.sev[crit]||crit}</span>`;
 let phpBox=results.querySelector("[data-php-report]");
 if(!phpBox){phpBox=document.createElement("article");phpBox.dataset.phpReport="";results.querySelector("[data-issues]").before(phpBox)}
 phpBox.hidden=!data.php;
@@ -93,5 +115,6 @@ if(!res.ok)throw new Error(body.detail||t.err);render(body)
 }catch(err){const network=/fetch|network|failed|load/i.test(String(err));showError(network?t.offline:(err.message||t.err))}
 finally{btn.disabled=false;if(window.turnstile&&typeof window.turnstile.reset==="function")window.turnstile.reset()}});
 const printBtn=document.querySelector("[data-site-check-print]");if(printBtn)printBtn.addEventListener("click",()=>window.print());
-const txtBtn=document.querySelector("[data-site-check-download]");if(txtBtn)txtBtn.addEventListener("click",()=>{if(!lastResult)return;const d=lastResult;const lines=[t.download,d.final_url||d.requested_url,"",...(isBasic(d)?[basicMethod,t.securityPriority+": "+t.sev[d.security_priority||"low"],...Object.entries(d.basic_checks||{}).map(([k,a])=>basicText(k,a))]:[(d.score_model==="technical_v2"?t.technical:t.legacyScore)+": "+(d.technical_score??d.overall_score??t.na)+"/100"]),...(d.score_model==="technical_v2"?[t.method,t.securityPriority+": "+t.sev[d.security_priority||d.criticality||"low"]]:[]),...Object.entries(isBasic(d)?{}:d.scores||{}).map(([k,v])=>`${t.labels[k]||k}: ${scoreValue(v)}`),"",...(d.php?[d.php.title,d.php.message,(lang==="ro"?"Reguli verificate la: ":"Regole verificate il: ")+d.php.rules_reviewed_on,""]:[]),t.issues+":",...(d.issues||[]).flatMap(i=>[`- [${t.sev[i.severity]||i.severity}] ${i.title}: ${i.message}`,...(i.pages||[i.page]).filter(Boolean).map(url=>`  ${url}`)]),"",d.disclaimer||""];const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);let host="sito";try{host=new URL(d.final_url||d.requested_url).hostname.replace(/^www\./,"")}catch{}a.download=`mg-webmaster-site-check-${host}.txt`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+const txtBtn=document.querySelector("[data-site-check-download]");if(txtBtn)txtBtn.addEventListener("click",()=>{if(!lastResult)return;const d=lastResult;const lines=reportLines(d);const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);let host="sito";try{host=new URL(d.final_url||d.requested_url).hostname.replace(/^www\./,"")}catch{}a.download=`mg-webmaster-site-check-${host}.txt`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
 })();
+

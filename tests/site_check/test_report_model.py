@@ -11,12 +11,40 @@ def issue(code='h1', severity='high', area='Contenuti', page='https://example.co
     return dict(code=code, severity=severity, area=area, page=page, title=title, message='Evidence')
 
 
-def test_no_unjustified_quality_score_even_if_legacy_values_are_perfect():
-    result=summarize({k:100 for k in ('seo','performance','content','local','security')},[])
-    assert result['technical_score'] is None
-    assert result['score_model']=='basic_checks_v3'
-    assert result['basic_checks']['local']['status']=='not_evaluated'
+def test_perfect_measured_sections_and_unavailable_local():
+    result=summarize({'seo':100,'performance':100,'content':100,'security':100,'local':None},[])
+    assert result['technical_score']==100
+    assert result['score_model']=='technical_v4'
+    assert result['scoring']['excluded_sections']==['local']
     assert 'core_web_vitals' in result['not_evaluated']
+
+
+def test_agreed_security_penalty_and_missing_values():
+    assert summarize({'seo':80,'performance':70,'security':40},[])['technical_score']==51
+    assert summarize({'seo':80,'performance':None,'security':60},[])['technical_score']==62
+    result=summarize({'seo':80,'performance':None,'security':None},[])
+    assert result['technical_score']==20
+    assert result['scoring']['mean']==40
+    assert result['scoring']['security_penalty']==20
+    assert result['scoring']['security_assumed_zero'] is True
+    assert 'security' not in result['scoring']['excluded_sections']
+    assert result['basic_checks']['security']['status']=='not_evaluated'
+
+
+def test_real_zero_is_included_and_all_missing_is_prudential_zero():
+    result=summarize({'seo':80,'performance':70,'security':0},[])
+    assert result['technical_score']==30
+    assert result['scoring']['security_assumed_zero'] is False
+    assert summarize({},[])['technical_score']==0
+    # Invalid values cannot masquerade as measured scores or produce NaN totals.
+    assert summarize({'seo':float('nan'),'security':float('inf')},[])['technical_score']==0
+
+
+def test_insufficient_or_http_error_pages_do_not_receive_perfect_scores():
+    broken={'status_code':503,'issues':[issue('http_error',area='SEO tecnica')]}
+    assert app.Engine.score('Sicurezza',[broken]) is None
+    assert app.Engine.score('SEO tecnica',[broken]) is None
+    assert app.Engine.score('Contenuti',[]) is None
 
 
 def test_global_findings_are_included_without_diluting_across_pages():
@@ -69,3 +97,16 @@ def test_report_preserves_all_groups_beyond_eight(monkeypatch):
     assert len(result['issues'])==12
     assert all('pages' in i for i in result['issues'])
     assert result['overall_score']==result['technical_score']
+
+
+
+def test_global_penalties_are_applied_once_and_local_remains_unavailable(monkeypatch):
+    engine=app.Engine(app.Budget())
+    page={'url':'https://example.com/','status_code':200,'issues':[], 'links':[], 'php':[], 'cta':False,
+          'local':{'phone':False,'address':False,'maps':False,'schema':[]}}
+    monkeypatch.setattr(engine,'audit_page',lambda *a:page)
+    monkeypatch.setattr(engine,'probe',lambda *a:404)
+    result=engine.audit(page['url'])
+    assert result['scores']=={'seo':94,'performance':100,'security':100,'content':93,'local':None}
+    assert result['overall_score']==97
+    assert result['score_model']=='technical_v4'
