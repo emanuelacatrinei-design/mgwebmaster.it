@@ -48,18 +48,55 @@ function fakeProgress(){clearTimers();setStep(0,9,t.run);[[1,24,1000],[2,46,2600
 function scoreValue(v){return v===null||v===undefined?t.na:String(v)}
 function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
 function isBasic(data){return data.score_model==="basic_checks_v3"}
+// Bridge the deployed basic-checks API using its complete grouped findings.
+// No additional requests and no guessed local/qualitative scores.
+function withTechnicalScores(data){
+if(data.score_model!=="basic_checks_v3" || !Number.isInteger(data.pages_checked) || data.pages_checked<1 || data.pages_checked>5 || !Array.isArray(data.issues) || !data.basic_checks)return data;
+const areas={seo:"SEO tecnica",performance:"Prestazioni",security:"Sicurezza",content:"Contenuti"};
+const urls=i=>Array.isArray(i.pages)?i.pages.filter(Boolean):[i.page].filter(Boolean);
+const known=new Set([data.final_url||data.requested_url,...data.issues.flatMap(urls)].filter(Boolean));
+if(known.size>data.pages_checked)return data;
+const broken=new Set(data.issues.filter(i=>i.code==="http_error").flatMap(urls));
+const validCount=data.pages_checked-broken.size;
+const perPage=[...known].filter(u=>!broken.has(u)).map(url=>({url,issues:data.issues.filter(i=>urls(i).includes(url))}));
+while(perPage.length<validCount)perPage.push({url:null,issues:[]});
+const globalCodes=new Set(["robots_txt","sitemap","cta"]);
+const penalties={high:14,medium:7,low:3};
+const overrides={http_error:22,noindex:0,scripts:0,styles:0,server:0,https:20,"sec_strict-transport-security":16,"sec_content-security-policy":16};
+const penalty=i=>overrides[i.code]??penalties[i.severity]??0;
+const roundEven=n=>{const f=Math.floor(n);return n-f===.5?(f%2?f+1:f):Math.round(n)};
+const scores={};
+for(const [key,area] of Object.entries(areas)){
+if(validCount<=0){scores[key]=null;continue}
+const values=perPage.map(p=>Math.max(0,100-p.issues.filter(i=>i.area===area&&!globalCodes.has(i.code)).reduce((n,i)=>n+penalty(i),0)));
+const globalPenalty=data.issues.filter(i=>i.area===area&&globalCodes.has(i.code)).reduce((n,i)=>n+penalty(i),0);
+scores[key]=Math.max(0,roundEven(values.reduce((a,b)=>a+b,0)/validCount)-globalPenalty);
+}
+scores.local=null;
+const included=Object.entries(scores).filter(([k,v])=>v!==null||k==="security");
+const mean=included.reduce((n,[,v])=>n+(v??0),0)/included.length;
+const securityPenalty=.2*(100-(scores.security??0));
+const overall=Math.round(Math.max(0,Math.min(100,mean-securityPenalty)));
+const disclaimer=lang==="ro"?"Verificare preliminară pe cel mult cinci pagini. Scorurile se referă doar la controalele tehnice disponibile; nu evaluează calitatea textelor, Core Web Vitals, competitivitatea locală sau vulnerabilitățile interne și nu certifică securitatea site-ului.":"Controllo preliminare su un massimo di cinque pagine. I punteggi riguardano solo i controlli tecnici disponibili; non valutano qualità dei testi, Core Web Vitals, competitività locale o vulnerabilità interne e non certificano la sicurezza del sito.";
+return {...data,scores,score_model:"technical_v4",overall_score:overall,technical_score:overall,disclaimer,
+scoring:{mean,security_penalty:securityPenalty,security_assumed_zero:scores.security===null,
+excluded_sections:Object.keys(scores).filter(k=>scores[k]===null&&k!=="security"),
+unavailable_sections:Object.keys(scores).filter(k=>scores[k]===null),compatibility_source:"basic_checks_v3"}};
+}
 function basicText(k,a){return (lang==="ro"?{seo:"Elemente SEO de bază",performance:"Semnale de încărcare",security:"Protecții vizibile",content:"Structură HTML a conținutului",local:"Competitivitate locală"}:{seo:"Elementi SEO di base",performance:"Segnali di caricamento",security:"Protezioni visibili",content:"Struttura HTML dei contenuti",local:"Competitività locale"})[k]+": "+(a?.status==="not_evaluated"?(lang==="ro"?"Neevaluată":"Non valutata"):`${a?.findings||0} ${lang==="ro"?"semnalări":"segnalazioni"} · ${a?.affected_pages||0} ${t.pages}`)}
 const basicMethod=lang==="ro"?"Verificare preliminară pe cel mult cinci pagini. Numerele reprezintă grupuri de semnalări, nu scoruri de calitate. Calitatea textelor, Core Web Vitals, competitivitatea locală și potențialul de clasare nu sunt evaluate. Absența semnalărilor nu garantează absența problemelor.":"Controllo preliminare su un massimo di cinque pagine. I numeri indicano gruppi di segnalazioni, non voti di qualità. Qualità dei testi, Core Web Vitals, competitività locale e capacità di posizionamento non sono valutati. Nessuna segnalazione non significa assenza di problemi.";
 function scoringNotes(data){
 if(data.score_model!=="technical_v4")return [];
 const r=lang==="ro",s=data.scoring||{};
 const notes=[r?"Scor general = media secțiunilor − 20% din punctele lipsă la securitate. Scoruri bazate doar pe verificările tehnice efectuate; nu reprezintă o certificare de securitate.":"Punteggio generale = media delle sezioni − 20% dei punti mancanti nella sicurezza. Voti riferiti solo ai controlli tecnici eseguiti; non sono una certificazione di sicurezza."];
+if(s.compatibility_source)notes.push(r?"Scoruri calculate din semnalările API disponibile, prin metoda tehnică v4.":"Punteggi calcolati dalle segnalazioni API disponibili, con il metodo tecnico v4.");
 if(Number.isFinite(s.mean)&&Number.isFinite(s.security_penalty))notes.push((r?"Media: ":"Media: ")+s.mean.toFixed(2)+(r?"; penalizare securitate: −":"; penalità sicurezza: −")+s.security_penalty.toFixed(2)+"; "+(r?"rezultat: ":"risultato: ")+scoreValue(data.overall_score)+"/100.");
 if(s.security_assumed_zero)notes.push(r?"Securitate N/D: evaluare indisponibilă, calculată ca 0 în medie și în penalizare din precauție. Lipsa datelor nu dovedește o vulnerabilitate.":"Sicurezza N/D: valutazione non disponibile, conteggiata come 0 nella media e nella penalità per criterio prudenziale. La mancanza di dati non dimostra una vulnerabilità.");
 if(s.excluded_sections?.length)notes.push((r?"Secțiuni N/D excluse din medie: ":"Sezioni N/D escluse dalla media: ")+s.excluded_sections.map(k=>t.labels[k]||k).join(", ")+".");
 return notes;
 }
 function reportLines(d){
+d=withTechnicalScores(d);
 const value=d.technical_score??d.overall_score;
 return [t.download,d.final_url||d.requested_url,"",
 ...(isBasic(d)?[basicMethod]:[t.legacyScore+": "+scoreValue(value)+(value==null?"":"/100")]),
@@ -72,7 +109,7 @@ t.securityPriority+": "+t.sev[d.security_priority||d.criticality||"low"],
 ...(d.php?[d.php.title,d.php.message,(lang==="ro"?"Reguli verificate la: ":"Regole verificate il: ")+d.php.rules_reviewed_on,""]:[]),
 t.issues+":",...(d.issues||[]).flatMap(i=>[`- [${t.sev[i.severity]||i.severity}] ${i.title}: ${i.message}`,...(i.pages||[i.page]).filter(Boolean).map(url=>`  ${url}`)]),"",d.disclaimer||""];
 }
-function render(data){lastResult=data;clearTimers();setStep(4,100);status.hidden=true;results.hidden=false;
+function render(data){data=withTechnicalScores(data);lastResult=data;clearTimers();setStep(4,100);status.hidden=true;results.hidden=false;
 results.querySelector(".site-check-summary").style.gridTemplateColumns=isBasic(data)?"1fr":"";
 const ring=results.querySelector("[data-overall-ring]");ring.hidden=isBasic(data);ring.style.display=isBasic(data)?"none":"";ring.style.setProperty("--score",Math.max(0,Math.min(100,data.overall_score||0)));
 results.querySelector("[data-overall]").textContent=data.technical_score??data.overall_score??t.na;

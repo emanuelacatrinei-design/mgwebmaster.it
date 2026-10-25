@@ -201,5 +201,5 @@ def test_both_language_pages_use_expected_turnstile_action():
     for rel in ("strumenti/analisi-sito/index.html", "ro/instrumente/analiza-site/index.html"):
         text = (root / rel).read_text()
         assert 'data-action="site_scan"' in text
-        assert 'site-check.js?v=20261025-scores-v4' in text
+        assert 'site-check.js?v=20261025-scores-v4b' in text
 

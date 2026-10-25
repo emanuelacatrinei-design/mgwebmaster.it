@@ -239,8 +239,10 @@ penalità, sicurezza prudenziale e sezioni escluse/non disponibili. `basic_check
 conserva i conteggi delle segnalazioni. `security_priority` e `criticality`
 restano basate sulla gravità delle sole segnalazioni di sicurezza.
 
-API, schermata, stampa e TXT devono utilizzare gli stessi valori. I client
-riconoscono ancora basic_checks_v3 senza trasformare risultati null in voti
-inventati. Le due pagine IT/RO aggiornano la versione del file JS per evitare
+API, schermata, stampa e TXT devono utilizzare gli stessi valori. I client riconoscono anche basic_checks_v3: se il report contiene copertura
+valida e segnalazioni aggregate complete, ricostruiscono i voti tecnici con
+le stesse penalità v4. Le sezioni locali e le valutazioni non misurate restano
+N/D. La provenienza dal calcolo di compatibilità è esplicitata in schermata
+e TXT; il payload API originale non viene modificato. Le due pagine IT/RO aggiornano la versione del file JS per evitare
 l'uso del vecchio esportatore in cache. I punteggi v4 non sono comparabili con
 modelli precedenti.
