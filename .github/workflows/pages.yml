@@ -120,6 +120,25 @@ jobs:
         run: |
           python scripts/test_build_csp.py
           python scripts/build_csp.py .
+      - name: Sospendi temporaneamente la CSP meta per verifica SEO
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+
+          pattern = re.compile(r'<meta data-mgw-script-policy http-equiv="Content-Security-Policy" content="[^"]*">')
+          pages = 0
+          for page in Path(".").rglob("*.html"):
+              if any(part.startswith(".") for part in page.parts):
+                  continue
+              text = page.read_text(encoding="utf-8")
+              text, count = pattern.subn("", text)
+              if count != 1:
+                  raise SystemExit(f"CSP inattesa in {page}: {count} tag")
+              page.write_text(text, encoding="utf-8")
+              pages += 1
+          print(f"Prova temporanea: CSP meta sospesa su {pages} pagine.")
+          PY
       - name: Prepara il sito
         uses: actions/upload-pages-artifact@v3
         with:
