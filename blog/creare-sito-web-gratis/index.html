@@ -25,6 +25,19 @@
 <link rel="stylesheet" href="/cmp.css">
 <link rel="stylesheet" href="/site-design.css"><link rel="stylesheet" href="/header-nav.css?v=20261002-header-logo">
 <script defer src="/header-nav.js?v=20261002-site-audit"></script>
+<style>
+/* Link riconoscibili nel testo della guida, anche senza distinguere i colori. */
+#contenuto .prose a:not(.button) {
+  color: #064d86;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+#contenuto .prose a:not(.button):hover { color: #00345c; text-decoration-thickness: 3px; }
+#contenuto .prose a:not(.button):focus-visible { outline: 3px solid #075b9e; outline-offset: 3px; border-radius: 2px; }
+</style>
 </head>
 <body class="site-unified">
 <a class="skip" href="#contenuto">Vai al contenuto</a>
