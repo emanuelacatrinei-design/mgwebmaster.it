@@ -1,0 +1,24 @@
+/* English domain landing: presentation-specific styles */
+:root{--forest:#082d2a;--ink:#102f2c;--muted:#48615d;--mint:#b4ead4;--paper:#f5f9f6}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body.site-unified{margin:0;background:#fff;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65}
+.container{width:min(1160px,calc(100% - 40px));margin-inline:auto}
+.domain-page a{color:#08664f}.domain-page .button{display:inline-flex;align-items:center;justify-content:center;padding:15px 26px;border-radius:100px;background:#0a5c49;color:white;font-weight:700;text-decoration:none;border:1px solid transparent}
+.domain-page .button:hover{background:#073d32}.domain-page .button:focus-visible,.domain-page a:focus-visible,summary:focus-visible{outline:3px solid #e3b652;outline-offset:4px}
+.domain-page .domain-hero{position:relative;min-height:510px;display:grid;place-items:center;overflow:hidden;background:#e8f7ef;color:var(--ink);text-align:center}
+.domain-page .domain-hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.10;filter:saturate(.6)}
+.domain-page .domain-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(210,239,228,.85),rgba(250,252,245,.9) 55%,rgba(251,235,206,.75));pointer-events:none}
+.domain-page .domain-hero-content{position:relative;z-index:1;max-width:920px;padding:90px 20px}
+.domain-page .eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.78rem;font-weight:800;color:#14745c}
+.domain-page h1{max-width:900px;margin:20px auto;font-size:clamp(2.7rem,6.5vw,5.5rem);line-height:1.05;letter-spacing:-.055em;color:#092f29}
+.domain-page .domain-hero-lead{max-width:720px;margin:0 auto 30px;font-size:clamp(1.05rem,2vw,1.3rem);color:#365650}
+.domain-page .actions{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap}.domain-page .domain-secondary{color:#07543f;font-weight:700}
+.domain-jump{background:#fff;border-bottom:1px solid #dce8e2}.domain-jump nav{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;padding:20px}.domain-jump a{text-decoration:none;font-weight:700;font-size:.94rem}
+.domain-page .domain-space{padding:clamp(64px,8vw,105px) 0}.domain-page h2{font-size:clamp(2rem,4vw,3.25rem);line-height:1.14;letter-spacing:-.04em;margin:0 0 22px;color:#102f2c}.domain-page h3{font-size:1.25rem;line-height:1.3;color:#123a31}.domain-page p{color:#405b55}.domain-page .domain-split,.domain-page .domain-search-layout,.domain-page .domain-dns-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,85px);align-items:start}
+.domain-page .domain-search,.domain-page .domain-dns,.domain-page .domain-faq{background:#f3f8f5}.domain-page .domain-extensions,.domain-page .domain-records{border-radius:24px;background:white;border:1px solid #dcebe3;padding:32px;box-shadow:0 12px 38px rgba(22,65,49,.06)}
+.domain-page .domain-extensions ul{list-style:none;margin:1rem 0;padding:0}.domain-page .domain-extensions li{font-size:3rem;letter-spacing:-.05em;font-weight:800;color:#0b6e53}
+.domain-page .domain-platform-note,.domain-page .domain-small{font-size:.93rem}.domain-page .domain-section-heading{text-align:center;max-width:720px;margin:0 auto 40px}
+.domain-page .domain-services{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.domain-page .domain-services>div{padding:32px;border:1px solid #dcebe3;background:#fff;border-radius:20px;box-shadow:0 12px 38px rgba(22,65,49,.05)}
+.domain-page .domain-step{font-size:.9rem;letter-spacing:.12em;color:#0b8462;font-weight:800}.domain-page .domain-records dl{margin:0}.domain-page .domain-records dl div{display:flex;justify-content:space-between;gap:1rem;padding:16px 0;border-bottom:1px solid #e4eee8}.domain-page dt{font-weight:800}.domain-page dd{margin:0}
+.domain-page .domain-transfer{background:#fff}.domain-page .faq{max-width:900px;margin:auto}.domain-page details{background:#fff;border:1px solid #dbe9e1;border-radius:12px;margin:10px 0;padding:19px 22px}.domain-page summary{font-weight:700;cursor:pointer;color:#123a31}
+.domain-page .domain-final{text-align:center;background:#0b3b32;color:#fff}.domain-page .domain-final h2,.domain-page .domain-final p{color:#fff}.domain-page .domain-final p{max-width:700px;margin:0 auto 28px}.domain-page .domain-final .button{background:#d0f3df;color:#103a2e}.domain-page .domain-final .domain-secondary{color:#d0f3df}
+@media(max-width:740px){.domain-page .domain-hero{min-height:0}.domain-page .domain-hero-content{padding:70px 0}.domain-page .domain-split,.domain-page .domain-search-layout,.domain-page .domain-dns-layout,.domain-page .domain-services{grid-template-columns:1fr}.domain-jump nav{justify-content:flex-start;gap:12px 22px}.domain-page .domain-extensions,.domain-page .domain-records{padding:24px}.domain-page .domain-services>div{padding:25px}}
