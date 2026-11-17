@@ -17,3 +17,7 @@ img.mg-photo-a,img.mg-photo-b{object-fit:cover!important}
 /* MGWM local demo photo recovery 2026-09-29 */
 img[src^="data:image/gif;base64"], img.mg-photo-a { content: url("/template/demo-assets/verdant-eco-shop/image-1.webp") !important; object-fit: cover !important; object-position: center !important; }
 img.mg-photo-b { content: url("/template/demo-assets/verdant-eco-shop/image-2.webp") !important; object-fit: cover !important; object-position: center !important; }
+
+/* Reset figure margins inside the compact cart grid. */
+.cart-items .mini-product { margin: 0; }
+.cart-items article > div { min-width: 0; overflow-wrap: anywhere; }
